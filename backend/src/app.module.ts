@@ -24,10 +24,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       playground: true,  // Desactivar en producción
     }),
     // Módulos de la aplicación
-    UsersModule,
-    CommentsModule,
-    MediaModule,
-    ProfilesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

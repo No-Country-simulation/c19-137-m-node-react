@@ -11,15 +11,18 @@ importers:
       '@maizzle/framework':
         specifier: latest
         version: 4.8.8
+      tailwindcss:
+        specifier: ^3.4.5
+        version: 3.4.5
       tailwindcss-box-shadow:
         specifier: ^1.0.0
         version: 1.0.0
       tailwindcss-email-variants:
         specifier: ^1.0.0
-        version: 1.1.0(tailwindcss@3.4.4)
+        version: 1.1.0(tailwindcss@3.4.5)
       tailwindcss-mso:
         specifier: ^1.2.0
-        version: 1.4.2(tailwindcss@3.4.4)
+        version: 1.4.2(tailwindcss@3.4.5)
 
 packages:
 
@@ -1817,8 +1820,8 @@ packages:
     resolution: {integrity: sha512-eyyPge8w+gEhpqVZMBrevUUo4MvpePkRWSDHYyjtntdz9C3bnLpCwE9lw5rj+JXut71KuddD0i61e5KbeDy0nQ==}
     engines: {node: '>=16.0.0'}
 
-  posthtml-attrs-parser@1.1.0:
-    resolution: {integrity: sha512-OUhvavusxyXVW+ccxE4fYekIc5XOPW9MQeW2R/i4rAGHxGLTFnz41LxhhZxADdjxej8+kY/m/N+B6tw8P2M3Vg==}
+  posthtml-attrs-parser@1.1.1:
+    resolution: {integrity: sha512-yWD1JGaLr5ENrEhUxjqEuSjTkYhX3VVK3ULNeh9Xs+Jqr3c0UGVkerxJg55Uyu036jm5nMsG6rJaBtE5YSf+lw==}
     engines: {node: '>=16.0.0'}
 
   posthtml-base-url@2.0.2:
@@ -2331,8 +2334,8 @@ packages:
     peerDependencies:
       tailwindcss: '>=3.0.0'
 
-  tailwindcss@3.4.4:
-    resolution: {integrity: sha512-ZoyXOdJjISB7/BcLTR6SEsLgKtDStYyYZVLsUtWChO4Ps20CBad7lfJKVDiejocV4ME1hLmyY0WJE3hSDcmQ2A==}
+  tailwindcss@3.4.5:
+    resolution: {integrity: sha512-DlTxttYcogpDfx3tf/8jfnma1nfAYi2cBUYV2YNoPPecwmO3YGiFlOX9D8tGAu+EDF38ryBzvrDKU/BLMsUwbw==}
     engines: {node: '>=14.0.0'}
     hasBin: true
 
@@ -2631,7 +2634,7 @@ snapshots:
       postcss-import: 15.1.0(postcss@8.4.39)
       postcss-merge-longhand: 6.0.5(postcss@8.4.39)
       posthtml: 0.16.6
-      posthtml-attrs-parser: 1.1.0
+      posthtml-attrs-parser: 1.1.1
       posthtml-base-url: 2.0.2
       posthtml-component: 1.1.1
       posthtml-content: 1.0.3
@@ -2648,7 +2651,7 @@ snapshots:
       query-string: 7.1.3
       string-remove-widows: 2.1.0
       string-strip-html: 8.5.0
-      tailwindcss: 3.4.4
+      tailwindcss: 3.4.5
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -4451,7 +4454,7 @@ snapshots:
 
   posthtml-attrs-parser@0.1.2: {}
 
-  posthtml-attrs-parser@1.1.0: {}
+  posthtml-attrs-parser@1.1.1: {}
 
   posthtml-base-url@2.0.2:
     dependencies:
@@ -5038,16 +5041,16 @@ snapshots:
 
   tailwindcss-box-shadow@1.0.0: {}
 
-  tailwindcss-email-variants@1.1.0(tailwindcss@3.4.4):
+  tailwindcss-email-variants@1.1.0(tailwindcss@3.4.5):
     dependencies:
       lodash.get: 4.4.2
-      tailwindcss: 3.4.4
+      tailwindcss: 3.4.5
 
-  tailwindcss-mso@1.4.2(tailwindcss@3.4.4):
+  tailwindcss-mso@1.4.2(tailwindcss@3.4.5):
     dependencies:
-      tailwindcss: 3.4.4
+      tailwindcss: 3.4.5
 
-  tailwindcss@3.4.4:
+  tailwindcss@3.4.5:
     dependencies:
       '@alloc/quick-lru': 5.2.0
       arg: 5.0.2

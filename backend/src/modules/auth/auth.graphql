@@ -1,0 +1,112 @@
+type Mutation {
+    """
+    Generar un token de autenticación.
+    email: El correo electrónico del usuario que intenta iniciar sesión.
+    password: La contraseña del usuario.
+    Retorna un token de autenticación.
+    """
+    signIn(email: String!, password: String!): SignInResponse
+
+    """
+    Registrar un nuevo usuario.
+    input: Un objeto que contiene la información necesaria para crear un nuevo usuario.
+    Retorna el usuario registrado.
+    """
+    signUp(input: CreateUserInput!): SignUpResponse
+
+    """
+    Enviar un correo electrónico al usuario con un enlace para restablecer la contraseña.
+    email: El correo electrónico del usuario que ha olvidado su contraseña.
+    """
+    forgotPassword(email: String!): Response
+
+    """
+    Restablecer la contraseña de un usuario.
+    input: Un objeto que contiene la información necesaria para restablecer la contraseña de un usuario.
+    Retorna un mensaje de éxito.
+    """
+    resetPassword(input: ResetPasswordInput!): Response
+}
+
+
+extend type Query {
+    """
+    Obtener la información del usuario actualmente autenticado.
+    Retorna el usuario autenticado.
+    """
+    me: User
+}
+
+"""
+Un objeto que contiene la información necesaria para restablecer la contraseña de un usuario.
+"""
+input ResetPasswordInput {
+
+    "El token de restablecimiento de contraseña enviado al usuario."
+    token: String!
+
+    "La nueva contraseña del usuario."
+    newPassword: String!
+
+    "Confirmación de la nueva contraseña del usuario."
+    confirmNewPassword: String!
+}
+
+"""
+Respuesta de inicio de sesión
+"""
+type SignInResponse {
+    " Similar al HTTP status code, representa el estado de la operación."
+    code: Int!
+
+    "Mensaje legible para Humanos, describe el resultado de la operación para la UI"
+    message: String!
+
+    "Indica si la operación fue exitosa."
+    success: Boolean!
+
+    "JWT Token para autenticación"
+    token: String
+
+
+    "Fecha de expiración del token de autenticación"
+    expire_at: Date
+}
+
+"""
+Respuesta de registro de usuario
+"""
+type SignUpResponse {
+    "Similar al HTTP status code, representa el estado de la operación."
+    code: Int!
+
+    "Indica si la operación fue exitosa."
+    success: Boolean!
+
+    "Mensaje legible para Humanos, describe el resultado de la operación para la UI"
+    message: String!
+
+    "JWT Token para autenticación"
+    token: String
+
+    "Objeto de usuario recién registrado"
+    user: User
+}
+
+"""
+Respuesta de restablecimiento de contraseña
+"""
+type UpdatePasswordResponse {
+    "Similar al HTTP status code, representa el estado de la operación."
+    code: Int!
+
+    "Indica si la operación fue exitosa."
+    success: Boolean!
+
+    "Mensaje legible para Humanos, describe el resultado de la operación para la UI"
+    message: String!
+}
+
+
+scalar Date
+

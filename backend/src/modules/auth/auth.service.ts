@@ -9,7 +9,6 @@ import { jwtSecret, jwtExpirationTime } from './constants';
 import { User } from '../users/entities/user.entity';
 import { MailService } from '../mail/mail.service';
 import { format } from 'date-fns';
-import * as process from 'node:process';
 
 @Injectable()
 export class AuthService {
@@ -23,17 +22,18 @@ export class AuthService {
   /**
    * Iniciar sesión
    *
-   * Iniciar sesión de un usuario(generar token de acceso)
+   * Realiza la autenticación del usuario utilizando las credenciales proporcionadas,
+   * busca el usuario por el correo electrónico y valida la contraseña, si todo es correcto
+   * se genera un token de acceso (JWT) y se retorna en la respuesta encapsulada en un objeto
+   *
    * @param email
    * @param password
    */
   async signIn(email: string, password: string) {
 
-    console.log('todo el env', process) ;
+    //Buscar el usuario por el correo electrónico
     const user = await this.usersService.findByEmail(email);
-
-
-    if (!user) {
+    if (!user) { //Si no se encuentra el usuario lanzamos una excepción
       throw new NotFoundException('No se ha encontrado un usuario con el correo electrónico proporcionado');
 
     }
@@ -44,17 +44,13 @@ export class AuthService {
 
     if (!passworsIsValid) {
       throw new UnauthorizedException('La contraseña es incorrecta, verifique e intente nuevamente');
-
     }
-
     //Generar token
     const token = this.generateToken(user);
 
-
     //Fecha Hora| Minutos| Segundos
     const expireAt = format(new Date(Date.now() + jwtExpirationTime * 1000), 'yyyy-MM-dd HH:mm:ss');
-
-
+    //Retornar la respuesta
     return {
       code: 200,
       message: 'Inicio de sesión exitoso',

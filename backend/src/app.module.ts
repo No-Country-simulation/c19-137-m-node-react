@@ -8,7 +8,7 @@ import { enviroments } from "./enviroments";
 import config from "./config";
 import { GraphQLModule } from "@nestjs/graphql";
 import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
-import * as Joi from 'joi'
+import * as Joi from "joi";
 import { ApolloServerPluginLandingPageLocalDefault } from "@apollo/server/plugin/landingPage/default";
 import { ConfigModule } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
@@ -27,11 +27,31 @@ import { TypeOrmModule } from "@nestjs/typeorm";
       load: [config],
       validationSchema: Joi.object({
         DATABASE_URL: Joi.string().optional(),
-        DATABASE_HOST: Joi.string().when('DATABASE_URL', { is: Joi.exist(), then: Joi.optional(), otherwise: Joi.required() }),
-        DATABASE_NAME: Joi.string().when('DATABASE_URL', { is: Joi.exist(), then: Joi.optional(), otherwise: Joi.required() }),
-        DATABASE_PORT: Joi.number().when('DATABASE_URL', { is: Joi.exist(), then: Joi.optional(), otherwise: Joi.required() }),
-        DATABASE_USER: Joi.string().when('DATABASE_URL', { is: Joi.exist(), then: Joi.optional(), otherwise: Joi.required() }),
-        DATABASE_PASSWORD: Joi.string().when('DATABASE_URL', { is: Joi.exist(), then: Joi.optional(), otherwise: Joi.required() }),
+        DATABASE_HOST: Joi.string().when("DATABASE_URL", {
+          is: Joi.exist(),
+          then: Joi.optional(),
+          otherwise: Joi.required()
+        }),
+        DATABASE_NAME: Joi.string().when("DATABASE_URL", {
+          is: Joi.exist(),
+          then: Joi.optional(),
+          otherwise: Joi.required()
+        }),
+        DATABASE_PORT: Joi.number().when("DATABASE_URL", {
+          is: Joi.exist(),
+          then: Joi.optional(),
+          otherwise: Joi.required()
+        }),
+        DATABASE_USER: Joi.string().when("DATABASE_URL", {
+          is: Joi.exist(),
+          then: Joi.optional(),
+          otherwise: Joi.required()
+        }),
+        DATABASE_PASSWORD: Joi.string().when("DATABASE_URL", {
+          is: Joi.exist(),
+          then: Joi.optional(),
+          otherwise: Joi.required()
+        }),
         JWT_SECRET: Joi.string().required()
       })
     }),
@@ -55,6 +75,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
       driver: ApolloDriver,
       playground: false,
       debug: true,
+      introspection: true,
       typePaths: ["./**/*.graphql"],
       definitions: {
         path: join(process.cwd(), "src/graphql.schema.ts"),

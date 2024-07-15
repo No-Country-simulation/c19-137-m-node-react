@@ -22,7 +22,7 @@ USER node
 WORKDIR /app
 
 # Copy package.json and package-lock.json
-COPY --chown=node:node pnpm-lock.yaml ./
+COPY --chown=node:node package.json ./
 
 # Copy source files
 COPY --chown=node:node . .

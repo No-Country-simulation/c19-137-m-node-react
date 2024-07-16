@@ -7,6 +7,9 @@ import { GqlAuthGuard } from './guards/gql-auth.guard';
 import { UseGuards } from '@nestjs/common';
 import { User } from '../users/entities/user.entity';
 import { SignUpInput } from './dto/signup-input';
+import { RolesGuard } from './guards/roles.guard';
+import { Roles } from './decorators/roles.decorator';
+import { Role } from './auth.enum';
 
 @Resolver()
 export class AuthResolver {
@@ -45,6 +48,8 @@ export class AuthResolver {
 
   @Query(() => User)
   @UseGuards(GqlAuthGuard)
+  @UseGuards(GqlAuthGuard, RolesGuard)
+  //@Roles(Role.MODERADOR)
   async me(@Context('req') req) {
     return this.authService.me(req);
   }

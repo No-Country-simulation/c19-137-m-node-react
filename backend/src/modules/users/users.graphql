@@ -1,47 +1,142 @@
+"""
+Tipo de datos para un usuario en el sistema.
+"""
 type User {
     id: ID!
-    "Apodo del usuario"
+    """
+    Apodo del usuario.
+    """
     nickname: String
-    "Nombre del usuario"
+    """
+    Nombre del usuario.
+    """
     first_name: String
-    "Apellido del usuario"
+    """
+    Apellido del usuario.
+    """
     last_name: String
-    "Correo electrónico del usuario"
+    """
+    Correo electrónico del usuario.
+    """
     email: String
-    "Contraseña del usuario"
+    """
+    Contraseña del usuario (se debe manejar de forma segura, no se debe exponer en consultas).
+    """
     password: String
-    "Edad del usuario"
+    """
+    Edad del usuario.
+    """
     age: Int
-    "Rol del usuario"
+    """
+    Rol del usuario.
+    """
     role: String
-    "Estado del usuario"
+    """
+    Estado del usuario (activo/inactivo).
+    """
     enabled: Boolean
-    "Fecha de creación del usuario"
+    """
+    Fecha de creación del usuario en formato ISO 8601.
+    """
     created_at: String
 }
 
+"""
+Entrada requerida para crear un nuevo usuario.
+"""
 input CreateUserInput {
+    """
+    Apodo del usuario.
+    """
     nickname: String!
+    """
+    Nombre del usuario.
+    """
     first_name: String!
+    """
+    Apellido del usuario.
+    """
     last_name: String!
+    """
+    Contraseña del usuario.
+    """
     password: String!
+    """
+    Confirmación de la contraseña del usuario.
+    """
+    password_confirmation: String!
+    """
+    Correo electrónico del usuario.
+    """
     email: String!
-    age: Int!
-    role: String!
 }
 
+"""
+Entrada requerida para actualizar los datos de un usuario existente.
+"""
 input UpdateUserInput {
-    id: String!
+    """
+    ID del usuario que se desea actualizar.
+    """
+    id: ID!
+    """
+    Apodo del usuario.
+    """
     nickname: String
+    """
+    Nombre del usuario.
+    """
     first_name: String
+    """
+    Apellido del usuario.
+    """
     last_name: String
+    """
+    Correo electrónico del usuario.
+    """
     email: String
+    """
+    Edad del usuario.
+    """
     age: Int
-    role: String,
+    """
+    Rol del usuario.
+    """
+    role: String
+    """
+    Estado del usuario (activo/inactivo).
+    """
     enabled: Boolean
 }
 
+"""
+Consulta para obtener todos los usuarios registrados en el sistema.
+"""
 type Query {
+    """
+    Obtiene todos los usuarios registrados.
+    """
     users: [User]!
+
+    """
+    Obtiene los detalles de un usuario específico por su ID.
+    """
     user(id: Int!): User
 }
+
+type Subscription {
+    """
+    Suscripción para notificar cuando se crea un nuevo usuario.
+    """
+    onUserCreated: User
+
+    """
+    Notificar a los suscriptores cuando se actualiza la frase motivacional.
+
+    Esta suscripción envía una notificación a los clientes suscritos cada vez que se actualiza
+    la frase motivacional con una nueva frase generada aleatoriamente.
+    Devuelve la nueva frase motivacional como una cadena de texto.
+    """
+    onTextHelloCreated: String
+}
+

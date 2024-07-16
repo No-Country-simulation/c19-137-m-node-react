@@ -1,18 +1,16 @@
 import { Resolver, Mutation, Args, Query, Context } from '@nestjs/graphql';
 import { AuthService } from './auth.service';
-import { CreateUserInput } from '../users/dto/create-user.input';
 import { ResetPasswordInput } from './dto/reset-password-input';
 import { SignInInput } from './dto/signin-input';
 import { ForgotPasswordInput } from './dto/forgot-password-input';
 import { GqlAuthGuard } from './guards/gql-auth.guard';
 import { UseGuards } from '@nestjs/common';
 import { User } from '../users/entities/user.entity';
-
+import { SignUpInput } from './dto/signup-input';
 
 @Resolver()
 export class AuthResolver {
-  constructor(private readonly authService: AuthService) {
-  }
+  constructor(private readonly authService: AuthService) {}
 
   @Mutation(() => Response)
   signIn(@Args() input: SignInInput) {
@@ -21,8 +19,8 @@ export class AuthResolver {
   }
 
   @Mutation(() => Response)
-  signUp(@Args('input') input: CreateUserInput) {
-    return this.authService.signUp(input);
+  signUp(@Args('data') data: SignUpInput) {
+    return this.authService.signUp(data);
   }
 
   @Mutation(() => Response)

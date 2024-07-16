@@ -12,9 +12,12 @@ import * as Joi from "joi";
 import { ApolloServerPluginLandingPageLocalDefault } from "@apollo/server/plugin/landingPage/default";
 import { ConfigModule } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { ScheduleModule } from "@nestjs/schedule";
+import { Context } from "graphql-ws";
 
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, "..", "graphiql"),
       exclude: ["/api*"],
@@ -81,8 +84,16 @@ import { TypeOrmModule } from "@nestjs/typeorm";
         path: join(process.cwd(), "src/graphql.schema.ts"),
         outputAs: "class"
       },
-      installSubscriptionHandlers: true,
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
+      installSubscriptionHandlers: true,
+      subscriptions: {
+        "graphql-ws": {
+          onConnect: (context: Context<any>) => {
+            console.log("Conectado");
+            console.log(context);
+          }
+        }
+      },
       context: ({ req }) => ({ req }),
       formatError: (error) => {
         // Desestructuramos las propiedades del error original
@@ -93,7 +104,6 @@ import { TypeOrmModule } from "@nestjs/typeorm";
           code: 400,
           message,
           success: false
-
         };
 
         if (extensions?.originalError) {
@@ -105,7 +115,6 @@ import { TypeOrmModule } from "@nestjs/typeorm";
         }
 
         return formatted;
-
       }
     }),
     UsersModule,

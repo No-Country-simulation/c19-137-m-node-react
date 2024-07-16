@@ -1,31 +1,34 @@
 type Mutation {
     """
-    Generar un token de autenticación.
-    email: El correo electrónico del usuario que intenta iniciar sesión.
-    password: La contraseña del usuario.
-    Retorna un token de autenticación.
+    Mutacion para iniciar sesión de usuario utilizando JWT.
+
+    Permite a un usuario autenticarse en el sistema proporcionando su correo electrónico y contraseña.
+    Devuelve un token JWT válido en caso de éxito para la autenticación.
     """
     signIn(email: String!, password: String!): SignInResponse
 
     """
-    Registrar un nuevo usuario.
-    input: Un objeto que contiene la información necesaria para crear un nuevo usuario.
-    Retorna el usuario registrado.
+    Mutacion para registrar un nuevo usuario en el sistema.
+
+    Permite crear un nuevo usuario utilizando la información proporcionada en el objeto de entrada.
+    Devuelve detalles del usuario registrado después de la creación.
     """
-    signUp(input: CreateUserInput!): SignUpResponse
+    signUp(data: CreateUserInput!): SignUpResponse
 
     """
-    Enviar un correo electrónico al usuario con un enlace para restablecer la contraseña.
-    email: El correo electrónico del usuario que ha olvidado su contraseña.
+    Mutacion para restablecer la contraseña de un usuario.
+
+    Envía un correo electrónico al usuario con un enlace para restablecer la contraseña.
     """
     forgotPassword(email: String!): Response
 
     """
-    Restablecer la contraseña de un usuario.
-    input: Un objeto que contiene la información necesaria para restablecer la contraseña de un usuario.
-    Retorna un mensaje de éxito.
+    Mutacion para restablecer la contraseña de un usuario.
+
+    Recibe un objeto con la información necesaria para restablecer la contraseña de un usuario.
+    Devuelve un mensaje de éxito tras el restablecimiento.
     """
-    resetPassword(input: ResetPasswordInput!): Response
+    resetPassword(data: ResetPasswordInput!): Response
 }
 
 

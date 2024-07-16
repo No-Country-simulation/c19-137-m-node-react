@@ -14,6 +14,6 @@ export class RolesGuard implements CanActivate {
     }
     const ctx = GqlExecutionContext.create(context);
     const user = ctx.getContext().req.user;
-    return roles.some(role => user.roles.includes(role));
+    return roles.some((role) => user.roles.includes(role));
   }
 }

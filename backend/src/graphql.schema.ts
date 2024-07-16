@@ -19,9 +19,8 @@ export class CreateUserInput {
     first_name: string;
     last_name: string;
     password: string;
+    password_confirmation: string;
     email: string;
-    age: number;
-    role: string;
 }
 
 export class UpdateUserInput {
@@ -44,11 +43,11 @@ export class Response {
 export abstract class IMutation {
     abstract signIn(email: string, password: string): Nullable<SignInResponse> | Promise<Nullable<SignInResponse>>;
 
-    abstract signUp(input: CreateUserInput): Nullable<SignUpResponse> | Promise<Nullable<SignUpResponse>>;
+    abstract signUp(data: CreateUserInput): Nullable<SignUpResponse> | Promise<Nullable<SignUpResponse>>;
 
     abstract forgotPassword(email: string): Nullable<Response> | Promise<Nullable<Response>>;
 
-    abstract resetPassword(input: ResetPasswordInput): Nullable<Response> | Promise<Nullable<Response>>;
+    abstract resetPassword(data: ResetPasswordInput): Nullable<Response> | Promise<Nullable<Response>>;
 }
 
 export abstract class IQuery {
@@ -92,6 +91,12 @@ export class User {
     role?: Nullable<string>;
     enabled?: Nullable<boolean>;
     created_at?: Nullable<string>;
+}
+
+export abstract class ISubscription {
+    abstract onUserCreated(): Nullable<User> | Promise<Nullable<User>>;
+
+    abstract onTextHelloCreated(): Nullable<string> | Promise<Nullable<string>>;
 }
 
 type Nullable<T> = T | null;

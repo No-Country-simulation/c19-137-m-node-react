@@ -1,21 +1,27 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { NestFactory } from "@nestjs/core";
+import { AppModule } from "./app.module";
 import { ValidationPipe } from "@nestjs/common";
+import * as process from "node:process";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
 
-  await app.listen(3000);
+  const port = process.env.PORT || 3000;
+  const httpUrl = process.env.URL || `http://localhost:${port}`;
+  const wsUrl = process.env.WS_URL || `ws://localhost:${port}`;
+
+  await app.listen(port);
 
 
-console.log('\n')
-  console.log('======================================');
-  console.log(`🚀 Aplicación en ejecución en la URL: http://localhost:3000`);
-  console.log(`🔗 Accede a Apollo Explorer en la URL : http://localhost:3000/graphql`);
-  console.log(`🌞 Accede a GraphiQL en la URL : http://localhost:3000/graphiql`);
+  console.log("\n");
+  console.log("======================================");
+  console.log(`🚀 Servidor corriendo en la URL: ${httpUrl}`);
+  console.log(`🔗 Accede a Apollo Explorer en la URL : ${httpUrl}/graphql`);
+  console.log(`🌞 Accede a GraphiQL en la URL : ${httpUrl}/graphiql`);
+  console.log(`📢 GraphQL Subscriptions en la URL : ${wsUrl}/graphql`);
 
-  console.log('======================================');
-
+  console.log("======================================");
 }
+
 bootstrap();

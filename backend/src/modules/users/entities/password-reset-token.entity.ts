@@ -9,7 +9,6 @@ export class PasswordResetToken {
   token: string;
 
   @Column()
-
   user_id: string;
 
   @Column()
@@ -17,5 +16,4 @@ export class PasswordResetToken {
 
   @Column()
   created_at: Date;
-
 }

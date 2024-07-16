@@ -8,13 +8,16 @@ import { enviroments } from "./enviroments";
 import config from "./config";
 import { GraphQLModule } from "@nestjs/graphql";
 import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
-import * as Joi from 'joi'
+import * as Joi from "joi";
 import { ApolloServerPluginLandingPageLocalDefault } from "@apollo/server/plugin/landingPage/default";
 import { ConfigModule } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { ScheduleModule } from "@nestjs/schedule";
+import { Context } from "graphql-ws";
 
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, "..", "graphiql"),
       exclude: ["/api*"],
@@ -26,10 +29,32 @@ import { TypeOrmModule } from "@nestjs/typeorm";
       envFilePath: enviroments[process.env.NODE_ENV] || ".env",
       load: [config],
       validationSchema: Joi.object({
-        DATABASE_HOST: Joi.string().required(),
-        DATABASE_NAME: Joi.string().required(),
-        DATABASE_PORT: Joi.number().required(),
-        DATABASE_USER: Joi.string().required(),
+        DATABASE_URL: Joi.string().optional(),
+        DATABASE_HOST: Joi.string().when("DATABASE_URL", {
+          is: Joi.exist(),
+          then: Joi.optional(),
+          otherwise: Joi.required()
+        }),
+        DATABASE_NAME: Joi.string().when("DATABASE_URL", {
+          is: Joi.exist(),
+          then: Joi.optional(),
+          otherwise: Joi.required()
+        }),
+        DATABASE_PORT: Joi.number().when("DATABASE_URL", {
+          is: Joi.exist(),
+          then: Joi.optional(),
+          otherwise: Joi.required()
+        }),
+        DATABASE_USER: Joi.string().when("DATABASE_URL", {
+          is: Joi.exist(),
+          then: Joi.optional(),
+          otherwise: Joi.required()
+        }),
+        DATABASE_PASSWORD: Joi.string().when("DATABASE_URL", {
+          is: Joi.exist(),
+          then: Joi.optional(),
+          otherwise: Joi.required()
+        }),
         JWT_SECRET: Joi.string().required()
       })
     }),
@@ -38,6 +63,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
     TypeOrmModule.forRootAsync({
       useFactory: async () => ({
         type: "postgres",
+        url: process.env.DATABASE_URL,
         host: process.env.DATABASE_HOST,
         port: parseInt(process.env.DATABASE_PORT, 10),
         username: process.env.DATABASE_USER,
@@ -52,13 +78,22 @@ import { TypeOrmModule } from "@nestjs/typeorm";
       driver: ApolloDriver,
       playground: false,
       debug: true,
+      introspection: true,
       typePaths: ["./**/*.graphql"],
       definitions: {
         path: join(process.cwd(), "src/graphql.schema.ts"),
         outputAs: "class"
       },
-      installSubscriptionHandlers: true,
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
+      installSubscriptionHandlers: true,
+      subscriptions: {
+        "graphql-ws": {
+          onConnect: (context: Context<any>) => {
+            console.log("Conectado");
+            console.log(context);
+          }
+        }
+      },
       context: ({ req }) => ({ req }),
       formatError: (error) => {
         // Desestructuramos las propiedades del error original
@@ -69,7 +104,6 @@ import { TypeOrmModule } from "@nestjs/typeorm";
           code: 400,
           message,
           success: false
-
         };
 
         if (extensions?.originalError) {
@@ -81,7 +115,6 @@ import { TypeOrmModule } from "@nestjs/typeorm";
         }
 
         return formatted;
-
       }
     }),
     UsersModule,

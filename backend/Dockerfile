@@ -1,51 +1,55 @@
-# Build stage
-FROM node:20-alpine as build
+# Base image for all stages
+FROM node:20-slim AS base
 
-# Install pnpm
-RUN curl -f https://get.pnpm.io/v6.16.js | node - add --global pnpm
+# Set environment variables
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 
-# Install tzdata for time zone configuration
-RUN apk add --no-cache libc6-compat tzdata
-
-# Set the time zone to America/Bogota
-ENV TZ=America/Bogota
-
+# Enable corepack for package management
 RUN corepack enable
-
-# Update
-RUN apk update
-USER node
 
 # Set working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json
-COPY --chown=node:node package.json ./
+# COPY package.json and pnpm-lock.yaml files
 
-# Copy source files
-COPY --chown=node:node . .
+COPY package.json pnpm-lock.yaml ./
 
-# Install dependencies and build the project
+# Copy the entire project into the image
+COPY . .
+
+
+
+# ----------------------------------------
+# Stage: Install Production Dependencies
+# ----------------------------------------
+FROM base AS prod-deps
+
+# Install production dependencies
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --frozen-lockfile
+
+# ----------------------------------------
+# Stage: Build Application
+# ----------------------------------------
+FROM base AS build
+
+# Install all dependencies (including dev dependencies)
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+
+# Build the application
 RUN pnpm run build
 
-# Production stage
-FROM node:20-alpine as production
+# ----------------------------------------
+# Stage: Production Image
+# ----------------------------------------
+FROM base AS production
 
-# Install tini
-RUN apk add --no-cache tzdata tini
+# Copy built application and production dependencies from previous stages
+COPY --from=prod-deps /app/node_modules ./node_modules
+COPY --from=build /app/dist ./dist
 
-# Set the time zone to America/Bogota
-ENV TZ=America/Bogota
+# Expose the port on which the app runs
+EXPOSE 3000
 
-# Use tini as the init system
-ENTRYPOINT ["/sbin/tini", "--"]
-
-# Copy built application and dependencies
-COPY  --chown=node:node --from=build /app/node_modules  ./node_modules
-COPY  --chown=node:node --from=build /app/dist  ./dist
-
-# Command to run your application
-CMD [ "node", "dist/main" ]
+# Command to start the application
+CMD [ "pnpm", "start" ]

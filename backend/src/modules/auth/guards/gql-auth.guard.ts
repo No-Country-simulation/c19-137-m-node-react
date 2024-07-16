@@ -1,5 +1,9 @@
 import { AuthGuard } from '@nestjs/passport';
-import { ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  ExecutionContext,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { GqlExecutionContext } from '@nestjs/graphql';
 import { Request } from 'express';
 
@@ -15,12 +19,13 @@ export class GqlAuthGuard extends AuthGuard('jwt') {
     console.log('err', err);
     console.log('user', user);
     if (err || !user) {
-      throw err || new UnauthorizedException(
-        'No se pudo autenticar al usuario con el token proporcionado, inicie sesión para obtener un nuevo token',
+      throw (
+        err ||
+        new UnauthorizedException(
+          'No se pudo autenticar al usuario con el token proporcionado, inicie sesión para obtener un nuevo token',
+        )
       );
     }
     return user;
   }
-
-
 }

@@ -2,15 +2,18 @@
 import {
   Injectable,
   InternalServerErrorException,
-  Logger,
-} from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { User } from './entities/user.entity';
-import { CreateUserInput } from './dto/create-user.input';
-import { UpdateUserInput } from './dto/update-user.input';
-import * as bcrypt from 'bcrypt';
-import { PasswordResetToken } from './entities/password-reset-token.entity';
+  Logger
+} from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
+import { User } from "./entities/user.entity";
+import { CreateUserInput } from "./dto/create-user.input";
+import { UpdateUserInput } from "./dto/update-user.input";
+import * as bcrypt from "bcrypt";
+import { PasswordResetToken } from "./entities/password-reset-token.entity";
+import { PubSub } from "graphql-subscriptions";
+
+const pubSub = new PubSub();
 
 @Injectable()
 export class UsersService {
@@ -20,7 +23,7 @@ export class UsersService {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     @InjectRepository(PasswordResetToken)
-    private readonly passwordResetTokenRepository: Repository<PasswordResetToken>,
+    private readonly passwordResetTokenRepository: Repository<PasswordResetToken>
   ) {
   }
 
@@ -34,7 +37,6 @@ export class UsersService {
     return await bcrypt.hash(password, salt);
   }
 
-
   /**
    * Crear un usuario
    * @param createUserInput
@@ -43,24 +45,26 @@ export class UsersService {
     this.logger.log(`createUserInput: ${JSON.stringify(createUserInput)}`);
 
     if (!createUserInput.password) {
-      throw new InternalServerErrorException('Password is required');
+      throw new InternalServerErrorException("Password is required");
     }
     const hashedPassword = await this.hashPassword(createUserInput.password);
-    const user = this.userRepository.create({
+    const userValidated = this.userRepository.create({
       ...createUserInput,
-      password: hashedPassword,
+      password: hashedPassword
     });
-    return await this.userRepository.save(user);
+    const user = await this.userRepository.save(userValidated);
+
+    pubSub.publish("onUserCreated", { onUserCreated: user });
+    return user;
   }
 
   /**
    * Buscar todos los usuarios
    */
   async findAll(): Promise<User[]> {
-
     const users = await this.userRepository.find();
 
-    console.log('users', users);
+    console.log("users", users);
     return users;
   }
 
@@ -79,10 +83,9 @@ export class UsersService {
   async update(updateUserInput: UpdateUserInput): Promise<User> {
     await this.userRepository.update(updateUserInput.id, updateUserInput);
     return this.userRepository.findOne({
-      where: { id: updateUserInput.id },
+      where: { id: updateUserInput.id }
     });
   }
-
 
   /**
    * Eliminar un usuario
@@ -91,7 +94,6 @@ export class UsersService {
   async remove(id: string): Promise<void> {
     await this.userRepository.delete(id);
   }
-
 
   async findByEmail(email: string) {
     return this.userRepository.findOne({ where: { email } });
@@ -104,10 +106,9 @@ export class UsersService {
    * @param expiresAt
    */
   async createPasswordResetToken(user: User, token: string, expiresAt: Date) {
-
     //eliminar cualquier token existente
     const existingTokens = await this.passwordResetTokenRepository.find({
-      where: { user_id: user.id },
+      where: { user_id: user.id }
     });
 
     //delete all existing tokens
@@ -118,7 +119,7 @@ export class UsersService {
       token,
       user_id: user.id,
       expires_at: expiresAt,
-      created_at: new Date(),
+      created_at: new Date()
     });
 
     return this.passwordResetTokenRepository.save(passwordResetToken);

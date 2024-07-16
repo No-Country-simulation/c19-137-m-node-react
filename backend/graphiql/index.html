@@ -67,6 +67,7 @@
   const fetcher = GraphiQL.createFetcher({
     url: '/graphql',
     headers: { 'X-Example-Header': 'foo' },
+    subscriptionUrl: '/graphql',
   });
   const explorerPlugin = GraphiQLPluginExplorer.explorerPlugin();
   root.render(

@@ -11,7 +11,6 @@ import { AuthResolver } from './auth.resolver';
 import { MatchPasswordsValidator } from './validators/match-passwords.validator';
 import { jwtSecret } from './constants';
 
-
 @Module({
   imports: [
     UsersModule,
@@ -24,5 +23,4 @@ import { jwtSecret } from './constants';
   ],
   providers: [AuthService, JwtStrategy, AuthResolver, MatchPasswordsValidator],
 })
-export class AuthModule {
-}
+export class AuthModule {}

@@ -34,6 +34,11 @@ export class UpdateUserInput {
     enabled?: Nullable<boolean>;
 }
 
+export class CreatePostInput {
+    title: string;
+    content: string;
+}
+
 export class Response {
     code: number;
     success: boolean;
@@ -48,6 +53,8 @@ export abstract class IMutation {
     abstract forgotPassword(email: string): Nullable<Response> | Promise<Nullable<Response>>;
 
     abstract resetPassword(data: ResetPasswordInput): Nullable<Response> | Promise<Nullable<Response>>;
+
+    abstract createPost(data?: Nullable<CreatePostInput>): Nullable<CreatePostResponse> | Promise<Nullable<CreatePostResponse>>;
 }
 
 export abstract class IQuery {
@@ -56,6 +63,10 @@ export abstract class IQuery {
     abstract users(): Nullable<User>[] | Promise<Nullable<User>[]>;
 
     abstract user(id: number): Nullable<User> | Promise<Nullable<User>>;
+
+    abstract posts(): Nullable<Post>[] | Promise<Nullable<Post>[]>;
+
+    abstract post(id: string): Nullable<Post> | Promise<Nullable<Post>>;
 }
 
 export class SignInResponse {
@@ -97,6 +108,20 @@ export abstract class ISubscription {
     abstract onUserCreated(): Nullable<User> | Promise<Nullable<User>>;
 
     abstract onTextHelloCreated(): Nullable<string> | Promise<Nullable<string>>;
+}
+
+export class Post {
+    id: string;
+    title?: Nullable<string>;
+    content?: Nullable<string>;
+    created_at?: Nullable<Date>;
+}
+
+export class CreatePostResponse {
+    code: number;
+    success: boolean;
+    message: string;
+    post?: Nullable<Post>;
 }
 
 type Nullable<T> = T | null;

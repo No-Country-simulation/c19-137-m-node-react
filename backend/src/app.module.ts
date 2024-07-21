@@ -14,6 +14,7 @@ import { ConfigModule } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ScheduleModule } from "@nestjs/schedule";
 import { Context } from "graphql-ws";
+import { PostsModule } from './posts/posts.module';
 
 @Module({
   imports: [
@@ -119,7 +120,8 @@ import { Context } from "graphql-ws";
     }),
     UsersModule,
     AuthModule,
-    MailModule
+    MailModule,
+    PostsModule
   ]
 })
 export class AppModule {

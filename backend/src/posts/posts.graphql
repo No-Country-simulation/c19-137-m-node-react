@@ -1,0 +1,92 @@
+"""
+Representa un artículo o publicación en el sistema.
+"""
+type Post {
+    """
+    El identificador único de la publicación.
+    """
+    id: ID!
+
+    """
+    El título de la publicación.
+    """
+    title: String
+
+    """
+    El contenido de la publicación.
+    """
+    content: String
+
+    """
+    La fecha y hora de creación de la publicación.
+    """
+    created_at: Date
+}
+
+"""
+Consultas disponibles para obtener información sobre las publicaciones.
+"""
+type Query {
+    """
+    Devuelve una lista de todas las publicaciones.
+    """
+    posts: [Post]! 
+
+    """
+    Devuelve una publicación específica basada en su ID.
+    """
+    post(id: ID!): Post
+}
+
+"""
+Mutaciones disponibles para modificar el estado de las publicaciones.
+"""
+type Mutation {
+    """
+    Crea una nueva publicación con los datos proporcionados.
+
+    A traves de esta mutación se puede crear un Post, si el campo no permite valores nulos,
+    el sistema devuelve un codigo de estado 400 en la respuesta.
+    """
+    createPost(
+        """
+        Los datos necesarios para crear una nueva publicación.
+        """
+        data: CreatePostInput
+    ): CreatePostResponse
+}
+
+"""
+Input para crear un nuevo post
+"""
+input CreatePostInput {
+    """
+    Titulo del post
+    """
+    title: String!
+
+    """
+    Contenido del post
+    """
+    content: String!
+}
+
+
+"""
+Respuesta de registro de post
+"""
+type CreatePostResponse {
+    "Similar al HTTP status code, representa el estado de la operación."
+    code: Int!
+
+    "Indica si la operación fue exitosa."
+    success: Boolean!
+
+    "Mensaje legible para Humanos, describe el resultado de la operación para la UI"
+    message: String!
+
+    "Objeto de usuario recién registrado"
+    post: Post
+}
+
+# Query - consultas |  Mutations - POST, CREATE, UPDATE | Subscription  actualizaciones en tiempo real

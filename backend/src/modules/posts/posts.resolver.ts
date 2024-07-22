@@ -15,12 +15,12 @@ export class PostsResolver {
   }
 
   @Query('post')
-  findById(@Args('id') id: string ){
+  findById(@Args('id') id: string) {
     return this.postsService.findById(id);
   }
 
   @Mutation('createPost')
-  @UseGuards(GqlAuthGuard)
+  //@UseGuards(GqlAuthGuard)
   createPost(@Args('data') data: CreatePostInput) {
     return this.postsService.createPost(data)
   }

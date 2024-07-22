@@ -1,0 +1,65 @@
+"""
+Representa un libro en el sistema.
+"""
+type Book {
+    id: ID!
+    name: String
+    author: String
+}
+
+"""
+Respuesta de la operación de creación de un libro.
+"""
+type CreateBookResponse {
+    "Similar al código de estado HTTP, representa el estado de la operación."
+    code: Int!
+
+    "Indica si la operación fue exitosa."
+    success: Boolean!
+
+    "Mensaje legible para humanos que describe el resultado de la operación para la UI."
+    message: String!
+
+    "Objeto del libro recién registrado."
+    book: Book
+}
+
+"""
+Entrada requerida para crear un nuevo libro.
+"""
+input CreateBookInput {
+    """
+    Nombre del libro.
+    """
+    name: String!
+
+    """
+    Autor del libro.
+    """
+    author: String!
+}
+
+"""
+Consultas disponibles en el sistema.
+"""
+type Query {
+    """
+    Devuelve una lista de todos los libros disponibles en el sistema.
+    """
+    books: [Book]!
+}
+
+"""
+Mutaciones disponibles en el sistema.
+"""
+type Mutation {
+    """
+    Crea un nuevo libro en el sistema.
+    """
+    createBook(
+        """
+        Los datos necesarios para crear un nuevo libro.
+        """
+        data: CreateBookInput
+    ): CreateBookResponse
+}

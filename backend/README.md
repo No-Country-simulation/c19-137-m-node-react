@@ -11,13 +11,13 @@
 
 ### 🗄️ Base de Datos
 
-**(Aquí puedes agregar las instrucciones específicas para la configuración de la base de datos)**
+Puedes usar cualquier base de datos que desees. Solo necesitas configurar las credenciales en el archivo `.env`.
 
 ### 📚 Documentación
 
 #### 🔒 Como aplicar los roles en los campos de GraphQL
 
-Para usar RBAC **(Role-Based Access Control)** en tu aplicación NestJS, coloca `@Roles(Role.[NOMBRE_DEL_ROLE])` antes del endpoint deseado.
+Para usar RBAC **(Role-Based Access Control)** en tu modulo de  NestJS, coloca `@Roles(Role.[NOMBRE_DEL_ROLE])` antes del endpoint deseado.
 
 #### Roles Disponibles
 

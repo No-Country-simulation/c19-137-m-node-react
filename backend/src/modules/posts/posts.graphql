@@ -23,10 +23,8 @@ type Post {
     created_at: Date
 }
 
-"""
-Consultas disponibles para obtener información sobre las publicaciones.
-"""
-type Query {
+
+extend type Query {
     """
     Devuelve una lista de todas las publicaciones.
     """
@@ -38,10 +36,8 @@ type Query {
     post(id: ID!): Post
 }
 
-"""
-Mutaciones disponibles para modificar el estado de las publicaciones.
-"""
-type Mutation {
+
+extend type Mutation {
     """
     Crea una nueva publicación con los datos proporcionados.
 

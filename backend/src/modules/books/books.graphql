@@ -39,20 +39,16 @@ input CreateBookInput {
     author: String!
 }
 
-"""
-Consultas disponibles en el sistema.
-"""
-type Query {
+
+extend type Query {
     """
     Devuelve una lista de todos los libros disponibles en el sistema.
     """
     books: [Book]!
 }
 
-"""
-Mutaciones disponibles en el sistema.
-"""
-type Mutation {
+
+extend type Mutation {
     """
     Crea un nuevo libro en el sistema.
     """

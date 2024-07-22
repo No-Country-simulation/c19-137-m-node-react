@@ -9,3 +9,9 @@ type Response {
   "Mensaje legible para Humanos, describe el resultado de la operación para la UI"
   message: String!
 }
+
+type Mutation
+
+type Query
+
+type Subscription

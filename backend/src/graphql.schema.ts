@@ -78,6 +78,12 @@ export abstract class IQuery {
     abstract user(id: number): Nullable<User> | Promise<Nullable<User>>;
 }
 
+export abstract class ISubscription {
+    abstract onUserCreated(): Nullable<User> | Promise<Nullable<User>>;
+
+    abstract onTextHelloCreated(): Nullable<string> | Promise<Nullable<string>>;
+}
+
 export class SignInResponse {
     code: number;
     message: string;
@@ -138,12 +144,6 @@ export class User {
     role?: Nullable<string>;
     enabled?: Nullable<boolean>;
     created_at?: Nullable<string>;
-}
-
-export abstract class ISubscription {
-    abstract onUserCreated(): Nullable<User> | Promise<Nullable<User>>;
-
-    abstract onTextHelloCreated(): Nullable<string> | Promise<Nullable<string>>;
 }
 
 type Nullable<T> = T | null;

@@ -109,10 +109,8 @@ input UpdateUserInput {
     enabled: Boolean
 }
 
-"""
-Consulta para obtener todos los usuarios registrados en el sistema.
-"""
-type Query {
+
+extend type Query {
     """
     Obtiene todos los usuarios registrados.
     """
@@ -124,7 +122,7 @@ type Query {
     user(id: Int!): User
 }
 
-type Subscription {
+extend type Subscription {
     """
     Suscripción para notificar cuando se crea un nuevo usuario.
     """

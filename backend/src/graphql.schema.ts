@@ -14,6 +14,16 @@ export class ResetPasswordInput {
     confirmNewPassword: string;
 }
 
+export class CreateBookInput {
+    name: string;
+    author: string;
+}
+
+export class CreatePostInput {
+    title: string;
+    content: string;
+}
+
 export class CreateUserInput {
     nickname: string;
     first_name: string;
@@ -48,10 +58,20 @@ export abstract class IMutation {
     abstract forgotPassword(email: string): Nullable<Response> | Promise<Nullable<Response>>;
 
     abstract resetPassword(data: ResetPasswordInput): Nullable<Response> | Promise<Nullable<Response>>;
+
+    abstract createBook(data?: Nullable<CreateBookInput>): Nullable<CreateBookResponse> | Promise<Nullable<CreateBookResponse>>;
+
+    abstract createPost(data?: Nullable<CreatePostInput>): Nullable<CreatePostResponse> | Promise<Nullable<CreatePostResponse>>;
 }
 
 export abstract class IQuery {
     abstract me(): Nullable<User> | Promise<Nullable<User>>;
+
+    abstract books(): Nullable<Book>[] | Promise<Nullable<Book>[]>;
+
+    abstract posts(): Nullable<Post>[] | Promise<Nullable<Post>[]>;
+
+    abstract post(id: string): Nullable<Post> | Promise<Nullable<Post>>;
 
     abstract users(): Nullable<User>[] | Promise<Nullable<User>[]>;
 
@@ -78,6 +98,33 @@ export class UpdatePasswordResponse {
     code: number;
     success: boolean;
     message: string;
+}
+
+export class Book {
+    id: string;
+    name?: Nullable<string>;
+    author?: Nullable<string>;
+}
+
+export class CreateBookResponse {
+    code: number;
+    success: boolean;
+    message: string;
+    book?: Nullable<Book>;
+}
+
+export class Post {
+    id: string;
+    title?: Nullable<string>;
+    content?: Nullable<string>;
+    created_at?: Nullable<Date>;
+}
+
+export class CreatePostResponse {
+    code: number;
+    success: boolean;
+    message: string;
+    post?: Nullable<Post>;
 }
 
 export class User {

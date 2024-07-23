@@ -16,7 +16,8 @@ import { ScheduleModule } from "@nestjs/schedule";
 import { Context } from "graphql-ws";
 import { MembershipModule } from "./modules/membership/membership.module";
 import { SubscriptionModule } from "./modules/subscription/subscription.module";
-
+import { PostsModule } from './modules/posts/posts.module';
+import { BooksModule } from "./modules/books/books.module";
 @Module({
   imports: [
     ScheduleModule.forRoot(),
@@ -124,6 +125,8 @@ import { SubscriptionModule } from "./modules/subscription/subscription.module";
     MailModule,
     MembershipModule,
     SubscriptionModule
+    PostsModule,
+    BooksModule
   ]
 })
 export class AppModule {

@@ -1,4 +1,4 @@
-type Mutation {
+extend type Mutation {
     """
     Mutacion para iniciar sesión de usuario utilizando JWT.
 

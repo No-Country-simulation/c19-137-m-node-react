@@ -127,7 +127,7 @@ import { ReviewsModule } from './modules/reviews/reviews.module';
     AuthModule,
     MailModule,
     MembershipModule,
-    SubscriptionModule
+    SubscriptionModule,
     PostsModule,
     BooksModule,
     AuthorsModule,

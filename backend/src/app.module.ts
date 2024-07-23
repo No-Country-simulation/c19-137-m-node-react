@@ -124,7 +124,7 @@ import { BooksModule } from "./modules/books/books.module";
     AuthModule,
     MailModule,
     MembershipModule,
-    SubscriptionModule
+    SubscriptionModule,
     PostsModule,
     BooksModule
   ]

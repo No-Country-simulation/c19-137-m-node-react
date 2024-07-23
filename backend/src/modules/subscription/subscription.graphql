@@ -1,0 +1,92 @@
+"""
+Tipo de datos para una suscripción de usuario.
+"""
+
+type Subscription {
+    """
+    id: ID!
+    """
+    Id del usuario registrado.
+    """
+    userId: String
+    """
+    Id del tipo de membresia.
+    """
+    membershipId: String
+    """
+    Fecha en la que la suscripción comenzó.
+    """
+    startDate: String
+    """
+    Fecha en la que la suscripción finalizará.
+    """
+    endDate: String
+}
+
+"""
+Entrada requerida para crear una nueva suscripcion.
+"""
+
+input CreateSubscriptionInput {
+    """
+    Id del usuario registrado.
+    """
+    userId: String
+    """
+    Id del tipo de membresia.
+    """
+    membershipId: String
+    """
+    Fecha en la que la suscripción comenzó.
+    """
+    startDate: String
+    """
+    Fecha en la que la suscripción finalizará.
+    """
+    endDate: String
+}
+
+"""
+Entrada requerida para actualizar los datos de una suscripción existente.
+"""
+
+input UpdateSubscriptionInput {
+    """
+    ID de la suscripción que se desea actualizar.
+    """
+    id: ID!
+    """
+    userId: String
+    """
+    Id del tipo de membresia.
+    """
+    membershipId: String
+    """
+    Fecha en la que la suscripción comenzó.
+    """
+    startDate: String
+    """
+    Fecha en la que la suscripción finalizará.
+    """
+    endDate: String
+}
+
+"""
+Suscripciones relacionadas con las suscripciones de usuario.
+"""
+type Subscription {
+    """
+    Notificación cuando se crea una nueva suscripción.
+    """
+    onSubscriptionCreated: Subscription!
+
+    """
+    Notificación cuando se actualiza una suscripción.
+    """
+    onSubscriptionUpdated: Subscription!
+
+    """
+    Notificación cuando se elimina una suscripción.
+    """
+    onSubscriptionRemoved: Subscription!
+}

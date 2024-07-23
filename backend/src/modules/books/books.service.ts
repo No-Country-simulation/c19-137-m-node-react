@@ -18,11 +18,11 @@ export class BooksService {
     ) {
     }
     /**
-     * Consigue todos los posts
+     * Consigue todos los libros
      */
     async findAll(): Promise<Book[]> {
         try {
-            const books = await this.bookRepository.find();
+            const books = await this.bookRepository.find({ relations: ['users'] });
             console.log("books", books);
             return books;
         } catch (error) {
@@ -30,9 +30,33 @@ export class BooksService {
         }
     }
 
+    /**
+     * Consigue libro segun el ID
+     * @param id 
+     * @returns el libro
+     */
+    async findById(id: string): Promise<Book> {
+        try {
+            const book = await this.bookRepository.findOne(
+                {
+                    where: { id },
+                    relations: ['users']
+                }
+            );
+            return book
+        } catch (error) {
+            throw new BadRequestException(error.message)
+        }
+    }
+
+    /**
+     * Crea un nuevo libro en el sistema
+     * @param data 
+     * @returns respuesta
+     */
     async createBook(data: CreateBookInput) {
         try {
-            const book = await this.bookRepository.create({ name: data.name, author: data.author });
+            const book = await this.bookRepository.create({ name: data.name, author: data.author, rating: data.rating });
 
             const savedBook = await this.bookRepository.save(book);
 

@@ -5,6 +5,8 @@ type Book {
     id: ID!
     name: String
     author: String
+    rating: Float
+    users: [User]
 }
 
 """
@@ -37,6 +39,11 @@ input CreateBookInput {
     Autor del libro.
     """
     author: String!
+
+    """
+    Puntuación del libro.
+    """
+    rating: Float!
 }
 
 
@@ -45,6 +52,7 @@ extend type Query {
     Devuelve una lista de todos los libros disponibles en el sistema.
     """
     books: [Book]!
+    book(id: ID!): Book
 }
 
 

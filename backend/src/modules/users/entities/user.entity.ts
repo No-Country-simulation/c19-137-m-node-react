@@ -1,5 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
-import { SubscriptionEntity } from '../../subscription/entities/subscription.entity';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class User {
@@ -37,7 +36,4 @@ export class User {
     default: false,
   })
   enabled: boolean;
-
-  @OneToMany(() => SubscriptionEntity, subscription => subscription.user)
-  subscriptions: SubscriptionEntity[];
 }

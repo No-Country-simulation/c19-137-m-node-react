@@ -1,114 +1,104 @@
-import { Accordion } from "@/components/ui/accordion";
-import Image from "next/image";
-import Link from "next/link";
+import React, { useState } from 'react';
 
-export default function Home() {
+const HomePage = () => {
+  const [showCreateAccount, setShowCreateAccount] = useState(false);
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div className="flex min-h-screen overflow-y-scroll bg-white relative">
+      {!showCreateAccount ? (
+        <>
+          {/* Sección del 50% - Imagen */}
+          <div className="relative w-1/2 flex items-center justify-center lg:block hidden">
+            <div
+              className="absolute w-[358.29px] h-[182px]"
+              style={{
+                left: '180px',
+                top: 'calc(50% - 182px / 2 - 0.5px)',
+                backgroundImage: 'url(https://s3-alpha-sig.figma.com/img/2efe/6572/e3e6600884d44873a6751036e1062436?Expires=1722816000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Es98cPAdZM~FvpdI25Op-~RvyJFk2srfp96pEbNJP593fdXrt~1nhhAC-YmcGPxWeVGi2O~~C3FepfD4Hwg5Y48slXqGA8ETdgmr~-osXd4Aj3ENaJhWwEdliS16Wlho8UyoRUkc6JAUwDooInBlLbNgcICINukBGTkdSjC98gEGQA4ggjBisDydYT~1O0MvvcWJCQo~0644F2kpA0AnufGmmaOAc7nwqsnaFq4Xam7nVOt-Kvb1EOV76Olwf~UsmxU-W3cUWGCbPL-nTWGkX6PTc96TTu5wX0F246x8CYv4CJ6TJy-8wZwX5mDb6NPgsKDCQ99X0f0bQRcGdA8Jwg__)',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+              }}
+            ></div>
+          </div>
+
+          {/* Sección del 50% - Contenido */}
+          <div className="w-full lg:w-1/2 flex flex-col items-start justify-center gap-20 p-8 lg:relative">
+            <div className="flex flex-col items-start gap-8 w-full lg:w-[559px] lg:h-[155px]">
+              <h1 className="text-4xl lg:text-[40px] font-bold text-[#3B82F6] leading-tight">
+                Comparte tus lecturas y descubre nuevas historias
+              </h1>
+              <h2 className="text-2xl lg:text-[30px] font-normal text-[#1F2937]">
+                Únete a nuestra comunidad
+              </h2>
+            </div>
+
+            <div className="flex flex-col items-start gap-16 w-full lg:w-[362px] lg:h-[437px]">
+              <div className="flex flex-col items-start gap-6 w-full lg:w-[362px] lg:h-[287px]">
+                <div className="flex flex-col items-start gap-6 w-full lg:w-[362px] lg:h-[172px]">
+                  <div className="flex flex-col items-start gap-4 w-full lg:w-[362px] lg:h-[126px]">
+                    <button className="flex flex-row items-center justify-center w-full lg:w-[362px] h-[56px] px-8 py-4 gap-2 bg-white border border-[#1F2937] rounded-full">
+                      <img src="/path-to-google-icon.png" alt="Google Icon" className="w-6 h-6" />
+                      <span className="text-lg font-semibold text-[#1F2937]">Registrarse con Google</span>
+                    </button>
+
+                    <button className="flex flex-row items-center justify-center w-full lg:w-[362px] h-[54px] px-8 py-4 gap-2 bg-white border border-[#1F2937] rounded-full">
+                      <img src="/path-to-apple-icon.png" alt="Apple Icon" className="w-6 h-5" />
+                      <span className="text-lg font-semibold text-[#1F2937]">Registrarse con Apple</span>
+                    </button>
+                  </div>
+
+                  <div className="flex flex-row items-center gap-3 w-full lg:w-[362px] lg:h-[22px]">
+                    <hr className="w-[168.5px] border border-[#D9D9D9]" />
+                    <span className="text-xl font-medium text-[#000000]">o</span>
+                    <hr className="w-[154px] border border-[#D9D9D9]" />
+                  </div>
+
+                  <button
+                    className="flex flex-row items-center justify-center w-full lg:w-[362px] h-[54px] px-8 py-4 bg-[#F97316] rounded-full"
+                    onClick={() => setShowCreateAccount(true)}
+                  >
+                    <span className="text-lg font-bold text-white">Crear cuenta</span>
+                  </button>
+
+                  <p className="text-xs text-[#000000]">
+                    Al registrarte, aceptas los Términos de servicio y la Política de privacidad, incluida la política de Uso de Cookies
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex flex-col items-start gap-2 w-full lg:w-[362px] lg:h-[86px]">
+                <span className="text-xl font-semibold text-[#1F2937]">
+                  ¿Ya tienes una cuenta?
+                </span>
+                <button className="flex flex-row items-center justify-center w-full lg:w-[362px] h-[54px] px-8 py-4 border border-[#F97316] rounded-full">
+                  <span className="text-lg font-bold text-[#F97316]">Iniciar sesión</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </>
+      ) : (
+        <div className="w-full flex flex-col items-center justify-center gap-20 p-8">
+          <h1 className="text-4xl font-bold text-[#3B82F6]">Crear una nueva cuenta</h1>
+          {/* Aquí puedes agregar el formulario de creación de cuenta */}
+          <form className="flex flex-col gap-4 w-full lg:w-[400px]">
+            <input type="text" placeholder="Nombre" className="px-4 py-2 border border-[#1F2937] rounded-md" />
+            <input type="email" placeholder="Correo electrónico" className="px-4 py-2 border border-[#1F2937] rounded-md" />
+            <input type="password" placeholder="Contraseña" className="px-4 py-2 border border-[#1F2937] rounded-md" />
+            <button type="submit" className="px-4 py-2 bg-[#F97316] text-white rounded-md">
+              Crear cuenta
+            </button>
+          </form>
+          <button
+            className="mt-4 px-4 py-2 bg-[#1F2937] text-white rounded-md"
+            onClick={() => setShowCreateAccount(false)}
           >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+            Volver
+          </button>
         </div>
-      </div>
-
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+      )}
+    </div>
   );
-}
+};
+
+export default HomePage;

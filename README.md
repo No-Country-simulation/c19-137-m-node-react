@@ -1,75 +1,133 @@
-# Social Media de Libros
+<h1 align="center">💻 Equipo c19-137-m-node-react
 
-## Descripción del Proyecto
+| No Country 🌎</h1>
 
-Nuestra plataforma es una red social dedicada a los amantes de la lectura. Aquí, los usuarios pueden descubrir nuevos libros, discutir sus lecturas favoritas, y conectarse con otros lectores y escritores. Nuestra misión es fomentar una comunidad vibrante donde la pasión por los libros y el conocimiento sea el centro de todas las interacciones.
+<h1 align='left'>PageHub</h1>
 
-## Resultados Clave de la Encuesta
+<div align="lef">
+  Nuestra plataforma es una red social dedicada a los amantes de la lectura. 
+  
+  Aquí, los usuarios pueden:
 
-### 1. Frecuencia de Visita a Sitios de Lectura
-- Varía desde "Poco" hasta "Casi siempre".
+- **Descubrir nuevos libros:** Encuentra recomendaciones personalizadas y explora una amplia variedad de géneros.
+- **Discutir sus lecturas favoritas:** Participa en foros y debates sobre libros y autores.
+- **Conectarse con otros lectores y escritores:** Forma parte de una comunidad vibrante donde la pasión por los libros y el conocimiento es el centro de todas las interacciones.
 
-### 2. Motivación para Leer
-- Adquirir conocimientos.
-- Mejorar la memoria.
-- Entretenimiento.
+</div>
 
-### 3. Escritores Favoritos
-- Varían, algunos mencionan escritores específicos como George R. R. Martin y Ágata Christie.
+<h2 align="left">🎯 Objetivo</h2>
 
-### 4. Géneros de Libros Preferidos
-- Novelas.
-- Ciencia ficción.
-- Género oriental.
+<p align="left">Fomentar una comunidad vibrante donde la pasión por los libros y el conocimiento sea el núcleo de todas las interacciones, promoviendo el intercambio de ideas y el amor por la lectura.
+</p>
 
-### 5. Uso de Redes Sociales de Lectura
-- Algunos mencionan que usan redes sociales o sitios de descarga de libros.
+<br>
 
-### 6. Funcionalidades Deseadas para Escritores
-- Reseñas mínimas.
-- Bots publicitarios.
-- Entrevistas.
-- Libertad de ingreso.
+<div align='left'>
+  <h2>✨Funcionalidades claves</h2>
+</div>
 
-### 7. Características Deseadas para Editoriales
-- Enfoque en la actualidad.
-- Difusión en redes sociales.
-- Mucha propaganda.
+1. **Espacio de Diálogo y Discusión:**
+   - Foro y discusión sobre libros con enfoque en diferentes puntos de vista.
+   - Posibilidad de destacar comentarios de usuarios premium.
+2. **Sistema de Reseñas:**
+   - Reseñas de usuarios, con opciones de seguir a otros usuarios y conectar vía DM.
+   - Sistema de puntuación para las reseñas (obtener puntos por reseña e interacción).
+3. **Recomendaciones Personalizadas:**
+   - Recomendaciones sugestivas basadas en preferencias del usuario.
+   - Algoritmo de recomendación personalizado.
+4. **Modelo de Negocios:**
+   - **Sistema de puntos para gamificación:**
+     - Obtener puntos por cada libro leído.
+     - Obtener puntos por cada reseña y por interacción.
+     - Comprar libros con puntos.
+   - **Membresías:**
+     - Membresía básica: reseñas limitadas.
+     - Membresía premium: reseñas ilimitadas y comentarios destacados.
+   - **Anuncios y publicidad:**
+     - Posibilidad de eliminar anuncios con una suscripción.
+     - Anuncios patrocinados por partners para dar visibilidad a libros.
+5. **Funciones Adicionales para Escritores y Editoriales:** - Herramientas promocionales como bots publicitarios, entrevistas y destacación de los más leídos. - Integración con redes sociales para difusión. - Libertad para que escritores y editoriales ingresen y promuevan sus libros.
+   <br>
 
-### 8. Formatos de Libros Preferidos
-- Físico.
-- PDF.
-- Audiolibros.
+<br>
+<br>
 
-## Idea Refinada para la Red Social de Libros
+<h2 align="center">✨ Equipo</h2>
 
-### Funcionalidades Clave
+<table align="center">
+  <tr>
+    <th>Nombre</th>
+    <th>Email</th>
+    <th>Rol</th>
+    <th>Portfolio</th>
+  </tr>
+  <tr>
+    <td>Makkarena Brown</td>
+    <td>makkarena.b@gmail.com</td>
+    <td>UX/UI</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Martina Cruz</td>
+    <td></td>
+    <td>UX/UI</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Yeimar Yecid Lemus Romaña</td>
+    <td>yeimar112003@gmail.com</td>
+    <td>Frontend</td>
+    <td>
+      <a href="https://www.linkedin.com/in/yeimar-lemus" target="_blank">LinkedIn</a> |
+      <a href="https://github.com/usyeimar" target="_blank">GitHub</a>
+    </td>
+  </tr>
+  <tr>
+    <td>Silvia Cordova</td>
+    <td></td>
+    <td>Frontend</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Andrea Bohorquez</td>
+    <td></td>
+    <td>Frontend</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Orlando Cardona Villegas</td>
+    <td></td>
+    <td>Frontend</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Osvaldo</td>
+    <td></td>
+    <td>Backend</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>Juan Figuera</td>
+    <td>juanantoniofiguera@gmail.com</td>
+    <td>Backend</td>
+    <td>
+      <a href="https://www.linkedin.com/in/juan-antonio-figuera" target="_blank">LinkedIn</a> |
+      <a href="https://github.com/JFiguera15" target="_blank">GitHub</a>
+    </td>
+  </tr>
+  <tr>
+    <td>Nadine Escobar</td>
+    <td></td>
+    <td>Backend</td>
+    <td></td>
+  </tr>
+</table>
 
-#### 1. Espacio de Diálogo y Discusión
-- Foro y discusión sobre libros con enfoque en diferentes puntos de vista.
-- Posibilidad de destacar comentarios de usuarios premium.
+<br>
 
-#### 2. Sistema de Reseñas
-- Reseñas de usuarios, con opciones de seguir a otros usuarios y conectar vía DM.
-- Sistema de puntuación para las reseñas (obtener puntos por reseña e interacción).
+<div align='center'>
+  <h2> 📷 Capturas de pantalla 🖥️ </h2>
+</div>
 
-#### 3. Recomendaciones Personalizadas
-- Recomendaciones sugestivas basadas en preferencias del usuario.
-- Algoritmo de recomendación personalizado.
-
-#### 4. Modelo de Negocios
-- Sistema de puntos para gamificación:
-  - Obtener puntos por cada libro leído.
-  - Obtener puntos por cada reseña y por interacción.
-  - Comprar libros con puntos.
-- Membresías:
-  - Membresía básica: reseñas limitadas.
-  - Membresía premium: reseñas ilimitadas y comentarios destacados.
-- Anuncios y publicidad:
-  - Posibilidad de eliminar anuncios con una suscripción.
-  - Anuncios patrocinados por partners para dar visibilidad a libros.
-
-#### 5. Funciones Adicionales para Escritores y Editoriales
-- Herramientas promocionales como bots publicitarios, entrevistas y destacación de los más leídos.
-- Integración con redes sociales para difusión.
-- Libertad para que escritores y editoriales ingresen y promuevan sus libros.
+<br>
+<br>

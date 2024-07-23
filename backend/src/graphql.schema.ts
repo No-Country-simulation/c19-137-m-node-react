@@ -17,11 +17,18 @@ export class ResetPasswordInput {
 export class CreateBookInput {
     name: string;
     author: string;
+    rating: number;
 }
 
 export class CreatePostInput {
     title: string;
     content: string;
+    userId: string;
+}
+
+export class AddFavoriteBookInput {
+    userId: string;
+    bookId: string;
 }
 
 export class CreateUserInput {
@@ -62,6 +69,8 @@ export abstract class IMutation {
     abstract createBook(data?: Nullable<CreateBookInput>): Nullable<CreateBookResponse> | Promise<Nullable<CreateBookResponse>>;
 
     abstract createPost(data?: Nullable<CreatePostInput>): Nullable<CreatePostResponse> | Promise<Nullable<CreatePostResponse>>;
+
+    abstract addFavoriteBook(data?: Nullable<AddFavoriteBookInput>): Nullable<AddFavoriteBookResponse> | Promise<Nullable<AddFavoriteBookResponse>>;
 }
 
 export abstract class IQuery {
@@ -69,13 +78,15 @@ export abstract class IQuery {
 
     abstract books(): Nullable<Book>[] | Promise<Nullable<Book>[]>;
 
+    abstract book(id: string): Nullable<Book> | Promise<Nullable<Book>>;
+
     abstract posts(): Nullable<Post>[] | Promise<Nullable<Post>[]>;
 
     abstract post(id: string): Nullable<Post> | Promise<Nullable<Post>>;
 
     abstract users(): Nullable<User>[] | Promise<Nullable<User>[]>;
 
-    abstract user(id: number): Nullable<User> | Promise<Nullable<User>>;
+    abstract user(id: string): Nullable<User> | Promise<Nullable<User>>;
 }
 
 export abstract class ISubscription {
@@ -110,6 +121,8 @@ export class Book {
     id: string;
     name?: Nullable<string>;
     author?: Nullable<string>;
+    rating?: Nullable<number>;
+    users?: Nullable<Nullable<User>[]>;
 }
 
 export class CreateBookResponse {
@@ -121,6 +134,7 @@ export class CreateBookResponse {
 
 export class Post {
     id: string;
+    user: User;
     title?: Nullable<string>;
     content?: Nullable<string>;
     created_at?: Nullable<Date>;
@@ -144,6 +158,14 @@ export class User {
     role?: Nullable<string>;
     enabled?: Nullable<boolean>;
     created_at?: Nullable<string>;
+    posts?: Nullable<Nullable<Post>[]>;
+    favorites?: Nullable<Nullable<Book>[]>;
+}
+
+export class AddFavoriteBookResponse {
+    code: number;
+    success: boolean;
+    message: string;
 }
 
 type Nullable<T> = T | null;

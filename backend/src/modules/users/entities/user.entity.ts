@@ -1,6 +1,7 @@
 import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Post } from 'src/modules/posts/entities/post.entity';
 import { Book } from 'src/modules/books/entities/book.entity';
+import { Review } from 'src/modules/reviews/entities/reviews.entity';
 
 @Entity()
 export class User {
@@ -13,6 +14,9 @@ export class User {
   @OneToMany(() => Post, (post) => post.user)
   posts: Post[];
 
+  @OneToMany(() => Review, (review) => review.user)
+  reviews: Review[];
+  
   @ManyToMany(() => Book, (book) => book.users)
   @JoinTable()
   favorites: Book[];

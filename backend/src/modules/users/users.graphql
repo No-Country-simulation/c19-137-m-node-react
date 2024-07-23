@@ -47,6 +47,12 @@ type User {
     Lista de libros favoritos del usuario
     """
     favorites: [Book]
+
+    """
+    Lista de libros favoritos del usuario
+    """
+    reviews: [Review]
+
 }
 
 extend type Mutation {

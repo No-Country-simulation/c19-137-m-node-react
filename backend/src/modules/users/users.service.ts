@@ -67,7 +67,8 @@ export class UsersService {
    * Buscar todos los usuarios
    */
   async findAll(): Promise<User[]> {
-    const users = await this.userRepository.find({ relations: ['posts', 'favorites'] });
+    const users = await this.userRepository.find({ relations: [
+      'posts', 'favorites', 'favorites.author', 'favorites.reviews', 'reviews', 'reviews.book'] });
 
     console.log("users", users);
     return users;
@@ -105,7 +106,8 @@ export class UsersService {
    * @returns el usuario
    */
   async findByEmail(email: string) {
-    return this.userRepository.findOne({ where: { email }, relations: ['posts', 'favorites'] });
+    return this.userRepository.findOne({ where: { email }, relations: [
+      'posts', 'favorites', 'favorites.author', 'favorites.reviews', 'reviews', 'reviews.book'] });
   }
   /**
    * Busca un usuario por ID
@@ -117,7 +119,7 @@ export class UsersService {
       const post = await this.userRepository.findOne(
         {
           where: { id: id },
-          relations: ['posts', 'favorites']
+          relations: ['posts', 'favorites', 'favorites.author', 'favorites.reviews', 'reviews', 'reviews.book']
         }
       );
       console.log("post", post)

@@ -14,10 +14,9 @@ import { ConfigModule } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ScheduleModule } from "@nestjs/schedule";
 import { Context } from "graphql-ws";
-import { MembershipModule } from "./modules/membership/membership.module";
-import { SubscriptionModule } from "./modules/subscription/subscription.module";
 import { PostsModule } from './modules/posts/posts.module';
 import { BooksModule } from "./modules/books/books.module";
+
 @Module({
   imports: [
     ScheduleModule.forRoot(),
@@ -123,8 +122,6 @@ import { BooksModule } from "./modules/books/books.module";
     UsersModule,
     AuthModule,
     MailModule,
-    MembershipModule,
-    SubscriptionModule
     PostsModule,
     BooksModule
   ]

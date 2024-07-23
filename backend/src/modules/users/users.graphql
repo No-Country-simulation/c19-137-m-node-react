@@ -39,6 +39,49 @@ type User {
     Fecha de creación del usuario en formato ISO 8601.
     """
     created_at: String
+    """
+    Lista de posts que ha hecho el usuario
+    """
+    posts: [Post]
+    """
+    Lista de libros favoritos del usuario
+    """
+    favorites: [Book]
+
+    """
+    Lista de libros favoritos del usuario
+    """
+    reviews: [Review]
+
+}
+
+extend type Mutation {
+    """
+    Mutación para añadir libro favorito
+    """
+    addFavoriteBook(data: AddFavoriteBookInput): AddFavoriteBookResponse
+}
+
+"""
+Entrada requerida para agregar un nuevo libro favorito
+"""
+input AddFavoriteBookInput {
+    userId: String!
+    bookId: String!
+}
+
+"""
+Respuesta de registro de post
+"""
+type AddFavoriteBookResponse {
+    "Similar al HTTP status code, representa el estado de la operación."
+    code: Int!
+
+    "Indica si la operación fue exitosa."
+    success: Boolean!
+
+    "Mensaje legible para Humanos, describe el resultado de la operación para la UI"
+    message: String!
 }
 
 """
@@ -119,7 +162,7 @@ extend type Query {
     """
     Obtiene los detalles de un usuario específico por su ID.
     """
-    user(id: Int!): User
+    user(id: ID!): User
 }
 
 extend type Subscription {

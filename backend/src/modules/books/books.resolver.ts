@@ -14,6 +14,10 @@ export class BooksResolver {
     findAll() {
         return this.booksService.findAll()
     }
+    @Query('book')
+    findById(@Args('id') id: string){
+        return this.booksService.findById(id)
+    }
     @Mutation('createBook')
     createBook(@Args('data') data: CreateBookInput) {
         return this.booksService.createBook(data)

@@ -1,5 +1,6 @@
 // src/modules/users/users.service.ts
 import {
+  BadRequestException,
   Injectable,
   InternalServerErrorException,
   Logger
@@ -12,6 +13,8 @@ import { UpdateUserInput } from "./dto/update-user.input";
 import * as bcrypt from "bcrypt";
 import { PasswordResetToken } from "./entities/password-reset-token.entity";
 import { PubSub } from "graphql-subscriptions";
+import { addFavoriteBookInput } from "./dto/add-favorite-book.input";
+import { Book } from "../books/entities/book.entity";
 
 const pubSub = new PubSub();
 
@@ -23,7 +26,9 @@ export class UsersService {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     @InjectRepository(PasswordResetToken)
-    private readonly passwordResetTokenRepository: Repository<PasswordResetToken>
+    private readonly passwordResetTokenRepository: Repository<PasswordResetToken>,
+    @InjectRepository(Book)
+    private readonly bookRepository: Repository<Book>
   ) {
   }
 
@@ -62,7 +67,8 @@ export class UsersService {
    * Buscar todos los usuarios
    */
   async findAll(): Promise<User[]> {
-    const users = await this.userRepository.find();
+    const users = await this.userRepository.find({ relations: [
+      'posts', 'favorites', 'favorites.author', 'favorites.reviews', 'reviews', 'reviews.book'] });
 
     console.log("users", users);
     return users;
@@ -94,9 +100,33 @@ export class UsersService {
   async remove(id: string): Promise<void> {
     await this.userRepository.delete(id);
   }
-
+  /**
+   * Busca un usuario por email
+   * @param email 
+   * @returns el usuario
+   */
   async findByEmail(email: string) {
-    return this.userRepository.findOne({ where: { email } });
+    return this.userRepository.findOne({ where: { email }, relations: [
+      'posts', 'favorites', 'favorites.author', 'favorites.reviews', 'reviews', 'reviews.book'] });
+  }
+  /**
+   * Busca un usuario por ID
+   * @param id 
+   * @returns el usuario
+   */
+  async findById(id: string): Promise<User> {
+    try {
+      const post = await this.userRepository.findOne(
+        {
+          where: { id: id },
+          relations: ['posts', 'favorites', 'favorites.author', 'favorites.reviews', 'reviews', 'reviews.book']
+        }
+      );
+      console.log("post", post)
+      return post
+    } catch (error) {
+      throw new BadRequestException(error.message)
+    }
   }
 
   /**
@@ -151,5 +181,31 @@ export class UsersService {
 
   async findByNickname(nickname: string) {
     return this.userRepository.findOne({ where: { nickname } });
+  }
+
+  async addFavoriteBook(data: addFavoriteBookInput) {
+    console.log(data)
+    const user = await this.userRepository.findOne(
+      {
+        where: { id: data.userId },
+        relations: ['favorites']
+      });
+    const book = await this.bookRepository.findOne({ where: { id: data.bookId } });
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    if (!book) {
+      throw new Error('Book not found');
+    }
+
+    user.favorites.push(book);
+    await this.userRepository.save(user);
+    return {
+      message: "Creado con exito",
+      code: 200,
+      success: true
+    };
   }
 }

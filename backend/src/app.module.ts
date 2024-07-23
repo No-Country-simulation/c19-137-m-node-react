@@ -18,6 +18,9 @@ import { MembershipModule } from "./modules/membership/membership.module";
 import { SubscriptionModule } from "./modules/subscription/subscription.module";
 import { PostsModule } from './modules/posts/posts.module';
 import { BooksModule } from "./modules/books/books.module";
+import { AuthorsModule } from './modules/authors/authors.module';
+import { ReviewsModule } from './modules/reviews/reviews.module';
+
 @Module({
   imports: [
     ScheduleModule.forRoot(),
@@ -126,7 +129,9 @@ import { BooksModule } from "./modules/books/books.module";
     MembershipModule,
     SubscriptionModule
     PostsModule,
-    BooksModule
+    BooksModule,
+    AuthorsModule,
+    ReviewsModule
   ]
 })
 export class AppModule {

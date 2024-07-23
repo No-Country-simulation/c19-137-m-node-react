@@ -4,9 +4,11 @@ Representa un libro en el sistema.
 type Book {
     id: ID!
     name: String
-    author: String
+    author: Author
     rating: Float
+    genre: String
     users: [User]
+    reviews: [Review]
 }
 
 """
@@ -38,12 +40,14 @@ input CreateBookInput {
     """
     Autor del libro.
     """
-    author: String!
+    authorId: String!
 
     """
     Puntuación del libro.
     """
     rating: Float!
+
+    genre: String!
 }
 
 

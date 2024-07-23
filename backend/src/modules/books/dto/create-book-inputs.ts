@@ -11,9 +11,13 @@ export class CreateBookInput {
 
     @Field()
     @IsNotEmpty({ message: 'El autor del libro es requerido' })
-    author: string;
+    authorId: string;
 
     @Field()
     @IsNotEmpty({message: "Debe tener rating"})
     rating: number;
+
+    @Field()
+    @IsNotEmpty({message: "Se necesita genero"})
+    genre: string;
 }

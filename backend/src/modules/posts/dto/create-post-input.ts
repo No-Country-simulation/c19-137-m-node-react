@@ -12,4 +12,8 @@ export class CreatePostInput {
     @Field()
     @IsNotEmpty({ message: 'El contenido  del post es requerido' })
     content: string;
+
+    @Field()
+    @IsNotEmpty({message: "Se necesita un autor"})
+    userId: string;
 }

@@ -7,6 +7,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Post } from "./entities/post.entity";
 import { CreatePostInput } from "./dto/create-post-input";
+import { User } from "../users/entities/user.entity";
 
 
 @Injectable()
@@ -17,6 +18,8 @@ export class PostsService {
     constructor(
         @InjectRepository(Post)
         private readonly postRepository: Repository<Post>,
+        @InjectRepository(User)
+        private readonly userRepository: Repository<User>
     ) {
     }
     /**
@@ -24,7 +27,7 @@ export class PostsService {
      */
     async findAll(): Promise<Post[]> {
         try {
-            const posts = await this.postRepository.find();
+            const posts = await this.postRepository.find({relations: ['user']});
             console.log("posts", posts);
             return posts;
         } catch (error) {
@@ -42,7 +45,8 @@ export class PostsService {
         try {
             const post = await this.postRepository.findOne(
                 {
-                    where: {id}
+                    where: {id},
+                    relations: ['user']
                 }
             );
             console.log("post", post)
@@ -59,7 +63,18 @@ export class PostsService {
     async createPost(data: CreatePostInput) {
         try {
             this.logger.log(`createPostInput: ${JSON.stringify(data)}`);
-            const post = await this.postRepository.create({ title: data.title, content: data.content, created_at: new Date() });
+            const user = await this.userRepository.findOne({
+                where: {id : data.userId}
+            })
+            console.log(user)
+            if (!user) {
+                throw new Error("Usuario no encontrado")
+            }
+            const post = await this.postRepository.create({ 
+                title: data.title, 
+                content: data.content, 
+                created_at: new Date(), 
+                user: user});
 
             const savedPost = await this.postRepository.save(post);
 

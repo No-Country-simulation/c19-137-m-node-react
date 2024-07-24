@@ -47,6 +47,17 @@ export class BooksService {
     }
   }
 
+  async findByGenre(genre: string): Promise<Book[]> {
+    try {
+      return await this.bookRepository.find({
+        where: { genre },
+        relations: ['users', 'author'],
+      });
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
   /**
    * Crea un nuevo libro en el sistema
    * @param data

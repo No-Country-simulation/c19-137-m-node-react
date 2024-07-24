@@ -1,31 +1,63 @@
-import NextAuth, {AuthOptions} from "next-auth";
-import {ApolloClient, InMemoryCache, gql} from '@apollo/client';
+import NextAuth, { AuthOptions } from "next-auth";
+import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
 import CredentialsProvider from "next-auth/providers/credentials";
+import { NextAuthOptions } from "next-auth"
 
 const client = new ApolloClient({
     uri: process.env.GRAPHQL_ENDPOINT,
     cache: new InMemoryCache(),
 });
 
+const secret = `${process.env.JWT_SECRET}`
 
-export const authOptions: AuthOptions = {
+const handler = NextAuth({
     providers: [
         CredentialsProvider({
-            id: "",
-            type: "credentials",
             name: "Credentials",
             credentials: {
-                email: {label: "Email", type: "email"},
-                password: {label: "Password", type: "password"},
+                email: { label: "email", type: "email", placeholder: "test@test.com" },
+                password: { label: "Password", type: "password" },
             },
             async authorize(credentials) {
-                console.log("credentials   ", credentials)
-            }
+                try {
+                    const { data } = await client.mutate({
+                        mutation: gql`
+              mutation Login($email: String!, $password: String!) {
+                login(email: $email, password: $password) {
+                  id
+                  name
+                  email
+                  token
+                }
+              }
+            `,
+                        variables: {
+                            email: credentials?.email,
+                            password: credentials?.password,
+                        },
+                    });
+
+                    const user = data.login;
+
+                    if (user) {
+                        console.log(user)
+                        return {
+                            id: user.id,
+                            name: user.name,
+                            email: user.email,
+                            token: user.token,
+                        };
+                    } else {
+                        return null;
+                    }
+                } catch (error) {
+                    console.error("Error in authorize:", error);
+                    return null;
+                }
+            },
         }),
     ],
-    secret: process.env.NEXTAUTH_SECRET,
-};
 
-const handler = NextAuth(authOptions);
+});
 
-export {handler as GET, handler as POST};
+export { handler as GET, handler as POST };

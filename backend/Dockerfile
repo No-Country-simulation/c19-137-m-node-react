@@ -48,6 +48,9 @@ FROM base AS production
 COPY --from=prod-deps /app/node_modules ./node_modules
 COPY --from=build /app/dist ./dist
 
+ENV NODE_ENV=production
+
+
 # Expose the port on which the app runs
 EXPOSE 3000
 

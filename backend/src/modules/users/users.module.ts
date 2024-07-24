@@ -7,7 +7,9 @@ import { UsersResolver } from './users.resolver';
 import { Book } from '../books/entities/book.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User, PasswordResetToken, Book])],
+  imports: [
+    TypeOrmModule.forFeature([UserEntity, PasswordResetTokenEntity, Book]),
+  ],
   providers: [UsersService, UsersResolver],
   exports: [UsersService],
 })

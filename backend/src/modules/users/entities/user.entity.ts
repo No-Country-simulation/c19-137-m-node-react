@@ -1,8 +1,14 @@
-import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Post } from 'src/modules/posts/entities/post.entity';
 import { Book } from 'src/modules/books/entities/book.entity';
 import { Review } from 'src/modules/reviews/entities/reviews.entity';
-import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { SubscriptionPlanEntity } from '../../subscription-plan/entities/subscription-plan.entity';
 
 @Entity()
@@ -18,7 +24,7 @@ export class UserEntity {
 
   @OneToMany(() => Review, (review) => review.user)
   reviews: Review[];
-  
+
   @ManyToMany(() => Book, (book) => book.users)
   @JoinTable()
   favorites: Book[];

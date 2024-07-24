@@ -1,10 +1,12 @@
-import { Resolver, Query, Subscription } from '@nestjs/graphql';
+
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
+
 import { UsersService } from './users.service';
 import { UserEntity } from './entities/user.entity';
 import { GqlAuthGuard } from '../auth/guards/gql-auth.guard';
 import { UseGuards } from '@nestjs/common';
-import { PubSub } from 'graphql-subscriptions';
-import { Cron, CronExpression } from '@nestjs/schedule';
+
+import { addFavoriteBookInput } from './dto/add-favorite-book.input';
 
 const pubSub = new PubSub();
 
@@ -19,34 +21,23 @@ export class UsersResolver {
     'Cree en ti mismo y en todo lo que eres.',
   ];
 
-  constructor(private readonly usersService: UsersService) {}
 
-  /**
-   * Consulta para obtener todos los usuarios
-   */
-  @Query(() => [UserEntity], { name: 'users' })
+  @Query('users')
   @UseGuards(GqlAuthGuard)
   findAll() {
     return this.usersService.findAll();
   }
 
-  /**
-   * Subscription para obtener la frase motivacional
-   */
-  @Subscription(() => String)
-  onMotivationalPhrase() {
-    return pubSub.asyncIterator('onMotivationalPhrase');
+
+  @Query('user')
+  findById(@Args('id') id: string){
+    return this.usersService.findById(id);
   }
 
-  /**
-   * Método que se ejecuta cada 5 segundos y envía una frase motivacional aleatoria a los subscriptores
-   */
-  @Cron(CronExpression.EVERY_5_SECONDS)
-  async onMotivationalPhraseTrigger() {
-    console.log(' 🚀 Enviando frase motivacional');
-    await pubSub.publish('onMotivationalPhrase', {
-      onMotivationalPhrase:
-        this.phrases[Math.floor(Math.random() * this.phrases.length)],
-    });
+  @Mutation(() => User)
+  async addFavoriteBook(
+    @Args('data') data: addFavoriteBookInput,
+  ) {
+    return this.usersService.addFavoriteBook(data);
   }
 }

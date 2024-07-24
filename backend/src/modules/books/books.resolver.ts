@@ -7,13 +7,19 @@ import { CreateBookInput } from './dto/create-book-inputs';
 
 @Resolver(() => Book)
 export class BooksResolver {
-  constructor(private readonly booksService: BooksService) {}
-  @Query('books')
-  findAll() {
-    return this.booksService.findAll();
-  }
-  @Mutation('createBook')
-  createBook(@Args('data') data: CreateBookInput) {
-    return this.booksService.createBook(data);
-  }
+    constructor(private readonly booksService: BooksService) {
+
+    }
+    @Query('books')
+    findAll() {
+        return this.booksService.findAll()
+    }
+    @Query('book')
+    findById(@Args('id') id: string){
+        return this.booksService.findById(id)
+    }
+    @Mutation('createBook')
+    createBook(@Args('data') data: CreateBookInput) {
+        return this.booksService.createBook(data)
+    }
 }

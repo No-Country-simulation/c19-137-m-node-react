@@ -9,7 +9,12 @@ export class CreatePostInput {
   @IsNotEmpty({ message: 'El titulo del post es requerido' })
   title: string;
 
-  @Field()
-  @IsNotEmpty({ message: 'El contenido  del post es requerido' })
-  content: string;
+
+    @Field()
+    @IsNotEmpty({ message: 'El contenido  del post es requerido' })
+    content: string;
+
+    @Field()
+    @IsNotEmpty({message: "Se necesita un autor"})
+    userId: string;
 }

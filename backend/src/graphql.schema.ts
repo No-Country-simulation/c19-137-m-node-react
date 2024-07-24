@@ -54,11 +54,6 @@ export class CreateReviewInput {
     bookId: string;
 }
 
-export class AddFavoriteBookInput {
-    userId: string;
-    bookId: string;
-}
-
 export class CreateSubscriptionPlanInput {
     user_id?: Nullable<string>;
     membership_id?: Nullable<string>;
@@ -72,6 +67,11 @@ export class UpdateSubscriptionPlanInput {
     membership_id?: Nullable<string>;
     start_date?: Nullable<string>;
     end_date?: Nullable<string>;
+}
+
+export class AddFavoriteBookInput {
+    userId: string;
+    bookId: string;
 }
 
 export class CreateUserInput {
@@ -121,11 +121,15 @@ export abstract class IMutation {
 
     abstract createPost(data?: Nullable<CreatePostInput>): Nullable<CreatePostResponse> | Promise<Nullable<CreatePostResponse>>;
 
-
     abstract createReview(data?: Nullable<CreateReviewInput>): Nullable<CreateReviewResponse> | Promise<Nullable<CreateReviewResponse>>;
 
-    abstract addFavoriteBook(data?: Nullable<AddFavoriteBookInput>): Nullable<AddFavoriteBookResponse> | Promise<Nullable<AddFavoriteBookResponse>>;
+    abstract createSubscriptionPlan(data?: Nullable<CreateSubscriptionPlanInput>): Nullable<SubscriptionPlan> | Promise<Nullable<SubscriptionPlan>>;
 
+    abstract updateSubscriptionPlan(data?: Nullable<UpdateSubscriptionPlanInput>): Nullable<SubscriptionPlan> | Promise<Nullable<SubscriptionPlan>>;
+
+    abstract removeSubscriptionPlan(id: string): Nullable<Response> | Promise<Nullable<Response>>;
+
+    abstract addFavoriteBook(data?: Nullable<AddFavoriteBookInput>): Nullable<AddFavoriteBookResponse> | Promise<Nullable<AddFavoriteBookResponse>>;
 }
 
 export abstract class IQuery {
@@ -139,16 +143,23 @@ export abstract class IQuery {
 
     abstract book(id: string): Nullable<Book> | Promise<Nullable<Book>>;
 
+    abstract memberships(): Nullable<Membership>[] | Promise<Nullable<Membership>[]>;
+
+    abstract membership(id: string): Nullable<Membership> | Promise<Nullable<Membership>>;
+
     abstract posts(): Nullable<Post>[] | Promise<Nullable<Post>[]>;
 
     abstract post(id: string): Nullable<Post> | Promise<Nullable<Post>>;
-
 
     abstract reviews(): Nullable<Review>[] | Promise<Nullable<Review>[]>;
 
     abstract review(id: string): Nullable<Review> | Promise<Nullable<Review>>;
 
-    abstract users(): Nullable<User>[] | Promise<Nullable<User>[]>;
+    abstract subscriptionPlans(): Nullable<SubscriptionPlan>[] | Promise<Nullable<SubscriptionPlan>[]>;
+
+    abstract subscriptionPlan(id: string): Nullable<SubscriptionPlan> | Promise<Nullable<SubscriptionPlan>>;
+
+    abstract users(): Nullable<User[]> | Promise<Nullable<User[]>>;
 
     abstract user(id: string): Nullable<User> | Promise<Nullable<User>>;
 }
@@ -253,7 +264,6 @@ export class CreatePostResponse {
     post?: Nullable<Post>;
 }
 
-
 export class Review {
     id: string;
     text?: Nullable<string>;
@@ -268,7 +278,14 @@ export class CreateReviewResponse {
     success: boolean;
     message: string;
     review?: Nullable<Review>;
+}
 
+export class SubscriptionPlan {
+    id: string;
+    user_id?: Nullable<string>;
+    membership_id?: Nullable<string>;
+    start_date?: Nullable<string>;
+    end_date?: Nullable<string>;
 }
 
 export class User {
@@ -291,7 +308,6 @@ export class AddFavoriteBookResponse {
     code: number;
     success: boolean;
     message: string;
-
 }
 
 type Nullable<T> = T | null;

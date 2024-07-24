@@ -1,6 +1,13 @@
-import { User } from 'src/modules/users/entities/user.entity';
+import { UserEntity } from 'src/modules/users/entities/user.entity';
 import { Author } from 'src/modules/authors/entities/authors.entity';
-import { Column, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Review } from 'src/modules/reviews/entities/reviews.entity';
 
 @Entity()
@@ -11,18 +18,18 @@ export class Book {
   @Column()
   name: string;
 
-    @ManyToOne(() => Author, (author) => author.books)
-    author: Author
+  @ManyToOne(() => Author, (author) => author.books)
+  author: Author;
 
-    @Column('decimal', {precision: 6, scale: 1})
-    rating: number
+  @Column('decimal', { precision: 6, scale: 1 })
+  rating: number;
 
-    @Column()
-    genre: string
+  @Column()
+  genre: string;
 
-    @ManyToMany(() => User, (user) => user.favorites)
-    users: User[]
+  @ManyToMany(() => UserEntity, (user) => user.favorites)
+  users: UserEntity[];
 
-    @OneToMany(() => Review, (review) => review.book )
-    reviews: Review[]
+  @OneToMany(() => Review, (review) => review.book)
+  reviews: Review[];
 }

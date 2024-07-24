@@ -8,7 +8,6 @@ import { UseGuards } from '@nestjs/common';
 import { addFavoriteBookInput } from './dto/add-favorite-book.input';
 import { PubSub } from 'graphql-subscriptions';
 
-const pubSub = new PubSub();
 
 @Resolver(() => UserEntity)
 export class UsersResolver {

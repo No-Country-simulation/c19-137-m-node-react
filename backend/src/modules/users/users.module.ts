@@ -4,11 +4,15 @@ import { UsersService } from './users.service';
 import { UserEntity } from './entities/user.entity';
 import { PasswordResetTokenEntity } from './entities/password-reset-token.entity';
 import { UsersResolver } from './users.resolver';
-import { Book } from '../books/entities/book.entity';
+import { BookEntity } from '../books/entities/book.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([UserEntity, PasswordResetTokenEntity, Book]),
+    TypeOrmModule.forFeature([
+      UserEntity,
+      PasswordResetTokenEntity,
+      BookEntity,
+    ]),
   ],
   providers: [UsersService, UsersResolver],
   exports: [UsersService],

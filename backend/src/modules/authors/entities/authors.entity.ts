@@ -1,18 +1,23 @@
-import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { Book } from 'src/modules/books/entities/book.entity';
+import {
+  Column,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { BookEntity } from 'src/modules/books/entities/book.entity';
 
 @Entity()
-export class Author {
-    @PrimaryGeneratedColumn('uuid')
-    id: string
-    @Column()
-    first_name: String
-    @Column()
-    last_name: String
-    @Column()
-    bio: String
-    @Column()
-    birth_date: Date
-    @OneToMany(() => Book, (book) => book.author)
-    books: Book[]
+export class AuthorEntity {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+  @Column()
+  first_name: string;
+  @Column()
+  last_name: string;
+  @Column()
+  bio: string;
+  @Column()
+  birth_date: Date;
+  @OneToMany(() => BookEntity, (book) => book.author)
+  books: BookEntity[];
 }

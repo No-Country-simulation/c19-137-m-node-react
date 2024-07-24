@@ -12,5 +12,4 @@ export class addFavoriteBookInput {
   @IsNotEmpty({ message: 'El libro es requerido' })
   @IsUUID()
   bookId: string;
-
 }

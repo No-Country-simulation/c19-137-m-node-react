@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Post } from './entities/post.entity';
+import { PostEntity } from './entities/post.entity';
 import { CreatePostInput } from './dto/create-post-input';
 import { UserEntity } from '../users/entities/user.entity';
 
@@ -10,8 +10,8 @@ export class PostsService {
   private readonly logger = new Logger(PostsService.name);
 
   constructor(
-    @InjectRepository(Post)
-    private readonly postRepository: Repository<Post>,
+    @InjectRepository(PostEntity)
+    private readonly postRepository: Repository<PostEntity>,
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
   ) {}
@@ -19,7 +19,7 @@ export class PostsService {
   /**
    * Consigue todos los posts
    */
-  async findAll(): Promise<Post[]> {
+  async findAll(): Promise<PostEntity[]> {
     try {
       const posts = await this.postRepository.find({ relations: ['user'] });
       console.log('posts', posts);
@@ -34,7 +34,7 @@ export class PostsService {
    * @param id
    * @returns el post
    */
-  async findById(id: string): Promise<Post> {
+  async findById(id: string): Promise<PostEntity> {
     try {
       const post = await this.postRepository.findOne({
         where: { id },

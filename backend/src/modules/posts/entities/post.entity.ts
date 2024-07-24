@@ -2,7 +2,7 @@ import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { UserEntity } from 'src/modules/users/entities/user.entity';
 
 @Entity()
-export class Post {
+export class PostEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 

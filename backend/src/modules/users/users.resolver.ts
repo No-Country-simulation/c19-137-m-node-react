@@ -12,7 +12,7 @@ const pubSub = new PubSub();
 
 @Resolver(() => UserEntity)
 export class UsersResolver {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService) { }
 
   //Lista de frases motivacionales que se van a enviar a los subscriptores
   private phrases: string[] = [
@@ -32,6 +32,21 @@ export class UsersResolver {
   @Query('user')
   findById(@Args('id') id: string) {
     return this.usersService.findById(id);
+  }
+
+  @Query('usersByNickname')
+  findByNickname(@Args('nickname') nickname: string) {
+    return this.usersService.findByNickname(nickname)
+  }
+
+  @Query('usersByName')
+  findByName(@Args('name') name: string) {
+    return this.usersService.findByName(name)
+  }
+
+  @Query('usersByRole')
+  findByRole(@Args('role') role: string) {
+    return this.usersService.findByRole(role)
   }
 
   @Mutation(() => UserEntity)

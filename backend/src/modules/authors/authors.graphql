@@ -13,6 +13,7 @@ type Author {
 extend type Query {
     authors: [Author]!
     author(id: ID!): Author!
+    authorByName(name: String): [Author!]!
 }
 
 extend type Mutation {

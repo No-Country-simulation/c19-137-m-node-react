@@ -52,4 +52,4 @@ COPY --from=build /app/dist ./dist
 EXPOSE 3000
 
 # Command to start the application
-CMD [ "pnpm", "start" ]
+CMD [ "pnpm", "start:prod" ]

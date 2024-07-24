@@ -138,9 +138,13 @@ export abstract class IQuery {
 
     abstract author(id: string): Author | Promise<Author>;
 
+    abstract authorByName(name?: Nullable<string>): Author[] | Promise<Author[]>;
+
     abstract books(): Nullable<Book>[] | Promise<Nullable<Book>[]>;
 
     abstract book(id: string): Nullable<Book> | Promise<Nullable<Book>>;
+
+    abstract bookByGenre(genre: string): Nullable<Nullable<Book>[]> | Promise<Nullable<Nullable<Book>[]>>;
 
     abstract memberships(): Nullable<Membership>[] | Promise<Nullable<Membership>[]>;
 
@@ -161,6 +165,12 @@ export abstract class IQuery {
     abstract users(): Nullable<User[]> | Promise<Nullable<User[]>>;
 
     abstract user(id: string): Nullable<User> | Promise<Nullable<User>>;
+
+    abstract usersByNickname(nickname: string): Nullable<Nullable<User>[]> | Promise<Nullable<Nullable<User>[]>>;
+
+    abstract usersByName(name: string): Nullable<Nullable<User>[]> | Promise<Nullable<Nullable<User>[]>>;
+
+    abstract usersByRole(role: string): Nullable<Nullable<User>[]> | Promise<Nullable<Nullable<User>[]>>;
 }
 
 export abstract class ISubscription {

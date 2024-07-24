@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="fa49702b-44f2-4ade-adc7-41bb247c2104" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/app/providers.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/app.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/graphql/dto/response.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/graphql/dto/response.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/main.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/modules/auth/auth.enum.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/modules/auth/auth.enum.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/modules/auth/auth.resolver.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/modules/auth/auth.resolver.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/modules/auth/auth.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/modules/auth/auth.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/modules/auth/decorators/current-user.decorator.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/modules/auth/decorators/current-user.decorator.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/modules/auth/dto/sign-in-response.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/modules/auth/dto/sign-in-response.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/modules/auth/dto/signup-input.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/modules/auth/dto/signup-input.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/modules/auth/guards/gql-auth.guard.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/modules/auth/guards/gql-auth.guard.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/modules/auth/guards/roles.guard.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/modules/auth/guards/roles.guard.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/modules/authors/authors.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/modules/authors/authors.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/modules/authors/authors.resolver.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/modules/authors/authors.resolver.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/modules/authors/authors.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/modules/authors/authors.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/modules/authors/dto/create-author-input.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/modules/authors/dto/create-author-input.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/modules/authors/entities/authors.entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/modules/authors/entities/authors.entity.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/modules/books/books.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/modules/books/books.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/modules/books/books.resolver.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/modules/books/books.resolver.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/modules/books/books.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/modules/books/books.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/modules/books/dto/create-book-inputs.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/modules/books/dto/create-book-inputs.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/modules/books/entities/book.entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/modules/books/entities/book.entity.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/modules/mail/mail.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/modules/mail/mail.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/modules/membership/dto/create-membership.input.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/modules/membership/dto/create-membership.input.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/modules/membership/entities/membership.entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/modules/membership/entities/membership.entity.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/modules/membership/membership.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/modules/membership/membership.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/modules/membership/membership.resolver.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/modules/membership/membership.resolver.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/modules/membership/membership.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/modules/membership/membership.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/modules/posts/dto/create-post-input.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/modules/posts/dto/create-post-input.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/modules/posts/entities/post.entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/modules/posts/entities/post.entity.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/modules/posts/posts.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/modules/posts/posts.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/modules/posts/posts.resolver.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/modules/posts/posts.resolver.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/modules/posts/posts.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/modules/posts/posts.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/modules/reviews/dto/create-review-input.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/modules/reviews/dto/create-review-input.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/modules/reviews/entities/reviews.entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/modules/reviews/entities/reviews.entity.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/modules/reviews/reviews.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/modules/reviews/reviews.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/modules/reviews/reviews.resolver.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/modules/reviews/reviews.resolver.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/modules/reviews/reviews.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/modules/reviews/reviews.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/modules/subscription-plan/dto/create-subscription-plan.input.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/modules/subscription-plan/dto/create-subscription-plan.input.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/modules/subscription-plan/dto/update-subscription-plan.input.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/modules/subscription-plan/dto/update-subscription-plan.input.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/modules/subscription-plan/entities/subscription-plan.entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/modules/subscription-plan/entities/subscription-plan.entity.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/modules/subscription-plan/subscription-plan.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/modules/subscription-plan/subscription-plan.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/modules/subscription-plan/subscription-plan.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/modules/subscription-plan/subscription-plan.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/modules/users/dto/add-favorite-book.input.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/modules/users/dto/add-favorite-book.input.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/modules/users/dto/create-user.input.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/modules/users/dto/create-user.input.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/modules/users/entities/password-reset-token.entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/modules/users/entities/password-reset-token.entity.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/modules/users/entities/user.entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/modules/users/entities/user.entity.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/modules/users/users.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/modules/users/users.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/modules/users/users.resolver.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/modules/users/users.resolver.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/modules/users/users.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/modules/users/users.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pnpm-lock.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/api/auth/[...nextauth]/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/api/auth/[...nextauth]/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/sign-in/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/sign-in/page.tsx" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="TypeScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 8
+}]]></component>
+  <component name="ProjectId" id="2jgvh6U6UtOIpFKr8Pms2pKnB1E" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "ts.external.directory.path": "C:\\Users\\Yeima\\Js\\c19-137-m-node-react\\frontend\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-WS-241.18034.50" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="fa49702b-44f2-4ade-adc7-41bb247c2104" name="Changes" comment="" />
+      <created>1721821689158</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1721821689158</updated>
+      <workItem from="1721821689159" duration="1927000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

@@ -2,8 +2,8 @@ import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserEntity } from '../users/entities/user.entity';
-import { Review } from './entities/reviews.entity';
-import { Book } from '../books/entities/book.entity';
+import { ReviewEntity } from './entities/reviews.entity';
+import { BookEntity } from '../books/entities/book.entity';
 import { CreateReviewInput } from './dto/create-review-input';
 
 @Injectable()
@@ -11,18 +11,18 @@ export class ReviewsService {
   private readonly logger = new Logger(ReviewsService.name);
 
   constructor(
-    @InjectRepository(Review)
-    private readonly reviewRepository: Repository<Review>,
+    @InjectRepository(ReviewEntity)
+    private readonly reviewRepository: Repository<ReviewEntity>,
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
-    @InjectRepository(Book)
-    private readonly bookRepository: Repository<Book>,
+    @InjectRepository(BookEntity)
+    private readonly bookRepository: Repository<BookEntity>,
   ) {}
 
   /**
    * Consigue todos los posts
    */
-  async findAll(): Promise<Review[]> {
+  async findAll(): Promise<ReviewEntity[]> {
     try {
       const reviews = await this.reviewRepository.find({
         relations: ['user', 'book'],
@@ -39,7 +39,7 @@ export class ReviewsService {
    * @param id
    * @returns el post
    */
-  async findById(id: string): Promise<Review> {
+  async findById(id: string): Promise<ReviewEntity> {
     try {
       const review = await this.reviewRepository.findOne({
         where: { id },

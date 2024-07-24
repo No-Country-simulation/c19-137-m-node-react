@@ -15,8 +15,6 @@ export class PostEntity {
   @ManyToOne(() => UserEntity, (user) => user.posts)
   user: UserEntity;
 
-
-
   @Column()
   created_at: Date;
 }

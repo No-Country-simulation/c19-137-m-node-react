@@ -1,25 +1,25 @@
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Book } from './entities/book.entity';
+import { BookEntity } from './entities/book.entity';
 import { CreateBookInput } from './dto/create-book-inputs';
-import { Author } from '../authors/entities/authors.entity';
+import { AuthorEntity } from '../authors/entities/authors.entity';
 
 @Injectable()
 export class BooksService {
   private readonly logger = new Logger(BooksService.name);
 
   constructor(
-    @InjectRepository(Book)
-    private readonly bookRepository: Repository<Book>,
-    @InjectRepository(Author)
-    private readonly authorRepository: Repository<Author>,
+    @InjectRepository(BookEntity)
+    private readonly bookRepository: Repository<BookEntity>,
+    @InjectRepository(AuthorEntity)
+    private readonly authorRepository: Repository<AuthorEntity>,
   ) {}
 
   /**
    * Consigue todos los libros
    */
-  async findAll(): Promise<Book[]> {
+  async findAll(): Promise<BookEntity[]> {
     try {
       const books = await this.bookRepository.find({
         relations: ['users', 'author'],
@@ -36,7 +36,7 @@ export class BooksService {
    * @param id
    * @returns el libro
    */
-  async findById(id: string): Promise<Book> {
+  async findById(id: string): Promise<BookEntity> {
     try {
       return await this.bookRepository.findOne({
         where: { id },

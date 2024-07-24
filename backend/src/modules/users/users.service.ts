@@ -14,7 +14,7 @@ import * as bcrypt from 'bcrypt';
 import { PasswordResetTokenEntity } from './entities/password-reset-token.entity';
 import { PubSub } from 'graphql-subscriptions';
 import { addFavoriteBookInput } from './dto/add-favorite-book.input';
-import { Book } from '../books/entities/book.entity';
+import { BookEntity } from '../books/entities/book.entity';
 
 const pubSub = new PubSub();
 
@@ -27,8 +27,8 @@ export class UsersService {
     private readonly userRepository: Repository<UserEntity>,
     @InjectRepository(PasswordResetTokenEntity)
     private readonly passwordResetTokenRepository: Repository<PasswordResetTokenEntity>,
-    @InjectRepository(Book)
-    private readonly bookRepository: Repository<Book>,
+    @InjectRepository(BookEntity)
+    private readonly bookRepository: Repository<BookEntity>,
   ) {}
 
   /**

@@ -8,7 +8,11 @@ import { MembershipEntity } from '../membership/entities/membership.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([SubscriptionPlanEntity, UserEntity, MembershipEntity]),
+    TypeOrmModule.forFeature([
+      SubscriptionPlanEntity,
+      UserEntity,
+      MembershipEntity,
+    ]),
   ],
   providers: [SubscriptionPlanResolver, SubscriptionPlanService],
 })

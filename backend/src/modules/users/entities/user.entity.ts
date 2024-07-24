@@ -7,8 +7,8 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { PostEntity } from 'src/modules/posts/entities/post.entity';
-import { Book } from 'src/modules/books/entities/book.entity';
-import { Review } from 'src/modules/reviews/entities/reviews.entity';
+import { BookEntity } from 'src/modules/books/entities/book.entity';
+import { ReviewEntity } from 'src/modules/reviews/entities/reviews.entity';
 import { SubscriptionPlanEntity } from '../../subscription-plan/entities/subscription-plan.entity';
 
 @Entity()
@@ -22,12 +22,12 @@ export class UserEntity {
   @OneToMany(() => PostEntity, (post) => post.user)
   posts: PostEntity[];
 
-  @OneToMany(() => Review, (review) => review.user)
-  reviews: Review[];
+  @OneToMany(() => ReviewEntity, (review) => review.user)
+  reviews: ReviewEntity[];
 
-  @ManyToMany(() => Book, (book) => book.users)
+  @ManyToMany(() => BookEntity, (book) => book.users)
   @JoinTable()
-  favorites: Book[];
+  favorites: BookEntity[];
 
   @Column()
   first_name: string;

@@ -1,5 +1,5 @@
 import { UserEntity } from 'src/modules/users/entities/user.entity';
-import { Author } from 'src/modules/authors/entities/authors.entity';
+import { AuthorEntity } from 'src/modules/authors/entities/authors.entity';
 import {
   Column,
   Entity,
@@ -8,18 +8,18 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Review } from 'src/modules/reviews/entities/reviews.entity';
+import { ReviewEntity } from 'src/modules/reviews/entities/reviews.entity';
 
 @Entity()
-export class Book {
+export class BookEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
   name: string;
 
-  @ManyToOne(() => Author, (author) => author.books)
-  author: Author;
+  @ManyToOne(() => AuthorEntity, (author) => author.books)
+  author: AuthorEntity;
 
   @Column('decimal', { precision: 6, scale: 1 })
   rating: number;
@@ -30,6 +30,6 @@ export class Book {
   @ManyToMany(() => UserEntity, (user) => user.favorites)
   users: UserEntity[];
 
-  @OneToMany(() => Review, (review) => review.book)
-  reviews: Review[];
+  @OneToMany(() => ReviewEntity, (review) => review.book)
+  reviews: ReviewEntity[];
 }

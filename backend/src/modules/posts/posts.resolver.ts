@@ -4,6 +4,8 @@ import { PostEntity } from './entities/post.entity';
 import { GqlAuthGuard } from 'src/modules/auth/guards/gql-auth.guard';
 import { UseGuards } from '@nestjs/common';
 import { CreatePostInput } from './dto/create-post-input';
+import { CurrentUser } from '../auth/decorators/current-user.decorator';
+import { UserEntity } from '../users/entities/user.entity';
 
 @Resolver(() => PostEntity)
 export class PostsResolver {
@@ -21,7 +23,10 @@ export class PostsResolver {
 
   @Mutation('createPost')
   @UseGuards(GqlAuthGuard)
-  createPost(@Args('data') data: CreatePostInput) {
-    return this.postsService.createPost(data);
+  createPost(
+    @Args('data') data: CreatePostInput,
+    @CurrentUser() user: UserEntity,
+  ) {
+    return this.postsService.createPost(data, user);
   }
 }

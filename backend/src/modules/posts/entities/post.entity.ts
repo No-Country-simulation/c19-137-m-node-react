@@ -9,11 +9,13 @@ export class PostEntity {
   @Column()
   title: string;
 
+  @Column()
+  content: string;
+
   @ManyToOne(() => UserEntity, (user) => user.posts)
   user: UserEntity;
 
-  @Column()
-  content: string;
+
 
   @Column()
   created_at: Date;

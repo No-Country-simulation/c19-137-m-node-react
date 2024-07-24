@@ -44,7 +44,6 @@ export class UpdateMembershipInput {
 export class CreatePostInput {
     title: string;
     content: string;
-    userId: string;
 }
 
 export class CreateReviewInput {

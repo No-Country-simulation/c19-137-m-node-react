@@ -50,18 +50,12 @@ export class PostsService {
   /**
    * Crea un nuevo post
    * @param data
+   * @param user
    * @returns información sobre el request
    */
-  async createPost(data: CreatePostInput) {
+  async createPost(data: CreatePostInput, user: UserEntity) {
     try {
       this.logger.log(`createPostInput: ${JSON.stringify(data)}`);
-      const user = await this.userRepository.findOne({
-        where: { id: data.userId },
-      });
-      console.log(user);
-      if (!user) {
-        throw new Error('Usuario no encontrado');
-      }
       const post = this.postRepository.create({
         title: data.title,
         content: data.content,

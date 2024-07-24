@@ -1,3 +1,6 @@
+"""
+Representa un autor de libros.
+"""
 type Author {
     id: ID!
     first_name: String!
@@ -41,6 +44,10 @@ input CreateAuthorInput {
     Nombre del libro.
     """
     first_name: String!
+
+    """
+    Apellido del libro.
+    """
     last_name: String!
 
     """

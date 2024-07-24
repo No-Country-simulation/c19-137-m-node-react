@@ -18,6 +18,11 @@ export class AuthorsResolver {
     findById(@Args('id') id: string){
         return this.authorsService.findById(id)
     }
+
+    @Query('authorByName')
+    findByName(@Args('name') name: string){
+        return this.authorsService.findByName(name)
+    }
     @Mutation('createAuthor')
     createBook(@Args('data') data: CreateAuthorInput) {
         return this.authorsService.createAuthor(data)

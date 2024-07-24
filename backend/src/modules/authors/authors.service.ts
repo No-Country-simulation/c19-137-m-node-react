@@ -4,7 +4,7 @@ import {
     Logger
 } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { ILike, Repository } from "typeorm";
 import { Author } from "./entities/authors.entity";
 import { CreateAuthorInput } from "./dto/create-author-input";
 
@@ -47,6 +47,29 @@ export class AuthorsService {
             throw new BadRequestException(error.message)
         }
     }
+
+    /**
+     * Consigue autor segun el Nombre
+     * @param name
+     * @returns el autor
+     */
+    async findByName(name: string): Promise<Author[]> {
+        try {
+            const book = await this.authorRepository.find(
+                {
+                    where: [
+                        { first_name: ILike(`%${name}%`) },
+                        { last_name: ILike(`%${name}%`) }   
+                    ],
+                    relations: ['books']
+                }
+            );
+            return book
+        } catch (error) {
+            throw new BadRequestException(error.message)
+        }
+    }
+
 
     /**
      * Crea un nuevo libro en el sistema

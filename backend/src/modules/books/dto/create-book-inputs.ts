@@ -5,11 +5,11 @@ import { Field } from '@nestjs/graphql';
  * @docs https://docs.nestjs.com/techniques/validation
  */
 export class CreateBookInput {
-    @Field()
-    @IsNotEmpty({ message: 'El nombre del libro es requerido' })
-    name: string;
+  @Field()
+  @IsNotEmpty({ message: 'El nombre del libro es requerido' })
+  name: string;
 
-    @Field()
-    @IsNotEmpty({ message: 'El autor del libro es requerido' })
-    author: string;
+  @Field()
+  @IsNotEmpty({ message: 'El autor del libro es requerido' })
+  author: string;
 }

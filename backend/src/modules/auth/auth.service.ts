@@ -2,27 +2,26 @@ import {
   BadRequestException,
   Injectable,
   NotFoundException,
-  UnauthorizedException
-} from "@nestjs/common";
-import { JwtService } from "@nestjs/jwt";
-import { UsersService } from "../users/users.service";
-import { ResetPasswordInput } from "./dto/reset-password-input";
-import * as bcrypt from "bcrypt";
-import { jwtSecret, jwtExpirationTime } from "./constants";
+  UnauthorizedException,
+} from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import { UsersService } from '../users/users.service';
+import { ResetPasswordInput } from './dto/reset-password-input';
+import * as bcrypt from 'bcrypt';
+import { jwtSecret, jwtExpirationTime } from './constants';
 
-import { User } from "../users/entities/user.entity";
-import { MailService } from "../mail/mail.service";
-import { format } from "date-fns";
-import { SignUpInput } from "./dto/signup-input";
+import { UserEntity } from '../users/entities/user.entity';
+import { MailService } from '../mail/mail.service';
+import { format } from 'date-fns';
+import { SignUpInput } from './dto/signup-input';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
-    private readonly mailService: MailService
-  ) {
-  }
+    private readonly mailService: MailService,
+  ) {}
 
   /**
    * Iniciar sesión
@@ -40,7 +39,7 @@ export class AuthService {
     if (!user) {
       //Si no se encuentra el usuario lanzamos una excepción
       throw new NotFoundException(
-        "No se ha encontrado un usuario con el correo electrónico proporcionado"
+        'No se ha encontrado un usuario con el correo electrónico proporcionado',
       );
     }
 
@@ -49,7 +48,7 @@ export class AuthService {
 
     if (!passworsIsValid) {
       throw new UnauthorizedException(
-        "La contraseña es incorrecta, verifique e intente nuevamente"
+        'La contraseña es incorrecta, verifique e intente nuevamente',
       );
     }
     //Generar token
@@ -58,15 +57,15 @@ export class AuthService {
     //Fecha Hora| Minutos| Segundos
     const expireAt = format(
       new Date(Date.now() + jwtExpirationTime * 1000),
-      "yyyy-MM-dd HH:mm:ss"
+      'yyyy-MM-dd HH:mm:ss',
     );
     //Retornar la respuesta
     return {
       code: 200,
-      message: "Inicio de sesión exitoso",
+      message: 'Inicio de sesión exitoso',
       success: true,
       token: token,
-      expire_at: expireAt
+      expire_at: expireAt,
     };
   }
 
@@ -95,9 +94,9 @@ export class AuthService {
 
       return {
         code: 200,
-        message: "Registro exitoso",
+        message: 'Registro exitoso',
         success: true,
-        token
+        token,
       };
     } catch (error) {
       throw new BadRequestException(error.message);
@@ -114,7 +113,7 @@ export class AuthService {
 
     if (!user) {
       throw new NotFoundException(
-        "No se ha encontrado un usuario con el correo electrónico proporcionado"
+        'No se ha encontrado un usuario con el correo electrónico proporcionado',
       );
     }
 
@@ -136,7 +135,7 @@ export class AuthService {
     await this.usersService.createPasswordResetToken(
       user,
       token,
-      expirationDate
+      expirationDate,
     );
 
     //Logica para enviar el correo electrónico
@@ -145,14 +144,14 @@ export class AuthService {
       await this.mailService.sendUserPasswordReset(user, token);
     } catch (error) {
       throw new Error(
-        "Ha ocurrido un error al enviar el correo electrónico, intente nuevamente"
+        'Ha ocurrido un error al enviar el correo electrónico, intente nuevamente',
       );
     }
     return {
       code: 200,
       message:
-        "Se ha enviado un correo electrónico para restablecer la contraseña",
-      success: true
+        'Se ha enviado un correo electrónico para restablecer la contraseña',
+      success: true,
     };
   }
 
@@ -170,7 +169,7 @@ export class AuthService {
 
     if (!passwordResetToken) {
       throw new NotFoundException(
-        "El token no es válido, por favor solicite uno nuevo"
+        'El token no es válido, por favor solicite uno nuevo',
       );
     }
 
@@ -181,24 +180,24 @@ export class AuthService {
       return {
         code: 404,
         message:
-          "No se ha encontrado un usuario con el correo electrónico proporcionado",
-        success: false
+          'No se ha encontrado un usuario con el correo electrónico proporcionado',
+        success: false,
       };
     }
 
     //actualizar la contraseña
     await this.usersService.update({
       id: user.id,
-      password: await bcrypt.hash(newPassword, 10)
+      password: await bcrypt.hash(newPassword, 10),
     });
 
     //Eliminar el token de la base de datos
     await this.usersService.deleteToken(passwordResetToken.id);
     return {
       code: 200,
-      message: "Contraseña restablecida con éxito",
+      message: 'Contraseña restablecida con éxito',
       success: true,
-      user
+      user,
     };
   }
 
@@ -206,8 +205,8 @@ export class AuthService {
    * Obtener usuario actual
    * @param req
    */
-  async me(req: { headers: { authorization: string } }): Promise<User> {
-    const token = req.headers.authorization.split(" ")[1];
+  async me(req: { headers: { authorization: string } }): Promise<UserEntity> {
+    const token = req.headers.authorization.split(' ')[1];
     const decoded = this.jwtService.verify(token);
     return this.usersService.findByEmail(decoded.email);
   }
@@ -222,47 +221,47 @@ export class AuthService {
   verifyToken(token: string, clockTolerance = 60) {
     const decoded = this.jwtService.verify(token, {
       secret: jwtSecret,
-      clockTolerance: clockTolerance
+      clockTolerance: clockTolerance,
     });
 
     const user = this.usersService.findByEmail(decoded.email);
 
     if (!user) {
       throw new BadRequestException(
-        "No se ha encontrado un usuario con las credenciales proporcionadas"
+        'No se ha encontrado un usuario con las credenciales proporcionadas',
       );
     }
     return user;
   }
 
-  private generateToken(user: User): string {
+  private generateToken(user: UserEntity): string {
     return this.jwtService.sign(
       {
         email: user.email,
         first_name: user.first_name,
         last_name: user.last_name,
         role: user.role,
-        sub: user.id
+        sub: user.id,
       },
-      { secret: jwtSecret, expiresIn: jwtExpirationTime }
+      { secret: jwtSecret, expiresIn: jwtExpirationTime },
     );
   }
 
   private async checkUserExists(
     email: string,
-    nickname: string
+    nickname: string,
   ): Promise<void> {
     const userByEmail = await this.usersService.findByEmail(email);
     if (userByEmail) {
       throw new BadRequestException(
-        "Ya existe un usuario con el correo electrónico proporcionado"
+        'Ya existe un usuario con el correo electrónico proporcionado',
       );
     }
 
     const userByNickname = await this.usersService.findByNickname(nickname);
     if (userByNickname) {
       throw new BadRequestException(
-        "Ya existe un usuario con el nickname proporcionado"
+        'Ya existe un usuario con el nickname proporcionado',
       );
     }
   }

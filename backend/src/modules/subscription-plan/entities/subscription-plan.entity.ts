@@ -1,9 +1,9 @@
 import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { MembershipEntity } from '../../membership/entities/membership.entity';
-import { User } from '../../users/entities/user.entity';
+import { UserEntity } from '../../users/entities/user.entity';
 
 @Entity()
-export class SubscriptionEntity {
+export class SubscriptionPlanEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -13,11 +13,11 @@ export class SubscriptionEntity {
   @Column()
   membershipId: string;
 
-  @ManyToOne(() => MembershipEntity, membership => membership.subscriptions)
+  @ManyToOne(() => MembershipEntity, (membership) => membership.subscriptions)
   membership: MembershipEntity;
 
-  @ManyToOne(() => User, User => User.subscriptions)
-  user: User;
+  @ManyToOne(() => UserEntity, (User) => User.subscriptions)
+  user: UserEntity;
 
   @Column()
   startDate: Date;

@@ -7,8 +7,7 @@ import { CreatePostInput } from './dto/create-post-input';
 
 @Resolver(() => Post)
 export class PostsResolver {
-  constructor(private readonly postsService: PostsService) {
-  }
+  constructor(private readonly postsService: PostsService) {}
   @Query('posts')
   findAll() {
     return this.postsService.findAll();
@@ -22,8 +21,6 @@ export class PostsResolver {
   @Mutation('createPost')
   //@UseGuards(GqlAuthGuard)
   createPost(@Args('data') data: CreatePostInput) {
-    return this.postsService.createPost(data)
+    return this.postsService.createPost(data);
   }
-
-
 }

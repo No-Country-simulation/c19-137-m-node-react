@@ -19,9 +19,37 @@ export class CreateBookInput {
     author: string;
 }
 
+export class CreateMembershipInput {
+    name?: Nullable<string>;
+    cost?: Nullable<number>;
+    duration?: Nullable<number>;
+}
+
+export class UpdateMembershipInput {
+    id: string;
+    name?: Nullable<string>;
+    cost?: Nullable<number>;
+    duration?: Nullable<number>;
+}
+
 export class CreatePostInput {
     title: string;
     content: string;
+}
+
+export class CreateSubscriptionPlanInput {
+    user_id?: Nullable<string>;
+    membership_id?: Nullable<string>;
+    start_date?: Nullable<string>;
+    end_date?: Nullable<string>;
+}
+
+export class UpdateSubscriptionPlanInput {
+    id: string;
+    user_id?: Nullable<string>;
+    membership_id?: Nullable<string>;
+    start_date?: Nullable<string>;
+    end_date?: Nullable<string>;
 }
 
 export class CreateUserInput {
@@ -61,7 +89,19 @@ export abstract class IMutation {
 
     abstract createBook(data?: Nullable<CreateBookInput>): Nullable<CreateBookResponse> | Promise<Nullable<CreateBookResponse>>;
 
+    abstract createMembership(data?: Nullable<CreateMembershipInput>): Nullable<Membership> | Promise<Nullable<Membership>>;
+
+    abstract updateMembership(data?: Nullable<UpdateMembershipInput>): Nullable<Membership> | Promise<Nullable<Membership>>;
+
+    abstract deleteMembership(id: string): Nullable<boolean> | Promise<Nullable<boolean>>;
+
     abstract createPost(data?: Nullable<CreatePostInput>): Nullable<CreatePostResponse> | Promise<Nullable<CreatePostResponse>>;
+
+    abstract createSubscriptionPlan(data?: Nullable<CreateSubscriptionPlanInput>): Nullable<SubscriptionPlan> | Promise<Nullable<SubscriptionPlan>>;
+
+    abstract updateSubscriptionPlan(data?: Nullable<UpdateSubscriptionPlanInput>): Nullable<SubscriptionPlan> | Promise<Nullable<SubscriptionPlan>>;
+
+    abstract removeSubscriptionPlan(id: string): Nullable<Response> | Promise<Nullable<Response>>;
 }
 
 export abstract class IQuery {
@@ -69,9 +109,17 @@ export abstract class IQuery {
 
     abstract books(): Nullable<Book>[] | Promise<Nullable<Book>[]>;
 
+    abstract memberships(): Nullable<Membership>[] | Promise<Nullable<Membership>[]>;
+
+    abstract membership(id: string): Nullable<Membership> | Promise<Nullable<Membership>>;
+
     abstract posts(): Nullable<Post>[] | Promise<Nullable<Post>[]>;
 
     abstract post(id: string): Nullable<Post> | Promise<Nullable<Post>>;
+
+    abstract subscriptionPlans(): Nullable<SubscriptionPlan>[] | Promise<Nullable<SubscriptionPlan>[]>;
+
+    abstract subscriptionPlan(id: string): Nullable<SubscriptionPlan> | Promise<Nullable<SubscriptionPlan>>;
 
     abstract users(): Nullable<User>[] | Promise<Nullable<User>[]>;
 
@@ -79,9 +127,27 @@ export abstract class IQuery {
 }
 
 export abstract class ISubscription {
+    abstract onBookCreated(): Nullable<Book> | Promise<Nullable<Book>>;
+
+    abstract onBookDeleted(): Nullable<Book> | Promise<Nullable<Book>>;
+
+    abstract onBookUpdated(): Nullable<Book> | Promise<Nullable<Book>>;
+
+    abstract onMembershipCreated(): Membership | Promise<Membership>;
+
+    abstract onMembershipUpdated(): Membership | Promise<Membership>;
+
+    abstract onMembershipDeleted(): Membership | Promise<Membership>;
+
+    abstract onSubscriptionPlanCreated(): SubscriptionPlan | Promise<SubscriptionPlan>;
+
+    abstract onSubscriptionPlanUpdated(): SubscriptionPlan | Promise<SubscriptionPlan>;
+
+    abstract onSubscriptionPlanRemoved(): SubscriptionPlan | Promise<SubscriptionPlan>;
+
     abstract onUserCreated(): Nullable<User> | Promise<Nullable<User>>;
 
-    abstract onTextHelloCreated(): Nullable<string> | Promise<Nullable<string>>;
+    abstract onMotivationalPhrase(): Nullable<string> | Promise<Nullable<string>>;
 }
 
 export class SignInResponse {
@@ -119,6 +185,13 @@ export class CreateBookResponse {
     book?: Nullable<Book>;
 }
 
+export class Membership {
+    id: string;
+    name?: Nullable<string>;
+    cost?: Nullable<number>;
+    duration?: Nullable<number>;
+}
+
 export class Post {
     id: string;
     title?: Nullable<string>;
@@ -133,6 +206,14 @@ export class CreatePostResponse {
     post?: Nullable<Post>;
 }
 
+export class SubscriptionPlan {
+    id: string;
+    user_id?: Nullable<string>;
+    membership_id?: Nullable<string>;
+    start_date?: Nullable<string>;
+    end_date?: Nullable<string>;
+}
+
 export class User {
     id: string;
     nickname?: Nullable<string>;
@@ -144,6 +225,7 @@ export class User {
     role?: Nullable<string>;
     enabled?: Nullable<boolean>;
     created_at?: Nullable<string>;
+    posts?: Nullable<Nullable<Post>[]>;
 }
 
 type Nullable<T> = T | null;

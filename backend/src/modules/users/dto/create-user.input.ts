@@ -22,5 +22,4 @@ export class CreateUserInput {
   @Field()
   @IsNotEmpty({ message: 'La contraseña es requerida' })
   password: string;
-
 }

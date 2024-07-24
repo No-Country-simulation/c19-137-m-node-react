@@ -3,10 +3,10 @@ import { Post } from 'src/modules/posts/entities/post.entity';
 import { Book } from 'src/modules/books/entities/book.entity';
 import { Review } from 'src/modules/reviews/entities/reviews.entity';
 import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
-import { SubscriptionEntity } from '../../subscription/entities/subscription.entity';
+import { SubscriptionPlanEntity } from '../../subscription-plan/entities/subscription-plan.entity';
 
 @Entity()
-export class User {
+export class UserEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -52,6 +52,6 @@ export class User {
   })
   enabled: boolean;
 
-  @OneToMany(() => SubscriptionEntity, subscription => subscription.user)
-  subscriptions: SubscriptionEntity[];
+  @OneToMany(() => SubscriptionPlanEntity, (subscription) => subscription.user)
+  subscriptions: SubscriptionPlanEntity[];
 }

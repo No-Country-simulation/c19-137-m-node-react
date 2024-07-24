@@ -1,3 +1,4 @@
+
 import {
     BadRequestException,
     Injectable,
@@ -11,7 +12,8 @@ import { Author } from "../authors/entities/authors.entity";
 
 @Injectable()
 export class BooksService {
-    private readonly logger = new Logger(BooksService.name);
+  private readonly logger = new Logger(BooksService.name);
+
 
     constructor(
         @InjectRepository(Book)
@@ -32,6 +34,8 @@ export class BooksService {
             throw new BadRequestException(error.message)
         }
     }
+  }
+
 
     /**
      * Consigue libro segun el ID
@@ -70,16 +74,17 @@ export class BooksService {
                 genre: data.genre
             });
 
-            const savedBook = await this.bookRepository.save(book);
 
-            return {
-                book: savedBook,
-                message: "Creado con exito",
-                code: 200,
-                success: true
-            };
-        } catch (error) {
-            throw new BadRequestException(error.message)
-        }
+      const savedBook = await this.bookRepository.save(book);
+
+      return {
+        book: savedBook,
+        message: 'Creado con exito',
+        code: 200,
+        success: true,
+      };
+    } catch (error) {
+      throw new BadRequestException(error.message);
     }
+  }
 }

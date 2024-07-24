@@ -4,14 +4,14 @@ import { IsNotEmpty } from 'class-validator';
 @InputType()
 export class CreateMembershipInput {
   @Field()
-  @IsNotEmpty({ message: 'El nombre es requerido'})
+  @IsNotEmpty({ message: 'El nombre es requerido' })
   name: string;
 
   @Field(() => Int)
-  @IsNotEmpty({ message: 'El costo es requerido'})
+  @IsNotEmpty({ message: 'El costo es requerido' })
   cost: number;
 
-  @Field()
-  @IsNotEmpty({ message: 'La duración de la suscripción es requerida'})
-  duration: string;
+  @Field(() => Int)
+  @IsNotEmpty({ message: 'La duración de la suscripción es requerida' })
+  duration: number;
 }

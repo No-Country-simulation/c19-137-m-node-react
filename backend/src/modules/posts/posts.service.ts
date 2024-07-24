@@ -1,3 +1,4 @@
+
 import {
     BadRequestException,
     Injectable,
@@ -10,8 +11,11 @@ import { CreatePostInput } from "./dto/create-post-input";
 import { User } from "../users/entities/user.entity";
 
 
+
 @Injectable()
 export class PostsService {
+  private readonly logger = new Logger(PostsService.name);
+
 
     private readonly logger = new Logger(PostsService.name);
 
@@ -35,6 +39,8 @@ export class PostsService {
         }
 
     }
+  }
+
 
     /**
      * Consigue post segun el ID
@@ -76,21 +82,18 @@ export class PostsService {
                 created_at: new Date(), 
                 user: user});
 
-            const savedPost = await this.postRepository.save(post);
 
-            this.logger.log(`post: ${JSON.stringify(post)}`);
-            return {
-                post: savedPost,
-                message: "Creado con exito",
-                code: 200,
-                success: true
-            };
-        } catch (error) {
-            throw new BadRequestException(error.message)
-        }
+      const savedPost = await this.postRepository.save(post);
+
+      this.logger.log(`post: ${JSON.stringify(post)}`);
+      return {
+        post: savedPost,
+        message: 'Creado con exito',
+        code: 200,
+        success: true,
+      };
+    } catch (error) {
+      throw new BadRequestException(error.message);
     }
-
+  }
 }
-
-
-

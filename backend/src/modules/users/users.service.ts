@@ -3,6 +3,7 @@ import {
   BadRequestException,
   Injectable,
   InternalServerErrorException,
+
   Logger
 } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
@@ -32,6 +33,7 @@ export class UsersService {
   ) {
   }
 
+
   /**
    * Helper para hashear la contraseña
    * @param password
@@ -46,31 +48,31 @@ export class UsersService {
    * Crear un usuario
    * @param createUserInput
    */
-  async create(createUserInput: CreateUserInput): Promise<User> {
+  async create(createUserInput: CreateUserInput): Promise<UserEntity> {
     this.logger.log(`createUserInput: ${JSON.stringify(createUserInput)}`);
 
     if (!createUserInput.password) {
-      throw new InternalServerErrorException("Password is required");
+      throw new InternalServerErrorException('Password is required');
     }
     const hashedPassword = await this.hashPassword(createUserInput.password);
     const userValidated = this.userRepository.create({
       ...createUserInput,
-      password: hashedPassword
+      password: hashedPassword,
     });
     const user = await this.userRepository.save(userValidated);
 
-    pubSub.publish("onUserCreated", { onUserCreated: user });
+    pubSub.publish('onUserCreated', { onUserCreated: user });
     return user;
   }
 
   /**
    * Buscar todos los usuarios
    */
+
   async findAll(): Promise<User[]> {
     const users = await this.userRepository.find({ relations: [
       'posts', 'favorites', 'favorites.author', 'favorites.reviews', 'reviews', 'reviews.book'] });
-
-    console.log("users", users);
+    console.log('users', users);
     return users;
   }
 
@@ -78,7 +80,7 @@ export class UsersService {
    * Buscar un usuario por nickname
    * @param nickname
    */
-  async findByNickName(nickname: string): Promise<User | undefined> {
+  async findByNickName(nickname: string): Promise<UserEntity | undefined> {
     return this.userRepository.findOne({ where: { nickname } });
   }
 
@@ -86,10 +88,10 @@ export class UsersService {
    * Actualizar un usuario
    * @param updateUserInput
    */
-  async update(updateUserInput: UpdateUserInput): Promise<User> {
+  async update(updateUserInput: UpdateUserInput): Promise<UserEntity> {
     await this.userRepository.update(updateUserInput.id, updateUserInput);
     return this.userRepository.findOne({
-      where: { id: updateUserInput.id }
+      where: { id: updateUserInput.id },
     });
   }
 
@@ -135,10 +137,14 @@ export class UsersService {
    * @param token
    * @param expiresAt
    */
-  async createPasswordResetToken(user: User, token: string, expiresAt: Date) {
+  async createPasswordResetToken(
+    user: UserEntity,
+    token: string,
+    expiresAt: Date,
+  ) {
     //eliminar cualquier token existente
     const existingTokens = await this.passwordResetTokenRepository.find({
-      where: { user_id: user.id }
+      where: { user_id: user.id },
     });
 
     //delete all existing tokens
@@ -149,7 +155,7 @@ export class UsersService {
       token,
       user_id: user.id,
       expires_at: expiresAt,
-      created_at: new Date()
+      created_at: new Date(),
     });
 
     return this.passwordResetTokenRepository.save(passwordResetToken);
@@ -182,6 +188,8 @@ export class UsersService {
   async findByNickname(nickname: string) {
     return this.userRepository.findOne({ where: { nickname } });
   }
+
+
 
   async addFavoriteBook(data: addFavoriteBookInput) {
     console.log(data)

@@ -5,11 +5,11 @@ import { Review } from 'src/modules/reviews/entities/reviews.entity';
 
 @Entity()
 export class Book {
-    @PrimaryGeneratedColumn('uuid')
-    id: string
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-    @Column()
-    name: string
+  @Column()
+  name: string;
 
     @ManyToOne(() => Author, (author) => author.books)
     author: Author

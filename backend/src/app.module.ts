@@ -1,83 +1,90 @@
-import { Module } from "@nestjs/common";
-import { ServeStaticModule } from "@nestjs/serve-static";
-import { join } from "path";
-import { MailModule } from "./modules/mail/mail.module";
-import { AuthModule } from "./modules/auth/auth.module";
-import { UsersModule } from "./modules/users/users.module";
-import { enviroments } from "./enviroments";
-import config from "./config";
-import { GraphQLModule } from "@nestjs/graphql";
-import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
-import * as Joi from "joi";
-import { ApolloServerPluginLandingPageLocalDefault } from "@apollo/server/plugin/landingPage/default";
-import { ConfigModule } from "@nestjs/config";
-import { TypeOrmModule } from "@nestjs/typeorm";
-import { ScheduleModule } from "@nestjs/schedule";
-import { Context } from "graphql-ws";
-import { MembershipModule } from "./modules/membership/membership.module";
-import { SubscriptionModule } from "./modules/subscription/subscription.module";
+import { join } from 'path';
+import { Module } from '@nestjs/common';
+import * as Joi from 'joi';
+import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
+import { enviroments } from './enviroments';
+import config from './config';
+
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { ConfigModule } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ScheduleModule } from '@nestjs/schedule';
+import { GraphQLModule } from '@nestjs/graphql';
+
+//API Modules
+import { MailModule } from './modules/mail/mail.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { UsersModule } from './modules/users/users.module';
+import { MembershipModule } from './modules/membership/membership.module';
+import { SubscriptionPlanModule } from './modules/subscription-plan/subscription-plan.module';
 import { PostsModule } from './modules/posts/posts.module';
+
+
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+
+import { Context } from 'graphql-ws';
 import { BooksModule } from "./modules/books/books.module";
 import { AuthorsModule } from './modules/authors/authors.module';
 import { ReviewsModule } from './modules/reviews/reviews.module';
+
 
 @Module({
   imports: [
     ScheduleModule.forRoot(),
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, "..", "graphiql"),
-      exclude: ["/api*"],
-      serveRoot: "/graphiql"
+      rootPath: join(__dirname, '..', 'graphiql'),
+      exclude: ['/api*'],
+      serveRoot: '/graphiql',
     }),
     //Variables de entorno
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: enviroments[process.env.NODE_ENV] || ".env",
+      envFilePath: enviroments[process.env.NODE_ENV] || '.env',
       load: [config],
       validationSchema: Joi.object({
         DATABASE_URL: Joi.string().optional(),
-        DATABASE_HOST: Joi.string().when("DATABASE_URL", {
+        DATABASE_HOST: Joi.string().when('DATABASE_URL', {
           is: Joi.exist(),
           then: Joi.optional(),
-          otherwise: Joi.required()
+          otherwise: Joi.required(),
         }),
-        DATABASE_NAME: Joi.string().when("DATABASE_URL", {
+        DATABASE_NAME: Joi.string().when('DATABASE_URL', {
           is: Joi.exist(),
           then: Joi.optional(),
-          otherwise: Joi.required()
+          otherwise: Joi.required(),
         }),
-        DATABASE_PORT: Joi.number().when("DATABASE_URL", {
+        DATABASE_PORT: Joi.number().when('DATABASE_URL', {
           is: Joi.exist(),
           then: Joi.optional(),
-          otherwise: Joi.required()
+          otherwise: Joi.required(),
         }),
-        DATABASE_USER: Joi.string().when("DATABASE_URL", {
+        DATABASE_USER: Joi.string().when('DATABASE_URL', {
           is: Joi.exist(),
           then: Joi.optional(),
-          otherwise: Joi.required()
+          otherwise: Joi.required(),
         }),
-        DATABASE_PASSWORD: Joi.string().when("DATABASE_URL", {
+        DATABASE_PASSWORD: Joi.string().when('DATABASE_URL', {
           is: Joi.exist(),
           then: Joi.optional(),
-          otherwise: Joi.required()
+          otherwise: Joi.required(),
         }),
-        JWT_SECRET: Joi.string().required()
-      })
+        JWT_SECRET: Joi.string().required(),
+      }),
     }),
 
     // Configuración de TypeORM
     TypeOrmModule.forRootAsync({
       useFactory: async () => ({
-        type: "postgres",
+        type: 'postgres',
         url: process.env.DATABASE_URL,
         host: process.env.DATABASE_HOST,
         port: parseInt(process.env.DATABASE_PORT, 10),
         username: process.env.DATABASE_USER,
         password: process.env.DATABASE_PASSWORD,
         database: process.env.DATABASE_NAME,
-        entities: [join(__dirname, "**", "*.entity.{ts,js}")],
-        synchronize: true
-      })
+        entities: [join(__dirname, '**', '*.entity.{ts,js}')],
+        synchronize: true,
+      }),
     }),
     // Configuración de GraphQL
     GraphQLModule.forRoot<ApolloDriverConfig>({
@@ -85,20 +92,19 @@ import { ReviewsModule } from './modules/reviews/reviews.module';
       playground: false,
       debug: true,
       introspection: true,
-      typePaths: ["./**/*.graphql"],
+      typePaths: ['./**/*.graphql'],
       definitions: {
-        path: join(process.cwd(), "src/graphql.schema.ts"),
-        outputAs: "class"
+        path: join(process.cwd(), 'src/graphql.schema.ts'),
+        outputAs: 'class',
       },
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
       installSubscriptionHandlers: true,
       subscriptions: {
-        "graphql-ws": {
+        'graphql-ws': {
           onConnect: (context: Context<any>) => {
-            console.log("Conectado");
-            console.log(context);
-          }
-        }
+            console.log('Conectado');
+          },
+        },
       },
       context: ({ req }) => ({ req }),
       formatError: (error) => {
@@ -109,7 +115,7 @@ import { ReviewsModule } from './modules/reviews/reviews.module';
         const formatted = {
           code: 400,
           message,
-          success: false
+          success: false,
         };
 
         if (extensions?.originalError) {
@@ -121,18 +127,17 @@ import { ReviewsModule } from './modules/reviews/reviews.module';
         }
 
         return formatted;
-      }
+      },
     }),
     UsersModule,
     AuthModule,
     MailModule,
     MembershipModule,
-    SubscriptionModule,
+    SubscriptionPlanModule,
     PostsModule,
     BooksModule,
     AuthorsModule,
     ReviewsModule
   ]
 })
-export class AppModule {
-}
+export class AppModule {}

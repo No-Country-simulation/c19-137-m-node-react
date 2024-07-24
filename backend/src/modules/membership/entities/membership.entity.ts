@@ -1,5 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
-import { SubscriptionEntity } from '../../subscription/entities/subscription.entity';
+import { SubscriptionPlanEntity } from '../../subscription-plan/entities/subscription-plan.entity';
 
 @Entity()
 export class MembershipEntity {
@@ -13,8 +13,11 @@ export class MembershipEntity {
   cost: number;
 
   @Column()
-  duration: string;
+  duration: number;
 
-  @OneToMany(() => SubscriptionEntity, subscription => subscription.membership)
-  subscriptions: SubscriptionEntity[];
+  @OneToMany(
+    () => SubscriptionPlanEntity,
+    (subscription) => subscription.membership,
+  )
+  subscriptions: SubscriptionPlanEntity[];
 }

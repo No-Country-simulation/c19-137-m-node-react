@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class PasswordResetToken {
+export class PasswordResetTokenEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 

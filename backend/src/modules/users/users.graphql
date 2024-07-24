@@ -39,6 +39,7 @@ type User {
     Fecha de creación del usuario en formato ISO 8601.
     """
     created_at: String
+
     """
     Lista de posts que ha hecho el usuario
     """
@@ -157,7 +158,7 @@ extend type Query {
     """
     Obtiene todos los usuarios registrados.
     """
-    users: [User]!
+    users: [User!]
 
     """
     Obtiene los detalles de un usuario específico por su ID.
@@ -178,6 +179,6 @@ extend type Subscription {
     la frase motivacional con una nueva frase generada aleatoriamente.
     Devuelve la nueva frase motivacional como una cadena de texto.
     """
-    onTextHelloCreated: String
+    onMotivationalPhrase: String
 }
 

@@ -71,3 +71,25 @@ extend type Mutation {
         data: CreateBookInput
     ): CreateBookResponse
 }
+
+
+
+extend type Subscription {
+    """
+    Suscripción para recibir notificaciones de nuevos libros registrados.
+    """
+    onBookCreated: Book
+
+    """
+    Suscripción para recibir notificaciones de libros eliminados.
+    """
+
+    onBookDeleted: Book
+
+
+    """
+    Suscripción para recibir notificaciones de libros actualizados.
+    """
+
+    onBookUpdated: Book
+}

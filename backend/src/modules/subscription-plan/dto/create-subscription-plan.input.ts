@@ -2,7 +2,7 @@ import { InputType, Field } from '@nestjs/graphql';
 import { IsNotEmpty } from 'class-validator';
 
 @InputType()
-export class CreateSubscriptionInput {
+export class CreateSubscriptionPlanInput {
   @Field()
   @IsNotEmpty()
   userId: string;

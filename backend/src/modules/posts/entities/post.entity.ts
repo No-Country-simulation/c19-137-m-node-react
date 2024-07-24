@@ -3,11 +3,12 @@ import { User } from 'src/modules/users/entities/user.entity';
 
 @Entity()
 export class Post {
-    @PrimaryGeneratedColumn('uuid')
-    id: string
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-    @Column()
-    title: string
+  @Column()
+  title: string;
+
 
     @ManyToOne(() => User, (user) => user.posts)
     user: User
@@ -15,6 +16,6 @@ export class Post {
     @Column()
     content: string
 
-    @Column()
-    created_at: Date
+  @Column()
+  created_at: Date;
 }

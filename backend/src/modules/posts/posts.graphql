@@ -70,8 +70,6 @@ input CreatePostInput {
     Contenido del post
     """
     content: String!
-
-    userId: String!
 }
 
 

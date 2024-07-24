@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      IMAGE_NAME: your-dockerhub-username/c19-137-m-node-react-backend
+      IMAGE_NAME: socialmediabooksnocountry/c19-137-m-node-react-backend
 
     steps:
       - name: Checkout repository

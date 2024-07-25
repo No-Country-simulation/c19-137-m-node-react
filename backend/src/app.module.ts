@@ -1,5 +1,5 @@
 import { join } from 'path';
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import * as Joi from 'joi';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import config from './config';
@@ -9,6 +9,8 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ScheduleModule } from '@nestjs/schedule';
 import { GraphQLModule } from '@nestjs/graphql';
+
+import { ApolloSandboxMiddleware } from './middleware/apollo-sandbox.middleware';
 
 //API Modules
 import { MailModule } from './modules/mail/mail.module';
@@ -141,4 +143,8 @@ import { ReviewsModule } from './modules/reviews/reviews.module';
     ReviewsModule,
   ],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(ApolloSandboxMiddleware).forRoutes('*');
+  }
+}

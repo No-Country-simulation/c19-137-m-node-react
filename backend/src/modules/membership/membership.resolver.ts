@@ -90,17 +90,4 @@ export class MembershipResolver {
   onMembershipDeleted() {
     return pubSub.asyncIterator('onMembershipDeleted');
   }
-
-  @Cron(CronExpression.EVERY_5_SECONDS)
-  async onMembershipTrigger() {
-    console.log(' 🚀 Enviando membresía');
-    // await pubSub.publish('onMembershipCreated', {
-    //   onMembershipCreated: {
-    //     id: '1',
-    //     name: 'Membresía 1',
-    //     cost: 100,
-    //     duration: 30,
-    //   },
-    // });
-  }
 }

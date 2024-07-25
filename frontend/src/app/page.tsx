@@ -1,7 +1,7 @@
 import { Accordion } from "@/components/ui/accordion";
 import Image from "next/image";
 import Link from "next/link";
-import ButtonAuth from '@/components/button'
+import ButtonAuth from '@/components/ButtonAuth'
 
 export default function Home() {
   return (

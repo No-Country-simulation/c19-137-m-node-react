@@ -8,7 +8,6 @@ import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
 import { ResetPasswordInput } from './dto/reset-password-input';
 import * as bcrypt from 'bcrypt';
-import { jwtSecret, jwtExpirationTime } from './constants';
 
 import { UserEntity } from '../users/entities/user.entity';
 import { MailService } from '../mail/mail.service';
@@ -56,7 +55,7 @@ export class AuthService {
 
     //Fecha Hora| Minutos| Segundos
     const expireAt = format(
-      new Date(Date.now() + jwtExpirationTime * 1000),
+      new Date(Date.now() + 3600000 * 24),
       'yyyy-MM-dd HH:mm:ss',
     );
     //Retornar la respuesta
@@ -220,7 +219,6 @@ export class AuthService {
    */
   verifyToken(token: string, clockTolerance = 60) {
     const decoded = this.jwtService.verify(token, {
-      secret: jwtSecret,
       clockTolerance: clockTolerance,
     });
 
@@ -235,16 +233,13 @@ export class AuthService {
   }
 
   private generateToken(user: UserEntity): string {
-    return this.jwtService.sign(
-      {
-        email: user.email,
-        first_name: user.first_name,
-        last_name: user.last_name,
-        role: user.role,
-        sub: user.id,
-      },
-      { secret: jwtSecret, expiresIn: jwtExpirationTime },
-    );
+    return this.jwtService.sign({
+      email: user.email,
+      first_name: user.first_name,
+      last_name: user.last_name,
+      role: user.role,
+      sub: user.id,
+    });
   }
 
   private async checkUserExists(

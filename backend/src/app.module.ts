@@ -2,7 +2,6 @@ import { join } from 'path';
 import { Module } from '@nestjs/common';
 import * as Joi from 'joi';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
-import { enviroments } from './enviroments';
 import config from './config';
 
 import { ServeStaticModule } from '@nestjs/serve-static';
@@ -37,9 +36,13 @@ import { ReviewsModule } from './modules/reviews/reviews.module';
     //Variables de entorno
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: enviroments[process.env.NODE_ENV] || '.env',
+      envFilePath: '.env',
       load: [config],
       validationSchema: Joi.object({
+        NODE_ENV: Joi.string()
+          .valid('development', 'production', 'test', 'provision')
+          .default('development'),
+        PORT: Joi.number().port().default(3000),
         DATABASE_URL: Joi.string().optional(),
         DATABASE_HOST: Joi.string().when('DATABASE_URL', {
           is: Joi.exist(),

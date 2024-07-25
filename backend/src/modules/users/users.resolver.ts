@@ -7,6 +7,7 @@ import { UseGuards } from '@nestjs/common';
 
 import { addFavoriteBookInput } from './dto/add-favorite-book.input';
 import { PubSub } from 'graphql-subscriptions';
+import { CurrentUser } from '../auth/decorators/current-user.decorator';
 
 const pubSub = new PubSub();
 
@@ -49,8 +50,12 @@ export class UsersResolver {
     return this.usersService.findByRole(role)
   }
 
-  @Mutation(() => UserEntity)
-  async addFavoriteBook(@Args('data') data: addFavoriteBookInput) {
-    return this.usersService.addFavoriteBook(data);
+  @Mutation('addFavoriteBook')
+  @UseGuards(GqlAuthGuard)
+  addFavoriteBook(
+    @Args('data') data: addFavoriteBookInput, 
+    @CurrentUser() user: UserEntity,
+  ) {
+    return this.usersService.addFavoriteBook(data, user);
   }
 }

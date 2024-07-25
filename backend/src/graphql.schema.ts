@@ -49,7 +49,6 @@ export class CreatePostInput {
 export class CreateReviewInput {
     text: string;
     rating: number;
-    userId: string;
     bookId: string;
 }
 
@@ -69,7 +68,6 @@ export class UpdateSubscriptionPlanInput {
 }
 
 export class AddFavoriteBookInput {
-    userId: string;
     bookId: string;
 }
 

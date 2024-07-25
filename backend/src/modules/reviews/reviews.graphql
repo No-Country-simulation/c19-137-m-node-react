@@ -30,7 +30,6 @@ Entrada requerida para crear un nuevo libro.
 input CreateReviewInput {
     text: String!
     rating: Float!
-    userId: String!
     bookId: String!
 }
 

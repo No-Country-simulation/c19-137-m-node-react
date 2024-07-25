@@ -243,12 +243,7 @@ export class UsersService {
     });
   }
 
-  async addFavoriteBook(data: addFavoriteBookInput) {
-    console.log(data);
-    const user = await this.userRepository.findOne({
-      where: { id: data.userId },
-      relations: ['favorites'],
-    });
+  async addFavoriteBook(data: addFavoriteBookInput, user: UserEntity) {
     const book = await this.bookRepository.findOne({
       where: { id: data.bookId },
     });

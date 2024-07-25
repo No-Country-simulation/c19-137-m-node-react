@@ -10,10 +10,6 @@ export class CreateReviewInput {
     text: string;
 
     @Field()
-    @IsNotEmpty({ message: 'El autor de la review es requerido' })
-    userId: string;
-
-    @Field()
     @IsNotEmpty({ message: 'El libro de la review es requerido' })
     bookId: string;
 

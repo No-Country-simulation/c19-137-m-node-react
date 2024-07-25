@@ -67,7 +67,6 @@ extend type Mutation {
 Entrada requerida para agregar un nuevo libro favorito
 """
 input AddFavoriteBookInput {
-    userId: String!
     bookId: String!
 }
 

@@ -12,11 +12,13 @@ export class PostsResolver {
   constructor(private readonly postsService: PostsService) {}
 
   @Query(() => [PostEntity], { name: 'posts' })
+  @UseGuards(GqlAuthGuard)
   findAll() {
     return this.postsService.findAll();
   }
 
   @Query(() => PostEntity, { name: 'post' })
+  @UseGuards(GqlAuthGuard)
   findById(@Args('id') id: string) {
     return this.postsService.findById(id);
   }

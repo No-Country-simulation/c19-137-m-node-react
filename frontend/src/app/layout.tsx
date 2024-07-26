@@ -1,10 +1,11 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import type {Metadata} from "next";
+import {Inter} from "next/font/google";
 import "./globals.css";
-import { Providers } from "@/app/providers";
 import SessionAuthProvider from "@/context/SessionAuthProvider";
+import client from "@/lib/apollo-client";
+import {GraphQlApolloProvider} from "@/context/GraphQlApolloProvider";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({subsets: ["latin"]});
 
 export const metadata: Metadata = {
     title: "Create Next App",
@@ -12,18 +13,20 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-    children,
-}: Readonly<{
+                                       children,
+                                   }: Readonly<{
     children: React.ReactNode;
 }>) {
     return (
-        <SessionAuthProvider><html lang="en">
+        <SessionAuthProvider>
+            <html lang="en">
             <body className={inter.className}>
-                <Providers>
-                    {children}
-                </Providers>
+            <GraphQlApolloProvider>
+                {children}
+            </GraphQlApolloProvider>
             </body>
-        </html></SessionAuthProvider>
+            </html>
+        </SessionAuthProvider>
 
     );
 }

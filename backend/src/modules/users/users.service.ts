@@ -70,11 +70,14 @@ export class UsersService {
     const users = await this.userRepository.find({
       relations: [
         'posts',
+        'posts.comments',
         'favorites',
         'favorites.author',
         'favorites.reviews',
         'reviews',
         'reviews.book',
+        'comments',
+        'comments.post'
       ],
     });
     console.log('users', users);
@@ -110,11 +113,14 @@ export class UsersService {
       where: { email },
       relations: [
         'posts',
+        'posts.comments',
         'favorites',
         'favorites.author',
         'favorites.reviews',
         'reviews',
         'reviews.book',
+        'comments',
+        'comments.post'
       ],
     });
   }
@@ -130,11 +136,14 @@ export class UsersService {
         where: { id: id },
         relations: [
           'posts',
+          'posts.comments',
           'favorites',
           'favorites.author',
           'favorites.reviews',
           'reviews',
           'reviews.book',
+          'comments',
+          'comments.post'
         ],
       });
       console.log('post', post);
@@ -203,11 +212,14 @@ export class UsersService {
       where: { nickname: ILike(`%${nickname}%`) },
       relations: [
         'posts',
+        'posts.comments',
         'favorites',
         'favorites.author',
         'favorites.reviews',
         'reviews',
         'reviews.book',
+        'comments',
+        'comments.post'
       ],
     });
   }
@@ -217,11 +229,14 @@ export class UsersService {
       where: { role },
       relations: [
         'posts',
+        'posts.comments',
         'favorites',
         'favorites.author',
         'favorites.reviews',
         'reviews',
         'reviews.book',
+        'comments',
+        'comments.post'
       ],
     });
   }
@@ -234,11 +249,14 @@ export class UsersService {
       ],
       relations: [
         'posts',
+        'posts.comments',
         'favorites',
         'favorites.author',
         'favorites.reviews',
         'reviews',
         'reviews.book',
+        'comments',
+        'comments.post'
       ],
     });
   }

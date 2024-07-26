@@ -26,6 +26,8 @@ type Post {
     La fecha y hora de creación de la publicación.
     """
     created_at: Date
+
+    comments: [Comment]
 }
 
 

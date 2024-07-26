@@ -54,6 +54,8 @@ type User {
     """
     reviews: [Review]
 
+    comments: [Comment]
+
 }
 
 extend type Mutation {

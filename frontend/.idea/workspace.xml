@@ -5,17 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fa49702b-44f2-4ade-adc7-41bb247c2104" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../backend/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/pnpm-lock.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/app.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/modules/auth/auth.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/modules/auth/auth.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/modules/auth/auth.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/modules/auth/auth.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/modules/auth/constants.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/modules/auth/strategies/jwt.strategy.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/modules/auth/strategies/jwt.strategy.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/src/modules/posts/posts.resolver.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/src/modules/posts/posts.resolver.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../backend/test/app.e2e-spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/test/app.e2e-spec.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/api/auth/[...nextauth]/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/api/auth/[...nextauth]/route.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.dockerignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,6 +17,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="TypeScript File" />
+        <option value="Dockerfile" />
       </list>
     </option>
   </component>
@@ -43,7 +35,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main-frontend-auth",
+    "git-widget-placeholder": "main",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",

@@ -125,9 +125,5 @@
 
 <br>
 
-<div align='center'>
-  <h2> 📷 Capturas de pantalla 🖥️ </h2>
-</div>
-
 <br>
 <br>

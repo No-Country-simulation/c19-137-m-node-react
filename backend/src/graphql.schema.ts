@@ -28,6 +28,11 @@ export class CreateBookInput {
     genre: string;
 }
 
+export class PostCommentInput {
+    text: string;
+    postId: string;
+}
+
 export class CreateMembershipInput {
     name?: Nullable<string>;
     cost?: Nullable<number>;
@@ -110,6 +115,8 @@ export abstract class IMutation {
 
     abstract createBook(data?: Nullable<CreateBookInput>): Nullable<CreateBookResponse> | Promise<Nullable<CreateBookResponse>>;
 
+    abstract postComment(data?: Nullable<PostCommentInput>): Nullable<PostCommentResponse> | Promise<Nullable<PostCommentResponse>>;
+
     abstract createMembership(data?: Nullable<CreateMembershipInput>): Nullable<Membership> | Promise<Nullable<Membership>>;
 
     abstract updateMembership(data?: Nullable<UpdateMembershipInput>): Nullable<Membership> | Promise<Nullable<Membership>>;
@@ -143,6 +150,8 @@ export abstract class IQuery {
     abstract book(id: string): Nullable<Book> | Promise<Nullable<Book>>;
 
     abstract bookByGenre(genre: string): Nullable<Nullable<Book>[]> | Promise<Nullable<Nullable<Book>[]>>;
+
+    abstract comment(id: string): Nullable<Comment> | Promise<Nullable<Comment>>;
 
     abstract memberships(): Nullable<Membership>[] | Promise<Nullable<Membership>[]>;
 
@@ -249,6 +258,21 @@ export class CreateBookResponse {
     book?: Nullable<Book>;
 }
 
+export class Comment {
+    id: string;
+    text?: Nullable<string>;
+    date_posted?: Nullable<Date>;
+    user?: Nullable<User>;
+    post?: Nullable<Post>;
+}
+
+export class PostCommentResponse {
+    code: number;
+    success: boolean;
+    message: string;
+    comment?: Nullable<Comment>;
+}
+
 export class Membership {
     id: string;
     name?: Nullable<string>;
@@ -262,6 +286,7 @@ export class Post {
     title?: Nullable<string>;
     content?: Nullable<string>;
     created_at?: Nullable<Date>;
+    comments?: Nullable<Nullable<Comment>[]>;
 }
 
 export class CreatePostResponse {
@@ -309,6 +334,7 @@ export class User {
     posts?: Nullable<Nullable<Post>[]>;
     favorites?: Nullable<Nullable<Book>[]>;
     reviews?: Nullable<Nullable<Review>[]>;
+    comments?: Nullable<Nullable<Comment>[]>;
 }
 
 export class AddFavoriteBookResponse {

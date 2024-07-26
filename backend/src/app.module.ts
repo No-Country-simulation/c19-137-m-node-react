@@ -25,6 +25,7 @@ import { Context } from 'graphql-ws';
 import { BooksModule } from './modules/books/books.module';
 import { AuthorsModule } from './modules/authors/authors.module';
 import { ReviewsModule } from './modules/reviews/reviews.module';
+import { CommentsModule } from './modules/comments/comments.module';
 
 @Module({
   imports: [
@@ -136,6 +137,7 @@ import { ReviewsModule } from './modules/reviews/reviews.module';
     BooksModule,
     AuthorsModule,
     ReviewsModule,
+    CommentsModule,
   ],
 })
 export class AppModule {}

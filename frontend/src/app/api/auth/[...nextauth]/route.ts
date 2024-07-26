@@ -26,7 +26,7 @@ const client = new ApolloClient({
 const secret = `${process.env.NEXTAUTH_SECRET}`;
 
 console.log("esto es el secret jwt parte del forntend", secret);
-const handler = NextAuth({
+export const authOptions: AuthOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -102,6 +102,8 @@ const handler = NextAuth({
   //   verifyRequest: '/auth/verify-request', // Página de verificación de solicitud , menos importnate esto es si se personaliza da igual
   //   newUser: '/auth/new-user' // Página para nuevos usuarios, esto es para otro tipo de proveedores
   //}
-});
+};
+
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };

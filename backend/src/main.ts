@@ -7,6 +7,14 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
 
+  // Configura CORS
+  app.enableCors({
+    origin: 'http://localhost:3000', // Permite a localhost:3000
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS', // Permite todos los métodos HTTP
+    allowedHeaders: 'Content-Type, Authorization', // Permite las cabeceras especificadas
+    credentials: true, // Permite el envío de cookies o cabeceras de autenticación
+  });
+
   const port = process.env.PORT || 3000;
   const httpUrl = process.env.URL || `http://localhost:${port}`;
   const wsUrl = process.env.WS_URL || `ws://localhost:${port}`;

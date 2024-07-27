@@ -57,6 +57,7 @@ extend type Query {
     """
     books: [Book]!
     book(id: ID!): Book
+    bookByGenre(genre: String!): [Book]
 }
 
 

@@ -57,11 +57,8 @@ export class ReviewsService {
    * @param data
    * @returns información sobre el request
    */
-  async createReview(data: CreateReviewInput) {
+  async createReview(data: CreateReviewInput, user: UserEntity) {
     try {
-      const user = await this.userRepository.findOne({
-        where: { id: data.userId },
-      });
       const book = await this.bookRepository.findOne({
         where: { id: data.bookId },
       });

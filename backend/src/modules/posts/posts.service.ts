@@ -12,8 +12,8 @@ export class PostsService {
   constructor(
     @InjectRepository(PostEntity)
     private readonly postRepository: Repository<PostEntity>,
-    @InjectRepository(UserEntity)
-    private readonly userRepository: Repository<UserEntity>,
+    //@InjectRepository(UserEntity)
+    //private readonly userRepository: Repository<UserEntity>,
   ) {}
 
   /**
@@ -21,7 +21,7 @@ export class PostsService {
    */
   async findAll(): Promise<PostEntity[]> {
     try {
-      const posts = await this.postRepository.find({ relations: ['user'] });
+      const posts = await this.postRepository.find({ relations: ['user', 'comments', 'comments.user'] });
       console.log('posts', posts);
       return posts;
     } catch (error) {
@@ -38,7 +38,7 @@ export class PostsService {
     try {
       const post = await this.postRepository.findOne({
         where: { id },
-        relations: ['user'],
+        relations: ['user', 'commments', 'comments.user'],
       });
       console.log('post', post);
       return post;

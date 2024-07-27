@@ -22,10 +22,11 @@ import {PostsModule} from './modules/posts/posts.module';
 
 import {ApolloDriver, ApolloDriverConfig} from '@nestjs/apollo';
 
-import {Context} from 'graphql-ws';
-import {BooksModule} from './modules/books/books.module';
-import {AuthorsModule} from './modules/authors/authors.module';
-import {ReviewsModule} from './modules/reviews/reviews.module';
+import { Context } from 'graphql-ws';
+import { BooksModule } from './modules/books/books.module';
+import { AuthorsModule } from './modules/authors/authors.module';
+import { ReviewsModule } from './modules/reviews/reviews.module';
+import { CommentsModule } from './modules/comments/comments.module';
 
 @Module({
     imports: [
@@ -122,27 +123,20 @@ import {ReviewsModule} from './modules/reviews/reviews.module';
                     success: false,
                 };
 
-                if (extensions?.originalError) {
-                    const originalError = error.extensions.originalError as {
-                        message: string | string[];
-                    };
-                    // @ts-ignore
-                    formatted.message = originalError.message;
-                }
-
-                return formatted;
-            },
-        }),
-        UsersModule,
-        AuthModule,
-        MailModule,
-        MembershipModule,
-        SubscriptionPlanModule,
-        PostsModule,
-        BooksModule,
-        AuthorsModule,
-        ReviewsModule,
-    ],
+        return formatted;
+      },
+    }),
+    UsersModule,
+    AuthModule,
+    MailModule,
+    MembershipModule,
+    SubscriptionPlanModule,
+    PostsModule,
+    BooksModule,
+    AuthorsModule,
+    ReviewsModule,
+    CommentsModule,
+  ],
 })
 export class AppModule {
     configure(consumer: MiddlewareConsumer) {

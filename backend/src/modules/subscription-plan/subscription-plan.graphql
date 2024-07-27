@@ -1,0 +1,148 @@
+"""
+Tipo de datos para una suscripción de usuario.
+"""
+
+type SubscriptionPlan {
+    """
+    Id de la suscripción.
+    """
+    id: ID!
+
+    """
+    Id del usuario registrado.
+    """
+    user_id: String
+
+    """
+    Id del tipo de membresia.
+    """
+    membership_id: String
+
+    """
+    Fecha en la que la suscripción comenzó.
+    """
+    start_date: String
+
+    """
+    Fecha en la que la suscripción finalizará.
+    """
+    end_date: String
+}
+
+"""
+Entrada requerida para crear una nueva suscripcion.
+"""
+
+input CreateSubscriptionPlanInput {
+    """
+    Id del usuario registrado.
+    """
+    user_id: String
+    """
+    Id del tipo de membresia.
+    """
+    membership_id: String
+    """
+    Fecha en la que la suscripción comenzó.
+    """
+    start_date: String
+    """
+    Fecha en la que la suscripción finalizará.
+    """
+    end_date: String
+}
+
+"""
+Entrada requerida para actualizar los datos de una suscripción existente.
+"""
+
+input UpdateSubscriptionPlanInput {
+    """
+    ID de la suscripción que se desea actualizar.
+    """
+    id: ID!
+
+    """
+    Id del usuario registrado.
+    """
+    user_id: String
+
+    """
+    Id del tipo de membresia.
+    """
+    membership_id: String
+    """
+    Fecha en la que la suscripción comenzó.
+    """
+    start_date: String
+    """
+    Fecha en la que la suscripción finalizará.
+    """
+    end_date: String
+}
+
+extend type Query {
+    """
+    Devuelve una lista de todas las suscripciones disponibles en el sistema.
+    """
+    subscriptionPlans: [SubscriptionPlan]!
+
+    """
+    Devuelve una suscripción en base a su ID.
+    """
+    subscriptionPlan(id: ID!): SubscriptionPlan
+}
+
+
+extend type Mutation {
+
+    """
+    Crea una nueva suscripción en el sistema.
+    """
+    createSubscriptionPlan(
+        """
+        Datos necesarios para crear una nueva suscripción.
+        """
+        data: CreateSubscriptionPlanInput
+    ): SubscriptionPlan
+
+    """
+    Actualiza los datos de una suscripción existente.
+    """
+    updateSubscriptionPlan(
+        """
+        Datos necesarios para actualizar una suscripción.
+        """
+        data: UpdateSubscriptionPlanInput
+    ): SubscriptionPlan
+
+    """
+    Elimina una suscripción del sistema.
+    """
+    removeSubscriptionPlan(
+        """
+        ID de la suscripción que se desea eliminar.
+        """
+        id: ID!
+    ): Response
+}
+
+
+
+
+extend type Subscription {
+    """
+    Notificación cuando se crea, actualiza o elimina una suscripción.
+    """
+    onSubscriptionPlanCreated: SubscriptionPlan!
+
+    """
+    Notificación cuando se actualiza una suscripción.
+    """
+    onSubscriptionPlanUpdated: SubscriptionPlan!
+
+    """
+    Notificación cuando se elimina una suscripción.
+    """
+    onSubscriptionPlanRemoved: SubscriptionPlan!
+}

@@ -1,0 +1,50 @@
+"""
+Representa una review en el sistema
+"""
+type Review {
+    id: ID!
+    text: String
+    rating: Float
+    date_posted: Date
+    user: User
+    book: Book
+}
+
+extend type Query {
+    reviews: [Review]!
+    review(id: ID!): Review
+}
+
+extend type Mutation {
+    """
+    Crea una nueva review en el sistema
+    """
+    createReview(
+        data: CreateReviewInput
+    ): CreateReviewResponse
+}
+
+"""
+Entrada requerida para crear un nuevo libro.
+"""
+input CreateReviewInput {
+    text: String!
+    rating: Float!
+    bookId: String!
+}
+
+"""
+Respuesta de la operación de creación de una review.
+"""
+type CreateReviewResponse {
+    "Similar al código de estado HTTP, representa el estado de la operación."
+    code: Int!
+
+    "Indica si la operación fue exitosa."
+    success: Boolean!
+
+    "Mensaje legible para humanos que describe el resultado de la operación para la UI."
+    message: String!
+
+    review: Review
+}

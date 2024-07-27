@@ -1,12 +1,37 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { PostEntity } from 'src/modules/posts/entities/post.entity';
+import { BookEntity } from 'src/modules/books/entities/book.entity';
+import { ReviewEntity } from 'src/modules/reviews/entities/reviews.entity';
+import { SubscriptionPlanEntity } from '../../subscription-plan/entities/subscription-plan.entity';
+import { Comment } from 'src/modules/comments/entities/comment.entity';
 
 @Entity()
-export class User {
+export class UserEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column({ unique: true })
   nickname: string;
+
+  @OneToMany(() => PostEntity, (post) => post.user)
+  posts: PostEntity[];
+
+  @OneToMany(() => Comment, (comment) => comment.user)
+  comments: Comment[];
+
+  @OneToMany(() => ReviewEntity, (review) => review.user)
+  reviews: ReviewEntity[];
+
+  @ManyToMany(() => BookEntity, (book) => book.users)
+  @JoinTable()
+  favorites: BookEntity[];
 
   @Column()
   first_name: string;
@@ -36,4 +61,7 @@ export class User {
     default: false,
   })
   enabled: boolean;
+
+  @OneToMany(() => SubscriptionPlanEntity, (subscription) => subscription.user)
+  subscriptions: SubscriptionPlanEntity[];
 }

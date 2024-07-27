@@ -1,126 +1,145 @@
-import { Module } from "@nestjs/common";
-import { ServeStaticModule } from "@nestjs/serve-static";
-import { join } from "path";
-import { MailModule } from "./modules/mail/mail.module";
-import { AuthModule } from "./modules/auth/auth.module";
-import { UsersModule } from "./modules/users/users.module";
-import { enviroments } from "./enviroments";
-import config from "./config";
-import { GraphQLModule } from "@nestjs/graphql";
-import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
-import * as Joi from "joi";
-import { ApolloServerPluginLandingPageLocalDefault } from "@apollo/server/plugin/landingPage/default";
-import { ConfigModule } from "@nestjs/config";
-import { TypeOrmModule } from "@nestjs/typeorm";
-import { ScheduleModule } from "@nestjs/schedule";
-import { Context } from "graphql-ws";
+import {join} from 'path';
+import {MiddlewareConsumer, Module} from '@nestjs/common';
+import * as Joi from 'joi';
+import {ApolloServerPluginLandingPageLocalDefault} from '@apollo/server/plugin/landingPage/default';
+import config from './config';
+
+import {ServeStaticModule} from '@nestjs/serve-static';
+import {ConfigModule} from '@nestjs/config';
+import {TypeOrmModule} from '@nestjs/typeorm';
+import {ScheduleModule} from '@nestjs/schedule';
+import {GraphQLModule} from '@nestjs/graphql';
+
+import {ApolloSandboxMiddleware} from './middleware/apollo-sandbox.middleware';
+
+//API Modules
+import {MailModule} from './modules/mail/mail.module';
+import {AuthModule} from './modules/auth/auth.module';
+import {UsersModule} from './modules/users/users.module';
+import {MembershipModule} from './modules/membership/membership.module';
+import {SubscriptionPlanModule} from './modules/subscription-plan/subscription-plan.module';
+import {PostsModule} from './modules/posts/posts.module';
+
+import {ApolloDriver, ApolloDriverConfig} from '@nestjs/apollo';
+
+import { Context } from 'graphql-ws';
+import { BooksModule } from './modules/books/books.module';
+import { AuthorsModule } from './modules/authors/authors.module';
+import { ReviewsModule } from './modules/reviews/reviews.module';
+import { CommentsModule } from './modules/comments/comments.module';
 
 @Module({
-  imports: [
-    ScheduleModule.forRoot(),
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname, "..", "graphiql"),
-      exclude: ["/api*"],
-      serveRoot: "/graphiql"
-    }),
-    //Variables de entorno
-    ConfigModule.forRoot({
-      isGlobal: true,
-      envFilePath: enviroments[process.env.NODE_ENV] || ".env",
-      load: [config],
-      validationSchema: Joi.object({
-        DATABASE_URL: Joi.string().optional(),
-        DATABASE_HOST: Joi.string().when("DATABASE_URL", {
-          is: Joi.exist(),
-          then: Joi.optional(),
-          otherwise: Joi.required()
+    imports: [
+        ScheduleModule.forRoot(),
+        ServeStaticModule.forRoot({
+            rootPath: join(__dirname, '..', 'graphiql'),
+            exclude: ['/api*'],
+            serveRoot: '/graphiql',
         }),
-        DATABASE_NAME: Joi.string().when("DATABASE_URL", {
-          is: Joi.exist(),
-          then: Joi.optional(),
-          otherwise: Joi.required()
+        //Variables de entorno
+        ConfigModule.forRoot({
+            isGlobal: true,
+            envFilePath: '.env',
+            load: [config],
+            validationSchema: Joi.object({
+                NODE_ENV: Joi.string()
+                    .valid('development', 'production', 'test', 'provision')
+                    .default('development'),
+                PORT: Joi.number().port().default(3000),
+                DATABASE_URL: Joi.string().optional(),
+                DATABASE_HOST: Joi.string().when('DATABASE_URL', {
+                    is: Joi.exist(),
+                    then: Joi.optional(),
+                    otherwise: Joi.required(),
+                }),
+                DATABASE_NAME: Joi.string().when('DATABASE_URL', {
+                    is: Joi.exist(),
+                    then: Joi.optional(),
+                    otherwise: Joi.required(),
+                }),
+                DATABASE_PORT: Joi.number().when('DATABASE_URL', {
+                    is: Joi.exist(),
+                    then: Joi.optional(),
+                    otherwise: Joi.required(),
+                }),
+                DATABASE_USER: Joi.string().when('DATABASE_URL', {
+                    is: Joi.exist(),
+                    then: Joi.optional(),
+                    otherwise: Joi.required(),
+                }),
+                DATABASE_PASSWORD: Joi.string().when('DATABASE_URL', {
+                    is: Joi.exist(),
+                    then: Joi.optional(),
+                    otherwise: Joi.required(),
+                }),
+                JWT_SECRET: Joi.string().required(),
+            }),
         }),
-        DATABASE_PORT: Joi.number().when("DATABASE_URL", {
-          is: Joi.exist(),
-          then: Joi.optional(),
-          otherwise: Joi.required()
-        }),
-        DATABASE_USER: Joi.string().when("DATABASE_URL", {
-          is: Joi.exist(),
-          then: Joi.optional(),
-          otherwise: Joi.required()
-        }),
-        DATABASE_PASSWORD: Joi.string().when("DATABASE_URL", {
-          is: Joi.exist(),
-          then: Joi.optional(),
-          otherwise: Joi.required()
-        }),
-        JWT_SECRET: Joi.string().required()
-      })
-    }),
 
-    // Configuración de TypeORM
-    TypeOrmModule.forRootAsync({
-      useFactory: async () => ({
-        type: "postgres",
-        url: process.env.DATABASE_URL,
-        host: process.env.DATABASE_HOST,
-        port: parseInt(process.env.DATABASE_PORT, 10),
-        username: process.env.DATABASE_USER,
-        password: process.env.DATABASE_PASSWORD,
-        database: process.env.DATABASE_NAME,
-        entities: [join(__dirname, "**", "*.entity.{ts,js}")],
-        synchronize: true
-      })
-    }),
-    // Configuración de GraphQL
-    GraphQLModule.forRoot<ApolloDriverConfig>({
-      driver: ApolloDriver,
-      playground: false,
-      debug: true,
-      introspection: true,
-      typePaths: ["./**/*.graphql"],
-      definitions: {
-        path: join(process.cwd(), "src/graphql.schema.ts"),
-        outputAs: "class"
-      },
-      plugins: [ApolloServerPluginLandingPageLocalDefault()],
-      installSubscriptionHandlers: true,
-      subscriptions: {
-        "graphql-ws": {
-          onConnect: (context: Context<any>) => {
-            console.log("Conectado");
-            console.log(context);
-          }
-        }
-      },
-      context: ({ req }) => ({ req }),
-      formatError: (error) => {
-        // Desestructuramos las propiedades del error original
-        const { message, extensions } = error;
+        // Configuración de TypeORM
+        TypeOrmModule.forRootAsync({
+            useFactory: async () => ({
+                type: 'postgres',
+                url: process.env.DATABASE_URL,
+                host: process.env.DATABASE_HOST,
+                port: parseInt(process.env.DATABASE_PORT, 10),
+                username: process.env.DATABASE_USER,
+                password: process.env.DATABASE_PASSWORD,
+                database: process.env.DATABASE_NAME,
+                entities: [join(__dirname, '**', '*.entity.{ts,js}')],
+                synchronize: true,
+            }),
+        }),
+        // Configuración de GraphQL
+        GraphQLModule.forRoot<ApolloDriverConfig>({
 
-        // Devolvemos un nuevo objeto con las propiedades que queremos
-        const formatted = {
-          code: 400,
-          message,
-          success: false
-        };
+            driver: ApolloDriver,
+            playground: false,
+            debug: true,
+            introspection: true,
+            typePaths: ['./**/*.graphql'],
+            definitions: {
+                path: join(process.cwd(), 'src/graphql.schema.ts'),
+                outputAs: 'class',
+            },
+            plugins: [ApolloServerPluginLandingPageLocalDefault()],
+            installSubscriptionHandlers: true,
+            subscriptions: {
+                'graphql-ws': {
+                    onConnect: (context: Context<any>) => {
+                        console.log('Conectado');
+                    },
+                },
+            },
+            context: ({req}) => ({req}),
+            formatError: (error) => {
+                // Desestructuramos las propiedades del error original
+                const {message, extensions} = error;
 
-        if (extensions?.originalError) {
-          const originalError = error.extensions.originalError as {
-            message: string | string[];
-          };
-          // @ts-ignore
-          formatted.message = originalError.message;
-        }
+                // Devolvemos un nuevo objeto con las propiedades que queremos
+                const formatted = {
+                    code: 400,
+                    message,
+                    success: false,
+                };
 
         return formatted;
-      }
+      },
     }),
     UsersModule,
     AuthModule,
-    MailModule
-  ]
+    MailModule,
+    MembershipModule,
+    SubscriptionPlanModule,
+    PostsModule,
+    BooksModule,
+    AuthorsModule,
+    ReviewsModule,
+    CommentsModule,
+  ],
 })
 export class AppModule {
+    configure(consumer: MiddlewareConsumer) {
+        consumer.apply(ApolloSandboxMiddleware).forRoutes('*');
+    }
 }

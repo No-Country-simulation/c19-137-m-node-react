@@ -1,0 +1,129 @@
+"""
+Tipo de datos para una membresía de usuario.
+"""
+type Membership {
+    """
+    Identificador único de la membresía.
+    """
+    id: ID!
+
+    """
+    Nombre de la membresia(Ej: Basico, Premium).
+    """
+    name: String
+
+    """
+    Costo de la membresia. (Ej: 100, 200, 300)
+    """
+    cost: Int
+
+    """
+    Duracion de la membresia en días. (Ej: 30, 60, 90)
+    """
+    duration: Int
+}
+
+"""
+Entrada requerida para crear una nueva membresia.
+"""
+input CreateMembershipInput {
+    """
+    Nombre de la membresia.
+    """
+    name: String
+    """
+    Costo de la membresia.
+    """
+    cost: Int
+
+    """
+    Duración de la membresia:
+    """
+    duration: Int
+}
+
+"""
+Entrada requerida para actualizar una membresia existente.
+"""
+input UpdateMembershipInput {
+    """
+    ID de la membresia que se desea actualizar.
+    """
+    id: ID!
+    """
+    Nombre de la membresia.
+    """
+    name: String
+    """
+    Costo de la membresia.
+    """
+    cost: Int
+    """
+    Duración de la membresia en días.(Ej: 30, 60, 90)
+    """
+    duration: Int
+}
+
+
+
+extend type Query {
+
+    """
+    Devuelve una lista de todas las membresias disponibles en el sistema.
+    """
+    memberships: [Membership]!
+
+    """
+    Devuelve una membresia en base a su ID.
+    """
+    membership(id: ID!): Membership
+}
+
+
+extend type Mutation {
+
+    """
+    Crea una nueva membresia en el sistema.
+    """
+    createMembership(
+        """
+        Los datos necesarios para crear una nueva membresia.
+        """
+        data: CreateMembershipInput
+    ): Membership
+
+    """
+    Actualiza los datos de una membresia existente.
+    """
+    updateMembership(
+        """
+        Los datos necesarios para actualizar una membresia.
+        """
+        data: UpdateMembershipInput
+    ): Membership
+
+    """
+    Elimina una membresia en base a su ID.
+    """
+    deleteMembership(id: ID!): Boolean
+}
+
+extend type Subscription {
+    """
+    Notifica a los suscriptores cuando se crea una nueva membresia.
+    """
+    onMembershipCreated: Membership!
+
+    """
+    Notifica a los suscriptores cuando se actualiza una membresia.
+    """
+    onMembershipUpdated: Membership!
+
+    """
+
+    Notifica a los suscriptores cuando se elimina una membresia.
+    """
+    onMembershipDeleted: Membership!
+
+
+}

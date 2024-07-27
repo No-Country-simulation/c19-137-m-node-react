@@ -54,6 +54,8 @@ type User {
     """
     reviews: [Review]
 
+    comments: [Comment]
+
 }
 
 extend type Mutation {
@@ -67,7 +69,6 @@ extend type Mutation {
 Entrada requerida para agregar un nuevo libro favorito
 """
 input AddFavoriteBookInput {
-    userId: String!
     bookId: String!
 }
 
@@ -164,6 +165,18 @@ extend type Query {
     Obtiene los detalles de un usuario específico por su ID.
     """
     user(id: ID!): User
+
+    """
+    Obtiene los detalles de un usuario especifico por su nickname
+    """
+    usersByNickname(nickname: String!): [User]
+
+    """
+    Obtiene los detalles de un usuario especifico por su Nombre
+    """
+    usersByName(name: String!): [User]
+
+    usersByRole(role: String!): [User]
 }
 
 extend type Subscription {

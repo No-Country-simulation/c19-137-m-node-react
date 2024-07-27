@@ -4,6 +4,8 @@ import { ReviewEntity } from './entities/reviews.entity';
 import { GqlAuthGuard } from 'src/modules/auth/guards/gql-auth.guard';
 import { UseGuards } from '@nestjs/common';
 import { CreateReviewInput } from './dto/create-review-input';
+import { CurrentUser } from '../auth/decorators/current-user.decorator';
+import { UserEntity } from '../users/entities/user.entity';
 
 @Resolver(() => ReviewEntity)
 export class ReviewsResolver {
@@ -19,8 +21,8 @@ export class ReviewsResolver {
   }
 
   @Mutation('createReview')
-  //@UseGuards(GqlAuthGuard)
-  createPost(@Args('data') data: CreateReviewInput) {
-    return this.reviewsService.createReview(data);
+  @UseGuards(GqlAuthGuard)
+  createReview(@Args('data') data: CreateReviewInput, @CurrentUser() user: UserEntity) {
+    return this.reviewsService.createReview(data, user)
   }
 }

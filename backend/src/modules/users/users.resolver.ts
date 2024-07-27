@@ -7,11 +7,12 @@ import { UseGuards } from '@nestjs/common';
 
 import { addFavoriteBookInput } from './dto/add-favorite-book.input';
 import { PubSub } from 'graphql-subscriptions';
+import { CurrentUser } from '../auth/decorators/current-user.decorator';
 
 
 @Resolver(() => UserEntity)
 export class UsersResolver {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService) { }
 
   //Lista de frases motivacionales que se van a enviar a los subscriptores
   private phrases: string[] = [
@@ -33,8 +34,27 @@ export class UsersResolver {
     return this.usersService.findById(id);
   }
 
-  @Mutation(() => UserEntity)
-  async addFavoriteBook(@Args('data') data: addFavoriteBookInput) {
-    return this.usersService.addFavoriteBook(data);
+  @Query('usersByNickname')
+  findByNickname(@Args('nickname') nickname: string) {
+    return this.usersService.findByNickname(nickname)
+  }
+
+  @Query('usersByName')
+  findByName(@Args('name') name: string) {
+    return this.usersService.findByName(name)
+  }
+
+  @Query('usersByRole')
+  findByRole(@Args('role') role: string) {
+    return this.usersService.findByRole(role)
+  }
+
+  @Mutation('addFavoriteBook')
+  @UseGuards(GqlAuthGuard)
+  addFavoriteBook(
+    @Args('data') data: addFavoriteBookInput, 
+    @CurrentUser() user: UserEntity,
+  ) {
+    return this.usersService.addFavoriteBook(data, user);
   }
 }

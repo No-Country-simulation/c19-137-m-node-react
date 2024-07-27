@@ -6,7 +6,7 @@ import {
   Logger,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, ILike } from 'typeorm';
 import { UserEntity } from './entities/user.entity';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
@@ -27,9 +27,9 @@ export class UsersService {
     private readonly userRepository: Repository<UserEntity>,
     @InjectRepository(PasswordResetTokenEntity)
     private readonly passwordResetTokenRepository: Repository<PasswordResetTokenEntity>,
-    @InjectRepository(BookEntity)
-    private readonly bookRepository: Repository<BookEntity>,
-  ) {}
+    @InjectRepository(Book)
+    private readonly bookRepository: Repository<Book>,
+  ) { }
 
   /**
    * Helper para hashear la contraseña
@@ -70,23 +70,18 @@ export class UsersService {
     const users = await this.userRepository.find({
       relations: [
         'posts',
+        'posts.comments',
         'favorites',
         'favorites.author',
         'favorites.reviews',
         'reviews',
         'reviews.book',
+        'comments',
+        'comments.post'
       ],
     });
     console.log('users', users);
     return users;
-  }
-
-  /**
-   * Buscar un usuario por nickname
-   * @param nickname
-   */
-  async findByNickName(nickname: string): Promise<UserEntity | undefined> {
-    return this.userRepository.findOne({ where: { nickname } });
   }
 
   /**
@@ -118,11 +113,14 @@ export class UsersService {
       where: { email },
       relations: [
         'posts',
+        'posts.comments',
         'favorites',
         'favorites.author',
         'favorites.reviews',
         'reviews',
         'reviews.book',
+        'comments',
+        'comments.post'
       ],
     });
   }
@@ -138,11 +136,14 @@ export class UsersService {
         where: { id: id },
         relations: [
           'posts',
+          'posts.comments',
           'favorites',
           'favorites.author',
           'favorites.reviews',
           'reviews',
           'reviews.book',
+          'comments',
+          'comments.post'
         ],
       });
       console.log('post', post);
@@ -207,15 +208,60 @@ export class UsersService {
   }
 
   async findByNickname(nickname: string) {
-    return this.userRepository.findOne({ where: { nickname } });
+    return this.userRepository.find({
+      where: { nickname: ILike(`%${nickname}%`) },
+      relations: [
+        'posts',
+        'posts.comments',
+        'favorites',
+        'favorites.author',
+        'favorites.reviews',
+        'reviews',
+        'reviews.book',
+        'comments',
+        'comments.post'
+      ],
+    });
   }
 
-  async addFavoriteBook(data: addFavoriteBookInput) {
-    console.log(data);
-    const user = await this.userRepository.findOne({
-      where: { id: data.userId },
-      relations: ['favorites'],
+  async findByRole(role: string) {
+    return this.userRepository.find({
+      where: { role },
+      relations: [
+        'posts',
+        'posts.comments',
+        'favorites',
+        'favorites.author',
+        'favorites.reviews',
+        'reviews',
+        'reviews.book',
+        'comments',
+        'comments.post'
+      ],
     });
+  }
+
+  async findByName(name: string) {
+    return this.userRepository.find({
+      where: [
+        { first_name: ILike(`%${name}%`) }, // Search in first_name
+        { last_name: ILike(`%${name}%`) }   // Search in last_name
+      ],
+      relations: [
+        'posts',
+        'posts.comments',
+        'favorites',
+        'favorites.author',
+        'favorites.reviews',
+        'reviews',
+        'reviews.book',
+        'comments',
+        'comments.post'
+      ],
+    });
+  }
+
+  async addFavoriteBook(data: addFavoriteBookInput, user: UserEntity) {
     const book = await this.bookRepository.findOne({
       where: { id: data.bookId },
     });

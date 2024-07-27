@@ -28,6 +28,11 @@ export class CreateBookInput {
     genre: string;
 }
 
+export class PostCommentInput {
+    text: string;
+    postId: string;
+}
+
 export class CreateMembershipInput {
     name?: Nullable<string>;
     cost?: Nullable<number>;
@@ -49,7 +54,6 @@ export class CreatePostInput {
 export class CreateReviewInput {
     text: string;
     rating: number;
-    userId: string;
     bookId: string;
 }
 
@@ -69,7 +73,6 @@ export class UpdateSubscriptionPlanInput {
 }
 
 export class AddFavoriteBookInput {
-    userId: string;
     bookId: string;
 }
 
@@ -112,6 +115,8 @@ export abstract class IMutation {
 
     abstract createBook(data?: Nullable<CreateBookInput>): Nullable<CreateBookResponse> | Promise<Nullable<CreateBookResponse>>;
 
+    abstract postComment(data?: Nullable<PostCommentInput>): Nullable<PostCommentResponse> | Promise<Nullable<PostCommentResponse>>;
+
     abstract createMembership(data?: Nullable<CreateMembershipInput>): Nullable<Membership> | Promise<Nullable<Membership>>;
 
     abstract updateMembership(data?: Nullable<UpdateMembershipInput>): Nullable<Membership> | Promise<Nullable<Membership>>;
@@ -138,9 +143,15 @@ export abstract class IQuery {
 
     abstract author(id: string): Author | Promise<Author>;
 
+    abstract authorByName(name?: Nullable<string>): Author[] | Promise<Author[]>;
+
     abstract books(): Nullable<Book>[] | Promise<Nullable<Book>[]>;
 
     abstract book(id: string): Nullable<Book> | Promise<Nullable<Book>>;
+
+    abstract bookByGenre(genre: string): Nullable<Nullable<Book>[]> | Promise<Nullable<Nullable<Book>[]>>;
+
+    abstract comment(id: string): Nullable<Comment> | Promise<Nullable<Comment>>;
 
     abstract memberships(): Nullable<Membership>[] | Promise<Nullable<Membership>[]>;
 
@@ -161,6 +172,12 @@ export abstract class IQuery {
     abstract users(): Nullable<User[]> | Promise<Nullable<User[]>>;
 
     abstract user(id: string): Nullable<User> | Promise<Nullable<User>>;
+
+    abstract usersByNickname(nickname: string): Nullable<Nullable<User>[]> | Promise<Nullable<Nullable<User>[]>>;
+
+    abstract usersByName(name: string): Nullable<Nullable<User>[]> | Promise<Nullable<Nullable<User>[]>>;
+
+    abstract usersByRole(role: string): Nullable<Nullable<User>[]> | Promise<Nullable<Nullable<User>[]>>;
 }
 
 export abstract class ISubscription {
@@ -241,6 +258,21 @@ export class CreateBookResponse {
     book?: Nullable<Book>;
 }
 
+export class Comment {
+    id: string;
+    text?: Nullable<string>;
+    date_posted?: Nullable<Date>;
+    user?: Nullable<User>;
+    post?: Nullable<Post>;
+}
+
+export class PostCommentResponse {
+    code: number;
+    success: boolean;
+    message: string;
+    comment?: Nullable<Comment>;
+}
+
 export class Membership {
     id: string;
     name?: Nullable<string>;
@@ -254,6 +286,7 @@ export class Post {
     title?: Nullable<string>;
     content?: Nullable<string>;
     created_at?: Nullable<Date>;
+    comments?: Nullable<Nullable<Comment>[]>;
 }
 
 export class CreatePostResponse {
@@ -301,6 +334,7 @@ export class User {
     posts?: Nullable<Nullable<Post>[]>;
     favorites?: Nullable<Nullable<Book>[]>;
     reviews?: Nullable<Nullable<Review>[]>;
+    comments?: Nullable<Nullable<Comment>[]>;
 }
 
 export class AddFavoriteBookResponse {

@@ -27,9 +27,9 @@ export class UsersService {
     private readonly userRepository: Repository<UserEntity>,
     @InjectRepository(PasswordResetTokenEntity)
     private readonly passwordResetTokenRepository: Repository<PasswordResetTokenEntity>,
-    @InjectRepository(Book)
-    private readonly bookRepository: Repository<Book>,
-  ) { }
+    @InjectRepository(BookEntity)
+    private readonly bookRepository: Repository<BookEntity>,
+  ) {}
 
   /**
    * Helper para hashear la contraseña
@@ -77,7 +77,7 @@ export class UsersService {
         'reviews',
         'reviews.book',
         'comments',
-        'comments.post'
+        'comments.post',
       ],
     });
     console.log('users', users);
@@ -120,7 +120,7 @@ export class UsersService {
         'reviews',
         'reviews.book',
         'comments',
-        'comments.post'
+        'comments.post',
       ],
     });
   }
@@ -143,7 +143,7 @@ export class UsersService {
           'reviews',
           'reviews.book',
           'comments',
-          'comments.post'
+          'comments.post',
         ],
       });
       console.log('post', post);
@@ -219,7 +219,7 @@ export class UsersService {
         'reviews',
         'reviews.book',
         'comments',
-        'comments.post'
+        'comments.post',
       ],
     });
   }
@@ -236,7 +236,7 @@ export class UsersService {
         'reviews',
         'reviews.book',
         'comments',
-        'comments.post'
+        'comments.post',
       ],
     });
   }
@@ -245,7 +245,7 @@ export class UsersService {
     return this.userRepository.find({
       where: [
         { first_name: ILike(`%${name}%`) }, // Search in first_name
-        { last_name: ILike(`%${name}%`) }   // Search in last_name
+        { last_name: ILike(`%${name}%`) }, // Search in last_name
       ],
       relations: [
         'posts',
@@ -256,7 +256,7 @@ export class UsersService {
         'reviews',
         'reviews.book',
         'comments',
-        'comments.post'
+        'comments.post',
       ],
     });
   }

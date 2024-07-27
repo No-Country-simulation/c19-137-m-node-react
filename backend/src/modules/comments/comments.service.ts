@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { UserEntity } from '../users/entities/user.entity';
 import { PostCommentInput } from './dto/post-comment-input';
 import { PostEntity } from '../posts/entities/post.entity';
-import { Comment } from './entities/comment.entity';
+import { CommentEntity } from './entities/comment.entity';
 
 @Injectable()
 export class CommentsService {
@@ -13,18 +13,16 @@ export class CommentsService {
   constructor(
     @InjectRepository(PostEntity)
     private readonly postRepository: Repository<PostEntity>,
-    @InjectRepository(Comment)
-    private readonly commentRepository: Repository<Comment>
-
+    @InjectRepository(CommentEntity)
+    private readonly commentRepository: Repository<CommentEntity>,
   ) {}
-
 
   /**
    * Consigue post segun el ID
    * @param id
    * @returns el post
    */
-  async findById(id: string): Promise<Comment> {
+  async findById(id: string): Promise<CommentEntity> {
     try {
       const comment = await this.commentRepository.findOne({
         where: { id },

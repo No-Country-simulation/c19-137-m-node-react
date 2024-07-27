@@ -5,27 +5,28 @@ import { GqlAuthGuard } from 'src/modules/auth/guards/gql-auth.guard';
 import { UseGuards } from '@nestjs/common';
 import { CreateBookInput } from './dto/create-book-inputs';
 
-
-@Resolver(() => Book)
+@Resolver(() => BookEntity)
 export class BooksResolver {
-    constructor(private readonly booksService: BooksService) {
+  constructor(private readonly booksService: BooksService) {}
 
-    }
-    @Query('books')
-    findAll() {
-        return this.booksService.findAll()
-    }
-    @Query('book')
-    findById(@Args('id') id: string){
-        return this.booksService.findById(id)
-    }
-    @Query('bookByGenre')
-    findByGenre(@Args('genre') genre: string){
-        return this.booksService.findByGenre(genre)
-    }
-    @Mutation('createBook')
-    @UseGuards(GqlAuthGuard)
-    createBook(@Args('data') data: CreateBookInput) {
-        return this.booksService.createBook(data)
-    }
+  @Query('books')
+  findAll() {
+    return this.booksService.findAll();
+  }
+
+  @Query('book')
+  findById(@Args('id') id: string) {
+    return this.booksService.findById(id);
+  }
+
+  @Query('bookByGenre')
+  findByGenre(@Args('genre') genre: string) {
+    return this.booksService.findByGenre(genre);
+  }
+
+  @Mutation('createBook')
+  @UseGuards(GqlAuthGuard)
+  createBook(@Args('data') data: CreateBookInput) {
+    return this.booksService.createBook(data);
+  }
 }

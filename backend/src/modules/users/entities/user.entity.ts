@@ -10,7 +10,7 @@ import { PostEntity } from 'src/modules/posts/entities/post.entity';
 import { BookEntity } from 'src/modules/books/entities/book.entity';
 import { ReviewEntity } from 'src/modules/reviews/entities/reviews.entity';
 import { SubscriptionPlanEntity } from '../../subscription-plan/entities/subscription-plan.entity';
-import { Comment } from 'src/modules/comments/entities/comment.entity';
+import { CommentEntity } from 'src/modules/comments/entities/comment.entity';
 
 @Entity()
 export class UserEntity {
@@ -23,8 +23,8 @@ export class UserEntity {
   @OneToMany(() => PostEntity, (post) => post.user)
   posts: PostEntity[];
 
-  @OneToMany(() => Comment, (comment) => comment.user)
-  comments: Comment[];
+  @OneToMany(() => CommentEntity, (comment) => comment.user)
+  comments: CommentEntity[];
 
   @OneToMany(() => ReviewEntity, (review) => review.user)
   reviews: ReviewEntity[];

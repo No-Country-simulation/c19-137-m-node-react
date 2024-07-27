@@ -47,7 +47,7 @@ export class BooksService {
     }
   }
 
-  async findByGenre(genre: string): Promise<Book[]> {
+  async findByGenre(genre: string): Promise<BookEntity[]> {
     try {
       return await this.bookRepository.find({
         where: { genre },

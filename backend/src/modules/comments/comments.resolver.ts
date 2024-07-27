@@ -5,12 +5,11 @@ import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { UserEntity } from '../users/entities/user.entity';
 import { CommentsService } from './comments.service';
 import { PostCommentInput } from './dto/post-comment-input';
-import { Comment } from './entities/comment.entity';
+import { CommentEntity } from './entities/comment.entity';
 
-@Resolver(() => Comment)
+@Resolver(() => CommentEntity)
 export class CommentsResolver {
-  constructor(private readonly commentsService: CommentsService) {
-  }
+  constructor(private readonly commentsService: CommentsService) {}
 
   @Query('comment')
   findById(@Args('id') id: string) {
@@ -19,7 +18,10 @@ export class CommentsResolver {
 
   @Mutation('postComment')
   @UseGuards(GqlAuthGuard)
-  createReview(@Args('data') data: PostCommentInput, @CurrentUser() user: UserEntity) {
-    return this.commentsService.postComment(data, user)
+  createReview(
+    @Args('data') data: PostCommentInput,
+    @CurrentUser() user: UserEntity,
+  ) {
+    return this.commentsService.postComment(data, user);
   }
 }

@@ -3,7 +3,7 @@ import { UserEntity } from 'src/modules/users/entities/user.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class Comment {
+export class CommentEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 

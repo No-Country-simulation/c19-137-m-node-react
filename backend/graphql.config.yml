@@ -1,0 +1,2 @@
+schema: https://c19-137-m-node-react-backend.onrender.com/graphql
+documents: '**/*.graphql'

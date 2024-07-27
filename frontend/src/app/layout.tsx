@@ -4,7 +4,7 @@ import "./globals.css";
 import SessionAuthProvider from "@/context/SessionAuthProvider";
 import { GraphQlApolloProvider } from "@/context/GraphQlApolloProvider";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/authOptions";
 
 const inter = Inter({ subsets: ["latin"] });
 

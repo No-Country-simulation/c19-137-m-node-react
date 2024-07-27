@@ -1,18 +1,14 @@
 // src/app/auth/create/page.tsx
 
+"use client";
+
 import React from 'react';
-import { useRouter } from 'next/navigation'; // Importa el hook useRouter
 
 interface CreateAccountPageProps {
-  setPage: (page: 'home' | 'create' | 'login') => void;
+  onVerifyClick: () => void;
 }
 
-const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ setPage }) => {
-  const router = useRouter(); // Obtén el hook useRouter
-
-  const handleVerifyClick = () => {
-    router.push('/verify'); // Redirige a la página de verificación
-  };
+const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ onVerifyClick }) => {
 
   return (
     <div className="flex flex-col items-center justify-center h-full gap-8 p-8">
@@ -25,7 +21,7 @@ const CreateAccountPage: React.FC<CreateAccountPageProps> = ({ setPage }) => {
         <input type="email" placeholder="Correo electrónico" className="w-full h-14 px-8 py-4 border border-[#1F2937] rounded-lg" />
         <button
           type="button"
-          onClick={handleVerifyClick} // Maneja el clic en el botón
+          onClick={onVerifyClick}
           className="w-full h-14 bg-[#F97316] rounded-full"
         >
           <span className="text-lg font-bold text-white">Verificar</span>

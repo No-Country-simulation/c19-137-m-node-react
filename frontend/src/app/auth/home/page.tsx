@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState } from 'react';
-import CreateAccountPage from './auth/create/page';
-import LoginAccountPage from './auth/login/page';
-import VerifyAccountPage from './auth/verify/page';
+import CreateAccountPage from '../create/page';
+import LoginAccountPage from '../login/page';
+import VerifyAccountPage from '../verify/page';
 
 const HomePage: React.FC = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -119,28 +119,19 @@ const HomePage: React.FC = () => {
             </div>
             {/* Botón de creación de cuenta */}
             <button
-              className="flex flex-col items-start px-8 py-4 gap-2 w-full lg:w-[362px] lg:h-[91px] bg-[#F97316] text-white font-medium rounded-full hover:bg-[#EA580C] transition-colors duration-300"
+              className="w-full lg:w-[362px] h-[56px] bg-[#3B82F6] text-white font-medium rounded-full hover:bg-[#2563EB] transition-colors duration-300"
               onClick={() => setIsCreateModalOpen(true)}
             >
               Crear una cuenta
             </button>
-            <div className="w-[362px] h-[29px] text-[#000000] text-[12px] leading-[15px] mt-2 font-normal">
-              Al registrarte, aceptas los <a href="#" className="text-blue-500 underline">Términos de servicio</a> y la <a href="#" className="text-blue-500 underline">Política de privacidad</a>, incluida la política de <a href="#" className="text-blue-500 underline">Uso de Cookies</a>.
-            </div>
           </div>
-          {/* Sección "¿Ya tienes una cuenta?" */}
-          <div className="flex flex-col items-start gap-2 w-full lg:w-[362px] lg:h-[86px]">
-            <div className="text-[#1F2937] font-medium text-lg">
-              ¿Ya tienes una cuenta?
-            </div>
-            {/* Botón de inicio de sesión */}
-            <button
-              className="flex flex-col items-start px-8 py-4 gap-2 w-full lg:w-[362px] lg:h-[56px] bg-[#1F2937] text-white font-medium rounded-full hover:bg-[#111827] transition-colors duration-300"
-              onClick={() => setIsLoginModalOpen(true)}
-            >
-              Iniciar sesión
-            </button>
-          </div>
+          {/* Botón de inicio de sesión */}
+          <button
+            className="w-full lg:w-[362px] h-[56px] bg-[#1F2937] text-white font-medium rounded-full hover:bg-[#111827] transition-colors duration-300"
+            onClick={() => setIsLoginModalOpen(true)}
+          >
+            Iniciar sesión
+          </button>
         </div>
       </div>
       {renderModal()}

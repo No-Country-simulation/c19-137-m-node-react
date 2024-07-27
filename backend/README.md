@@ -93,3 +93,130 @@ docker run -it --rm \
 Puedes acceder a la colección de Postman en el siguiente enlace:
 
 [Postman Collection](https://planetary-resonance-814490.postman.co/workspace/c19-137-m-node-react-Team~31f6c30b-dc4f-4d2b-ba4e-ef44a55e6839/collection/669680d63c1203dec98e6929?action=share&creator=14969501)
+
+
+
+
+# Documentación de la API
+
+## URL Base
+`https://c19-137-m-node-react-backend.onrender.com/graphql`
+
+### Login
+Esta mutación permite a un usuario iniciar sesión en el sistema.
+
+**GraphQL Endpoint:**
+```
+{{url}}/graphql
+```
+
+**Mutación:**
+```graphql
+mutation SignIn($email: String!, $password: String!) {
+    signIn(email: $email, password: $password) {
+        code
+        message
+        success
+        token
+        expire_at
+    }
+}
+```
+
+**Variables de Ejemplo:**
+```json
+{
+  "email": "yeimar112003@gmail.com",
+  "password": "12345678"
+}
+```
+
+### Registro
+Esta mutación permite a un nuevo usuario registrarse en el sistema.
+
+**GraphQL Endpoint:**
+```
+{{url}}/graphql
+```
+
+**Mutación:**
+```graphql
+mutation SignUp($data: CreateUserInput!) {
+    signUp(data: $data) {
+        code
+        success
+        message
+        token
+    }
+}
+```
+
+**Variables de Ejemplo:**
+```json
+{
+  "data": {
+    "email": "orlandocardenas0107@gmail.com",
+    "first_name": "Orlando",
+    "last_name": "Cardenas",
+    "nickname": "orlando",
+    "password": "12345678",
+    "password_confirmation": "12345678"
+  }
+}
+```
+
+### Olvide mi contraseña
+Esta mutación permite a un usuario solicitar un correo de recuperación de contraseña.
+
+**GraphQL Endpoint:**
+```
+{{url}}/graphql
+```
+
+**Mutación:**
+```graphql
+mutation ForgotPassword($email: String!) {
+    forgotPassword(email: $email) {
+        code
+        success
+        message
+    }
+}
+```
+
+**Variables de Ejemplo:**
+```json
+{
+  "email": "yeimar112003@gmail.com"
+}
+```
+
+### Cambiar contraseña
+Esta mutación permite a un usuario restablecer su contraseña usando un token recibido por correo electrónico.
+
+**GraphQL Endpoint:**
+```
+{{url}}/graphql
+```
+
+**Mutación:**
+```graphql
+mutation ResetPassword($data: ResetPasswordInput!) {
+    resetPassword(data: $data) {
+        code,
+        message,
+        success
+    }
+}
+```
+
+**Variables de Ejemplo:**
+```json
+{
+  "data": {
+    "confirmNewPassword": "123456",
+    "newPassword": "123456",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InllaW1hcjExMjAwM0BnbWFpbC5jb20iLCJzdWIiOiI3ZmUwYzg0MS1hMzQ0LTQxYzYtYjI3Yi04OTMzMTk2Mjk1ZGQiLCJpYXQiOjE3MjA5OTA4NjQsImV4cCI6MTcyMDk5NDQ2NH0.YTgw8I8Q8_Eldv8lqE_lzH5j-rHnaKwOHuQ4_8Ff81s"
+  }
+}
+```

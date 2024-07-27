@@ -1,5 +1,3 @@
-// lib/apolloClient.ts
-'use client'
 import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { getSession } from 'next-auth/react';
@@ -26,6 +24,7 @@ const authLink = setContext(async (_, { headers }) => {
 
 
 const client = new ApolloClient({
+  ssrMode: typeof window === 'undefined',
   link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
   credentials: 'include', // IMPORTANTE NO QUITAR

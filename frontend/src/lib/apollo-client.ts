@@ -21,7 +21,9 @@ const authLink = setContext(async (_, { headers }) => {
       authorization: token ? `Bearer ${token}` : '',
     },
   };
+
 });
+
 
 const client = new ApolloClient({
   link: authLink.concat(httpLink),
@@ -29,4 +31,6 @@ const client = new ApolloClient({
   credentials: 'include', // IMPORTANTE NO QUITAR
 });
 
+
 export default client;
+

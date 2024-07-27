@@ -2,6 +2,7 @@ import NextAuth, { AuthOptions } from "next-auth";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import CredentialsProvider from "next-auth/providers/credentials";
 import jwt from "jsonwebtoken";
+import client from "@/lib/apollo-client";
 
 // interface del token segun el backend
 interface ProfileToken {
@@ -14,10 +15,7 @@ interface ProfileToken {
   exp: number;
 }
 
-const client = new ApolloClient({
-  uri: process.env.GRAPHQL_ENDPOINT,
-  cache: new InMemoryCache(),
-});
+
 
 // NOTA: revisar el secret que esta en deploy, se corrio el back a nivel local para que funcione
 // aparentemente el back que esta desplegado formula el token pero no le inyecta el secret se ve los datos en jwt.io

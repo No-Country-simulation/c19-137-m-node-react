@@ -38,6 +38,8 @@ next-env.d.ts
 .env
 .idea
 
+package-lock.json
+
 
 
 

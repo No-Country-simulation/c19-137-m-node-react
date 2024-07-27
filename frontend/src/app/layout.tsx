@@ -1,12 +1,12 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import type {Metadata} from "next";
+import {Inter} from "next/font/google";
 import "./globals.css";
-import { Providers } from "@/app/providers";
 import SessionAuthProvider from "@/context/SessionAuthProvider";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
-const inter = Inter({ subsets: ["latin"] });
+
+const inter = Inter({subsets: ["latin"]});
 
 export const metadata: Metadata = {
     title: "Create Next App",
@@ -28,5 +28,6 @@ export default async function RootLayout({
                 </Providers>
                 </body>
             </html></SessionAuthProvider>
+
     );
 }

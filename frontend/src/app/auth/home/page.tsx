@@ -4,72 +4,34 @@ import React, { useState } from 'react';
 import CreateAccountPage from '../create/page';
 import LoginAccountPage from '../login/page';
 import VerifyAccountPage from '../verify/page';
+import EnterPasswordPage from '../login2/page';  
+import ForgotPasswordPage from '../forgot/page';  // Importa la página de "ForgotPassword"
+import ResetPasswordPage from '../reset/page';    // Importa la página de "ResetPassword"
 
 const HomePage: React.FC = () => {
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  const [isVerifyModalOpen, setIsVerifyModalOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState<'home' | 'create' | 'login' | 'verify' | 'enterpassword' | 'forgot' | 'reset'>('home');
 
-  const renderModal = () => {
-    if (isVerifyModalOpen) {
-      return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-[#F7F8F9] p-8 rounded-[32px] relative" style={{ width: '678px', height: '699px' }}>
-            <VerifyAccountPage />
-            <button
-              className="absolute top-4 right-4 text-[#1F2937] rounded-full"
-              onClick={() => setIsVerifyModalOpen(false)}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-          </div>
-        </div>
-      );
+  const renderPage = () => {
+    switch (currentPage) {
+      case 'create':
+        return <CreateAccountPage onVerifyClick={() => setCurrentPage('verify')} />;
+      case 'login':
+        return <LoginAccountPage setPage={setCurrentPage} />;
+      case 'verify':
+        return <VerifyAccountPage />;
+      case 'enterpassword':
+        return <EnterPasswordPage />;
+      case 'forgot':
+        return <ForgotPasswordPage setPage={setCurrentPage} />;  // Asegúrate de pasar setPage
+      case 'reset':
+        return <ResetPasswordPage setPage={setCurrentPage} />;   // Asegúrate de pasar setPage
+      default:
+        return null;
     }
-
-    if (isCreateModalOpen) {
-      return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-[#F7F8F9] p-8 rounded-[32px] relative" style={{ width: '678px', height: '699px' }}>
-            <CreateAccountPage onVerifyClick={() => { setIsCreateModalOpen(false); setIsVerifyModalOpen(true); }} />
-            <button
-              className="absolute top-4 right-4 text-[#1F2937] rounded-full"
-              onClick={() => setIsCreateModalOpen(false)}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-          </div>
-        </div>
-      );
-    }
-
-    if (isLoginModalOpen) {
-      return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-[#F7F8F9] p-8 rounded-[32px] relative" style={{ width: '678px', height: '699px' }}>
-            <LoginAccountPage />
-            <button
-              className="absolute top-4 right-4 text-[#1F2937] rounded-full"
-              onClick={() => setIsLoginModalOpen(false)}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-          </div>
-        </div>
-      );
-    }
-
-    return null;
   };
 
   return (
-    <div className={`flex min-h-screen overflow-y-scroll ${isCreateModalOpen || isLoginModalOpen || isVerifyModalOpen ? 'bg-gray-300' : 'bg-white'} relative`}>
+    <div className="flex min-h-screen overflow-y-scroll bg-white relative">
       {/* Sección del 50% - Imagen */}
       <div className="relative w-1/2 flex items-center justify-center lg:block hidden">
         <div
@@ -99,57 +61,83 @@ const HomePage: React.FC = () => {
               <div className="flex flex-col items-start gap-[16px] w-full lg:w-[362px] lg:h-[126px]">
                 {/* Botón de Google */}
                 <button className="flex flex-row items-center justify-center w-full h-[56px] px-8 py-4 gap-2 bg-white border border-[#1F2937] rounded-full hover:bg-[#F1F1F1] transition-colors duration-300">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" className="w-6 h-6">
-                    <path fill="#4285F4" d="M24 9.5c2.2 0 4.2 0.8 5.8 2.2l4.3-4.3c-3.1-2.9-7.3-4.6-10.1-4.5C13.6 3 8.2 8.5 8.2 15.3s5.3 12.3 12.2 12.3c4.7 0 9-1.8 12.2-4.6v-5.2H24v4.2h7.5c-1.7 4.1-5.4 6.9-10.5 6.9-6.3 0-11.5-5.1-11.5-11.5s5.1-11.5 11.5-11.5z" />
-                    <path fill="#34A853" d="M8.2 27.8c-0.2 0.9-0.3 1.8-0.3 2.8s0.1 1.9 0.3 2.8l6.3-2.8c-0.3-1-0.5-2.1-0.5-3.3s0.2-2.3 0.5-3.3L8.2 15c-0.2 0.9-0.3 1.8-0.3 2.8s0.1 1.9 0.3 2.8z" />
-                    <path fill="#FBBC05" d="M24 12.5c1.4 0 2.7 0.4 3.8 1.2l3.3-3.3c-2-1.7-4.5-2.8-7.3-2.8-5.4 0-10.1 3.4-12.1 8.1l3.3 3.3c0.9-2.6 3-4.4 5.8-4.4z" />
-                    <path fill="#EA4335" d="M36.4 14.5l-3.3 3.3c1.6 2.8 2.7 6.2 2.7 10s-1.1 7.2-2.7 10l3.3 3.3c2.3-3.5 3.6-7.8 3.6-12.3s-1.3-8.8-3.6-12.3z" />
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <path
+                      fill="#EA4335"
+                      d="M23.73 12.14c0-.77-.07-1.53-.18-2.27H12v4.3h6.6c-.29 1.48-1.11 2.73-2.35 3.58v3h3.81c2.24-2.07 3.57-5.12 3.57-8.61z"
+                    />
+                    <path
+                      fill="#34A853"
+                      d="M12 24c3.24 0 5.96-1.07 7.95-2.88l-3.81-3c-1.08.72-2.43 1.14-4.14 1.14-3.18 0-5.87-2.15-6.84-5.04H1.29v3.11C3.27 21.3 7.3 24 12 24z"
+                    />
+                    <path
+                      fill="#4A90E2"
+                      d="M5.16 14.22C4.86 13.5 4.68 12.71 4.68 12s.18-1.5.48-2.22V6.67H1.29C.47 8.3 0 10.11 0 12s.47 3.7 1.29 5.33l3.87-3.11z"
+                    />
+                    <path
+                      fill="#FBBC05"
+                      d="M12 4.8c1.77 0 3.34.61 4.58 1.81l3.43-3.42C17.96 1.08 15.24 0 12 0 7.3 0 3.27 2.7 1.29 6.67l3.87 3.11C6.13 6.95 8.82 4.8 12 4.8z"
+                    />
                   </svg>
-                  <span className="text-[#1F2937] font-medium" style={{ fontFamily: 'Montserrat', fontWeight: 600, fontSize: '18px', lineHeight: '22px' }}>Regístrate con Google</span>
+                  <span className="text-[#1F2937] font-medium">
+                    Continuar con Google
+                  </span>
                 </button>
                 {/* Botón de Apple */}
-                <button className="flex flex-row items-center justify-center w-full h-[56px] px-8 py-4 gap-2 bg-white border border-[#1F2937] rounded-full hover:bg-[#F1F1F1] transition-colors duration-300">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-6 h-6">
-                    <path fill="currentColor" d="M16.7 1.4c-1 0.1-2.2 0.7-2.9 1.6-0.6 0.8-1.1 2-0.9 3.1 1.1 0.1 2.3-0.5 3-1.5 0.7-0.9 1.1-2.1 0.8-3.2zM12 6.5C10.6 6.5 9 7.5 8 9.1c-2.2 3.1-1.8 8.8 1.5 11.3 0.9 0.7 1.9 1 2.5 1 0.6 0 1.4-0.3 2.4-0.9 1-0.6 1.4-0.9 2.5-0.9 1.1 0 1.6 0.3 2.5 0.9 1 0.6 1.8 0.9 2.4 0.9 0.6 0 1.6-0.3 2.5-1 2.1-1.6 2.9-4.1 2.9-6.4 0-4.2-3.2-6.5-6.4-6.5z" />
+                <button className="flex flex-row items-center justify-center w-full h-[56px] px-8 py-4 gap-2 bg-black text-white border border-transparent rounded-full hover:bg-[#333333] transition-colors duration-300">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <path
+                      fill="currentColor"
+                      d="M16.365 1.43c-.895.81-2.121 1.57-3.56 1.47-.61-.032-1.163-.28-1.606-.7-.41-.39-.69-.93-.78-1.5.4-.02.8-.03 1.2-.03.99 0 1.98.23 2.86.69.57.34 1.03.78 1.41 1.3-.06.03-.1.08-.15.13zm3.76 3.26c-1.45-.01-2.64.86-3.31 1.55-.68.7-1.22 1.62-1.04 2.74.02.1.07.2.11.3.15-.02.3-.05.45-.08.96-.16 1.85-.04 2.67.34.84.38 1.54.99 2.14 1.75.18.22.34.45.49.7.37.66.65 1.37.81 2.12.11.53.17 1.07.16 1.61 0 .47-.03.94-.08 1.4-.06.47-.15.94-.27 1.4-.1.4-.28.78-.52 1.12-.28.38-.67.7-1.11.9-.54.25-1.15.38-1.77.36-.38-.01-.76-.07-1.14-.18-.3-.09-.59-.23-.85-.39-.24-.15-.5-.3-.76-.43-.54-.28-1.1-.44-1.67-.52-.75-.11-1.49-.06-2.22.14-.68.18-1.33.44-1.94.78-.3.16-.58.35-.84.57-.32.28-.68.51-1.1.64-.6.2-1.23.27-1.85.17-.52-.08-1.03-.27-1.47-.54-.43-.26-.82-.61-1.15-1.01-.3-.35-.55-.76-.74-1.2-.33-.71-.55-1.47-.65-2.24-.12-.87-.15-1.75-.11-2.63.04-.86.2-1.72.47-2.55.31-.95.76-1.87 1.3-2.74.46-.73.99-1.42 1.57-2.08.5-.59 1.05-1.12 1.65-1.6.6-.5 1.24-.91 1.92-1.24.34-.17.69-.31 1.05-.42.16-.05.33-.1.49-.13.3-.05.6-.1.91-.15.06.02.11.02.17.04 0 .02-.01.04-.01.06.11.02.23.04.34.07.34.1.67.24 1 .41.67.34 1.25.84 1.73 1.42.3.36.55.76.74 1.19.18.38.31.78.41 1.19.2.76.27 1.55.21 2.33-.03.35-.1.69-.19 1.03z"
+                    />
                   </svg>
-                  <span className="text-[#1F2937] font-medium" style={{ fontFamily: 'Montserrat', fontWeight: 600, fontSize: '18px', lineHeight: '22px' }}>Regístrate con Apple</span>
+                  <span className="text-white font-medium">
+                    Continuar con Apple
+                  </span>
                 </button>
               </div>
-              <div className="flex items-center w-full">
-                <div className="flex-grow border-t border-gray-300"></div>
-                <div className="flex-none mx-4 text-[#6B7280] text-lg font-medium" style={{ fontFamily: 'Montserrat', fontWeight: 500, fontSize: '18px', lineHeight: '22px' }}>O</div>
-                <div className="flex-grow border-t border-gray-300"></div>
+              {/* Línea divisoria */}
+              <div className="flex flex-row items-center justify-center w-full h-[24px] text-center">
+                <div className="flex-1 h-[1px] bg-[#1F2937]" />
+                <span className="px-4 text-[#1F2937] font-medium">o</span>
+                <div className="flex-1 h-[1px] bg-[#1F2937]" />
               </div>
             </div>
-            {/* Botón de creación de cuenta */}
+            {/* Botón de Crear Cuenta */}
             <button
-              className="flex flex-row justify-center items-center px-8 py-4 w-full h-[56px] bg-[#F97316] text-white font-medium rounded-full hover:bg-[#EA580C] transition-colors duration-300"
-              onClick={() => setIsCreateModalOpen(true)}
-              style={{ fontFamily: 'Montserrat', fontWeight: 700, fontSize: '18px', lineHeight: '22px' }}
+              className="flex flex-row items-center justify-center w-full h-[56px] px-8 py-4 gap-2 bg-[#3B82F6] text-white border border-transparent rounded-full hover:bg-[#2264d1] transition-colors duration-300"
+              onClick={() => setCurrentPage('create')}
             >
-              <span className="text-white font-semibold" style={{ width: '122px', height: '22px', fontFamily: 'Montserrat', fontWeight: 700, fontSize: '18px', lineHeight: '22px' }}>Crear cuenta</span>
+              Crear cuenta
             </button>
-            <div className="text-[#000000] text-[12px] leading-[15px] font-normal" style={{ fontFamily: 'Montserrat', fontSize: '12px', lineHeight: '15px' }}>
-              Al registrarte, aceptas los <a href="#" className="text-blue-500 underline">Términos de servicio</a> y la <a href="#" className="text-blue-500 underline">Política de privacidad</a>, incluida la política de <a href="#" className="text-blue-500 underline">Uso de Cookies</a>.
-            </div>
           </div>
-          {/* Sección "¿Ya tienes una cuenta?" */}
-          <div className="flex flex-col items-start gap-[8px] w-full lg:w-[362px] lg:h-[86px]">
-            <div className="text-[#1F2937] font-semibold text-[20px] leading-[24px]" style={{ fontFamily: 'Montserrat', fontWeight: 600, fontSize: '20px', lineHeight: '24px' }}>
-              ¿Ya tienes una cuenta?
-            </div>
-            {/* Botón de inicio de sesión */}
+          {/* Botón de Iniciar Sesión */}
+          <div className="flex flex-row items-start justify-start w-full h-[86px] text-center gap-2">
+            <span className="text-[#1F2937] font-medium">¿Ya tienes cuenta?</span>
             <button
-              className="flex flex-row justify-center items-center px-8 py-4 w-full h-[56px] border border-[#F97316] rounded-full hover:bg-[#F1F1F1] transition-colors duration-300"
-              onClick={() => setIsLoginModalOpen(true)}
-              style={{ fontFamily: 'Montserrat', fontWeight: 700, fontSize: '18px', lineHeight: '22px' }}
+              className="text-[#3B82F6] font-medium underline"
+              onClick={() => setCurrentPage('login')}
             >
-              <span className="text-[#F97316] font-medium" style={{ width: '124px', height: '22px', fontFamily: 'Montserrat', fontWeight: 700, fontSize: '18px', lineHeight: '22px' }}>Iniciar sesión</span>
+              Iniciar sesión
             </button>
           </div>
         </div>
       </div>
-      {renderModal()}
+      {currentPage !== 'home' && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-[#F7F8F9] p-8 rounded-[32px] relative" style={{ width: '678px', height: '699px' }}>
+            {renderPage()}
+            <button
+              className="absolute top-4 right-4 text-[#1F2937] rounded-full"
+              onClick={() => setCurrentPage('home')}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

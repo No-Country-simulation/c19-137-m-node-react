@@ -10,21 +10,21 @@ import { CommentEntity } from '../../comments/entities/comment.entity';
 
 @Entity()
 export class PostEntity {
-    @PrimaryGeneratedColumn('uuid')
-    id: string;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-    @Column()
-    title: string;
+  @Column()
+  title: string;
 
-    @Column()
-    content: string;
+  @Column()
+  content: string;
 
-    @ManyToOne(() => UserEntity, (user) => user.posts)
-    user: UserEntity;
+  @ManyToOne(() => UserEntity, (user) => user.posts)
+  user: UserEntity;
 
-    @OneToMany(() => CommentEntity, (comment) => comment.post)
-    comments: CommentEntity[];
+  @OneToMany(() => CommentEntity, (comment) => comment.post)
+  comments: CommentEntity[];
 
-    @Column()
-    created_at: Date;
+  @Column()
+  created_at: Date;
 }

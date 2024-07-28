@@ -21,7 +21,9 @@ export class PostsService {
    */
   async findAll(): Promise<PostEntity[]> {
     try {
-      const posts = await this.postRepository.find({ relations: ['user', 'comments', 'comments.user'] });
+      const posts = await this.postRepository.find({
+        relations: ['user', 'comments', 'comments.user'],
+      });
       console.log('posts', posts);
       return posts;
     } catch (error) {

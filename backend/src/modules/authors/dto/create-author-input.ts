@@ -1,4 +1,4 @@
-import { IsNotEmpty, maxLength } from 'class-validator';
+import { IsNotEmpty } from 'class-validator';
 import { Field } from '@nestjs/graphql';
 
 /**

@@ -1,0 +1,8 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+# Ejecutar tests de backend
+pnpm --filter backend test || exit 1
+
+# Ejecutar tests de frontend
+pnpm --filter frontend test || exit 1

@@ -22,7 +22,10 @@ export class ReviewsResolver {
 
   @Mutation('createReview')
   @UseGuards(GqlAuthGuard)
-  createReview(@Args('data') data: CreateReviewInput, @CurrentUser() user: UserEntity) {
-    return this.reviewsService.createReview(data, user)
+  createReview(
+    @Args('data') data: CreateReviewInput,
+    @CurrentUser() user: UserEntity,
+  ) {
+    return this.reviewsService.createReview(data, user);
   }
 }

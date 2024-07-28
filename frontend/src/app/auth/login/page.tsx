@@ -1,8 +1,9 @@
-// src/app/home/auth/login/page.tsx
+"use client";
+
 import React from 'react';
 
 interface LoginAccountPageProps {
-  setPage: (page: 'home' | 'create' | 'login') => void;
+  setPage: (page: 'home' | 'create' | 'login' | 'enterpassword' | 'verify' | 'forgot' | 'reset') => void;
 }
 
 const LoginAccountPage: React.FC<LoginAccountPageProps> = ({ setPage }) => {
@@ -12,32 +13,14 @@ const LoginAccountPage: React.FC<LoginAccountPageProps> = ({ setPage }) => {
         Iniciar sesión
       </h1>
       <div className="flex flex-col items-center justify-center gap-6 w-full max-w-md">
-        <button className="flex items-center justify-center w-full h-14 gap-2 bg-white border border-[#1F2937] rounded-full">
-          <img src="/path-to-google-icon.png" alt="Google Icon" className="w-6 h-6" />
-          <span className="text-lg font-semibold text-[#1F2937]">Iniciar sesión con Google</span>
+        <input type="email" placeholder="Correo electrónico" className="w-full h-14 px-8 py-4 border border-[#000000] rounded-lg" />
+        <input type="password" placeholder="Contraseña" className="w-full h-14 px-8 py-4 border border-[#000000] rounded-lg" />
+        <button className="w-full h-14 px-8 py-4 bg-[#F97316] rounded-full" onClick={() => setPage('enterpassword')}>
+          <span className="text-lg font-bold text-white">Iniciar sesión</span>
         </button>
-        <button className="flex items-center justify-center w-full h-14 gap-2 bg-white border border-[#1F2937] rounded-full">
-          <img src="/path-to-apple-icon.png" alt="Apple Icon" className="w-6 h-5" />
-          <span className="text-lg font-semibold text-[#1F2937]">Iniciar sesión con Apple</span>
-        </button>
-        <div className="flex items-center gap-3 w-full">
-          <hr className="flex-grow border border-[#D9D9D9]" />
-          <span className="text-xl font-medium text-[#000000]">o</span>
-          <hr className="flex-grow border border-[#D9D9D9]" />
-        </div>
-        <input type="text" placeholder="Teléfono, Correo electrónico o nombre de usuario" className="w-full h-14 px-8 py-4 border border-[#000000] rounded-lg" />
-        <button className="w-full h-14 px-8 py-4 bg-[#F97316] rounded-full">
-          <span className="text-lg font-bold text-white">Siguiente</span>
-        </button>
-        <button className="w-full h-14 px-8 py-4 border border-[#F97316] rounded-full">
+        <button className="w-full h-14 px-8 py-4 border border-[#F97316] rounded-full" onClick={() => setPage('forgot')}>
           <span className="text-lg font-bold text-[#F97316]">¿Olvidaste tu contraseña?</span>
         </button>
-        <p className="text-center text-sm font-semibold text-[#1F2937]">
-          ¿No tienes cuenta?{' '}
-          <a href="#" className="text-blue-600 underline" onClick={() => setPage('create')}>
-            Regístrate
-          </a>
-        </p>
       </div>
     </div>
   );

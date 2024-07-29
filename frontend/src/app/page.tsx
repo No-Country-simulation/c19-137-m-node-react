@@ -5,17 +5,14 @@ import { Accordion } from "@/components/ui/accordion";
 //import Link from "next/link";
 ;
 import Navbar from '@/components/nav/nav'
-import { useState, useEffect } from 'react';
-import { CiCircleChevLeft } from "react-icons/ci";
+import { useState } from 'react';
 import Sidebar from '@/components/sidebar/sidebar';
 import CardPosts from '@/components/cards/cardPosts';
-import { CiBookmark, CiBookmarkCheck } from "react-icons/ci";
+
 
 
 export default function Home() {
-  //
   const [isOpen, setIsOpen] = useState(false);
-
   const toggleNav = () => {
     setIsOpen(!isOpen);
   };
@@ -30,7 +27,6 @@ export default function Home() {
         <button
           onClick={toggleNav}
           className="absolute z-20 p-2 text-xl rounded-full top-2 left-2">
-          {isOpen ? <CiBookmark className="text-amber-800"/> : <CiBookmarkCheck className="text-amber-800"/>}
         </button>
         <CardPosts />
       </main>

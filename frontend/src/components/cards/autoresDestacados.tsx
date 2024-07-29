@@ -1,8 +1,9 @@
-'use client'
+'use client';
 
 import Image from "next/image";
 import Link from "next/link";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useToast } from "@/components/ui/use-toast";
 
 interface AutoressData {
   id: string;
@@ -29,34 +30,49 @@ const autores: AutoressData[] = [
 ]
 
 export default function AutoresDestacados() {
+  const { toast } = useToast();
+
+  const handleFollowClick = (username: string) => {
+    toast({
+      title: "",
+      description: `Has seguido a ${username}`,
+    });
+  };
+
   return (
-    <div className="flex flex-col w-full p-4">
+    <div className="flex flex-col w-full p-4 dark:text-white dark:bg-gray-800 text-black">
       <div className='flex gap-4'>
-        <h1 className="mb-4 font-bold">Autores destacados</h1>
-        <Link href="/sugerencias" className="mb-4 text-grey-500">Ver Todo</Link>
+        <h1 className="mb-4 font-bold text-sm dark:text-gray-300">Autores destacados</h1>
+        <Link href="/authors" className="mb-4 text-sm dark:text-gray-400">Ver Todo</Link>
       </div>
-      <div className="grid grid-cols-1 gap-4 ">
+      <div className="grid grid-cols-1 gap-4">
         {autores.map((autor) => (
-          <div key={autor.id} className=''>
-            <div className='flex items-center gap-2 md:flex-row'>
-              <div>
-                <Avatar className="w-16 h-16">
-                  <AvatarImage src={autor.image}
-                    alt={autor.username}
-                    width={64}
-                    height={64}
-                    className="object-cover border-2 rounded-full border-amber-400" />
-                  <AvatarFallback>User</AvatarFallback>
-                </Avatar>
-              </div>
-              <div><p>{autor.username}</p></div>
-              <div><button className=" border-amber-400 text-amber-400 border-2 w-[65px] h-[27px] rounded-full hover:bg-amber-400 hover:text-black">Seguir</button></div>
-
+          <div key={autor.id} className='flex flex-row justify-between items-center p-2 bg-gray-200 rounded-lg dark:bg-gray-700'>
+            <div className='flex-shrink-0'>
+              <Avatar className="w-10 h-10">
+                <AvatarImage
+                  src={autor.image}
+                  alt={autor.username}
+                  width={40}
+                  height={40}
+                  className="object-cover border-2 border-color10 dark:border-amber-400 rounded-full " />
+                <AvatarFallback>User</AvatarFallback>
+              </Avatar>
             </div>
-
+            <div className="flex-1 ml-2">
+              <p className="text-[9px] dark:text-gray-400">{autor.username}</p>
+            </div>
+            <div>
+              <p
+                onClick={() => handleFollowClick(autor.username)}
+                className="cursor-pointer text-color5 dark:text-amber-300 dark:hover:text-amber-400 text-[9px]"
+              >
+                Seguir
+              </p>
+            </div>
           </div>
         ))}
       </div>
     </div>
-  )
+  );
 }

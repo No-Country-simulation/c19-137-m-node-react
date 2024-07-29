@@ -13,7 +13,7 @@ const Posts = () => {
         <div>
             <h1>Posts</h1>
             <ul>
-                {data.posts.map((post) => (
+                {data.posts.map((post:any) => (
                     <li key={post.id}>
                         <h2>{post.title}</h2>
                         <p>{post.content}</p>

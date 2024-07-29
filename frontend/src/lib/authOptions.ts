@@ -91,11 +91,11 @@ export const authOptions: NextAuthOptions = {
   },
   // IMPORTANTE : para que el boton envie al usuario al interfaz correspondiente o personalizado
   // podras asignarselos con las siguientes paginas
-  // pages: {
-  //   // signIn: '/sign-in', // Página de inicio de sesión importantante, puede cambiarse de ruta segun en donde lo coloco Oswaldo
+  pages: {
+  signIn: '/auth', // Página de inicio de sesión importantante, puede cambiarse de ruta segun en donde lo coloco Oswaldo
   //     signOut: '/auth/signout', // Página de cierre de sesión , menos importnate esto es si se personaliza da igual
   //   //   error: '/auth/error', // Página de error de autenticación , menos importnate esto es si se personaliza da igual
   //   //   verifyRequest: '/auth/verify-request', // Página de verificación de solicitud , menos importnate esto es si se personaliza da igual
   //   //   newUser: '/auth/new-user' // Página para nuevos usuarios, esto es para otro tipo de proveedores
-  // },
+  },
 };

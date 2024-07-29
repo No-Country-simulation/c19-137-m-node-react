@@ -6,11 +6,11 @@ import AutoresDestacados from '@/components/cards/autoresDestacados';
 
 export default function Sidebar() {
     return (
-        <div className='right-0 w-1/3 '>
+        <div className='w-[250px] bg-gray-100 dark:bg-gray-800 p-4'>
             <Recomendados />
-            <hr />
+            <hr className='my-4 border-gray-300 dark:border-gray-600' />
             <Sugerencias />
-            <hr />
+            <hr className='my-4 border-gray-300 dark:border-gray-600' />
             <AutoresDestacados />
         </div>
     )

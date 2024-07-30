@@ -44,7 +44,7 @@ export default function Sugerencias() {
     <div className="flex flex-col w-full p-4  dark:text-white dark:bg-gray-800 text-black">
       <div className='flex gap-4'>
         <h1 className="mb-4 font-bold text-sm dark:text-gray-300">Sugerencias de amigos</h1>
-        <Link href="/sugerencias" className="mb-4 text-sm dark:text-gray-400">Ver Todo</Link>
+        <Link href="dashboard/public/sugerencias" className="mb-4 text-sm dark:text-gray-400">Ver Todo</Link>
       </div>
       <div className="grid grid-cols-1 gap-4">
         {sugerencias.map((usuario) => (

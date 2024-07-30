@@ -63,7 +63,7 @@ export default function Recomendados() {
         <div className="flex flex-col w-full p-4 dark:bg-gray-900 dark:text-white">
             <div className='flex gap-4'>
                 <h1 className="mb-4 font-semibold dark:text-gray-200">Recomendados para ti</h1>
-                <Link href="/recommendedBook" className="mb-4 dark:text-gray-400">Ver Todo</Link>
+                <Link href="/dashboard/public/recommendedBook" className="mb-4 dark:text-gray-400">Ver Todo</Link>
             </div>
             <div className="grid grid-cols-1 gap-4">
                 {recomendados.map((libro) => (
@@ -107,7 +107,7 @@ export default function Recomendados() {
                                             <p className="text-gray-300">Detalles adicionales del libro pueden ir aquí.</p>
                                         </div>
                                         <DrawerFooter className="flex flex-col items-center">
-                                            <Link href={`/books/${selectedLibro.id}`}>
+                                            <Link href={`dashboard/public/books/${selectedLibro.id}`}>
                                                 <Button className="w-full mb-2 bg-gray-600 hover:bg-gray-500">Ver más detalles</Button>
                                             </Link>
                                             <DrawerClose asChild>

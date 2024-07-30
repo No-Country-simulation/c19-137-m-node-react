@@ -26,21 +26,21 @@ const Navbar = ({ isOpen, toggleNav }: NavbarProps) => {
 
   const routeList: Route[] = session ? [
     { icon: <CiHome />, name: "Inicio", href: "/" },
-    { icon: <CiSearch />, name: "Explorar", href: "/search" },
-    { icon: <CiBellOn />, name: "Notificaciones", href: "/dashboard/notifications" },
-    { icon: <CiMail />, name: "Mensajes", href: "/dashboard/messages" },
-    { icon: <BsPeople />, name: "Amigos", href: "/dashboard/contacts" },
-    { icon: <BsPerson />, name: "Perfil", href: "/dashboard/profile" },
-    { icon: <CiSettings />, name: "Configuración", href: "/dashboard/config" },
+    { icon: <CiSearch />, name: "Explorar", href: "/dashboard/public/search" },
+    { icon: <CiBellOn />, name: "Notificaciones", href: "/dashboard/private/notifications" },
+    { icon: <CiMail />, name: "Mensajes", href: "/dashboard/private/messages" },
+    { icon: <BsPeople />, name: "Amigos", href: "/dashboard/private/contacts" },
+    { icon: <BsPerson />, name: "Perfil", href: "/dashboard/private/profile" },
+    { icon: <CiSettings />, name: "Configuración", href: "/dashboard/privateconfig" },
   ] : [
     { icon: <CiHome />, name: "Inicio", href: "/" },
-    { icon: <CiSearch />, name: "Explorar", href: "/search" },
+    { icon: <CiSearch />, name: "Explorar", href: "/dashboard/public/search" },
     { icon: <CiLogout />, name: "Ingresar", href: "/auth" },
   ];
 
   return (
     <Sheet open={isOpen} onOpenChange={toggleNav}>
-      <SheetTrigger asChild>
+      <SheetTrigger asChild className="hover:bg-transparent">
         <Button variant="outline" className='m-4 p-0 border-0 rounded-full hover:bg-none bg-transparent'>
           <Image src="/logos/logo.png" alt="logo" width={100} height={100} className='rounded-full' />
         </Button>
@@ -71,11 +71,7 @@ const Navbar = ({ isOpen, toggleNav }: NavbarProps) => {
             </Link>
           )}
         </div>
-        <SheetClose asChild>
-          <Button variant="outline" className='fixed top-4 right-4 border-0 p-2 rounded-full'>
-            <IoClose size={24} />
-          </Button>
-        </SheetClose>
+        
       </SheetContent>
     </Sheet>
   );

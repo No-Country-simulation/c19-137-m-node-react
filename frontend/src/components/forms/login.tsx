@@ -67,7 +67,7 @@ export function Login() {
                 variant: "default",
             })
             // Optionally redirect after successful login
-            window.location.href = "/"; // Redirect to home page or desired URL
+            window.location.href = "/dashboard/private/profile"; // Redirect to home page or desired URL
         }
     }
 

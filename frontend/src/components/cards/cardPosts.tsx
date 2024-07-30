@@ -114,17 +114,12 @@ const posts: postData[] = [
 
 export default function CardPosts() {
   return (
-    <div className="">
-      <div className='p-4 m-4 mt-8 ring-0'>
-        <Input type="text" placeholder="Crea una publicación" />
-      </div>
-      <br />
-      <p className='right-4 text-right'>Ordenar por Recientes</p>
-      <ScrollArea className="h-screen p-4">
+    <div className="flex-1 mt-10 p-4 dark:bg-gray-900 dark:text-gray-100">
+      <ScrollArea className="h-[calc(100vh-100px)] p-4 dark:bg-gray-800">
         {posts.map((post) => (
-          <Link key={post.id} href={`/posts/${post.id}`}>
-            <div className='block p-2 m-8 hover:border-2 hover:border-amber-200 rounded-lg'>
-              <div className='flex gap-2 items-center mb-2'>
+          <Link key={post.id} href={`dashboard/public/posts/${post.id}`}>
+            <div className='block p-4 m-4 transition-transform transform rounded-lg hover:shadow-2xl hover:border-amber-200 hover:scale-105 dark:bg-gray-700 dark:border-gray-600'>
+              <div className='flex items-center gap-2 mb-4'>
                 <Avatar className="w-16 h-16">
                   <AvatarImage
                     src={post.imag}
@@ -141,13 +136,13 @@ export default function CardPosts() {
               </div>
               <div>
                 <p className='font-semibold'>{post.libro} - {post.autor}</p>
-                <p className='font-semibold flex gap-2'>
+                <p className='flex gap-2 font-semibold'>
                   Calificación: {[...Array(5)].map((_, index) => (
                     <StarIcon key={index} filled={index < post.calification} />
                   ))}
                 </p>
               </div>
-              <div className='mt-2'>
+              <div className='mt-4'>
                 {post.comentario}
               </div>
             </div>

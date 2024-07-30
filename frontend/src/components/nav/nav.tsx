@@ -1,18 +1,14 @@
-"use client";
+'use client';
 
-import {
-  CiHome,
-  CiSearch,
-  CiBellOn,
-  CiMail,
-  CiMenuBurger,
-  CiSettings,
-} from "react-icons/ci";
+import { CiHome, CiSearch, CiBellOn, CiMail, CiSettings, CiLogout } from "react-icons/ci";
 import { BsPeople, BsPerson } from "react-icons/bs";
+import { IoClose } from "react-icons/io5"; // Nuevo icono de cerrar
 import Image from "next/image";
 import Link from "next/link";
-import { useSession, signIn, signOut } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useSession, signOut } from "next-auth/react";
+import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFooter, SheetClose } from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
+import { ModeToggle } from '@/components/button/themeDarck';
 
 interface NavbarProps {
   isOpen: boolean;
@@ -23,98 +19,61 @@ interface Route {
   icon: JSX.Element;
   name: string;
   href: string;
-  requireAuth?: boolean;
 }
 
 const Navbar = ({ isOpen, toggleNav }: NavbarProps) => {
-  const routeList: Route[] = [
-    {
-      icon: <CiHome />,
-      name: "Inicio",
-      href: "/",
-      requireAuth: false,
-    },
-    {
-      icon: <CiSearch />,
-      name: "Explorar",
-      href: "",
-      requireAuth: false,
-    },
-    {
-      icon: <CiBellOn />,
-      name: "Notificaciones",
-      href: "",
-      requireAuth: true,
-    },
-    {
-      icon: <CiMail />,
-      name: "Mensajes",
-      href: "",
-      requireAuth: true,
-    },
-    {
-      icon: <BsPeople />,
-      name: "Amigos",
-      href: "",
-      requireAuth: true,
-    },
-    {
-      icon: <BsPerson />,
-      name: "Perfil",
-      href: "",
-      requireAuth: true,
-    },
-    {
-      icon: <CiMenuBurger />,
-      name: "Ingresar",
-      href: "",
-      requireAuth: false,
-    },
-    {
-      icon: <CiSettings />,
-      name: "Configuración",
-      href: "",
-      requireAuth: true,
-    },
+  const { data: session } = useSession();
+
+  const routeList: Route[] = session ? [
+    { icon: <CiHome />, name: "Inicio", href: "/" },
+    { icon: <CiSearch />, name: "Explorar", href: "/dashboard/public/search" },
+    { icon: <CiBellOn />, name: "Notificaciones", href: "/dashboard/private/notifications" },
+    { icon: <CiMail />, name: "Mensajes", href: "/dashboard/private/messages" },
+    { icon: <BsPeople />, name: "Amigos", href: "/dashboard/private/contacts" },
+    { icon: <BsPerson />, name: "Perfil", href: "/dashboard/private/profile" },
+    { icon: <CiSettings />, name: "Configuración", href: "/dashboard/privateconfig" },
+  ] : [
+    { icon: <CiHome />, name: "Inicio", href: "/" },
+    { icon: <CiSearch />, name: "Explorar", href: "/dashboard/public/search" },
+    { icon: <CiLogout />, name: "Ingresar", href: "/auth" },
   ];
-  //
-  const { data: session, status } = useSession();
-  const router = useRouter();
-  //
 
   return (
-    <div
-      className={`fixed top-0 left-0 h-full bg-white shadow-lg transition-transform transform ${
-        isOpen ? "translate-x-0" : "-translate-x-full"
-      } w-48 z-20`}
-    >
-      <div className="flex flex-col justify-start gap-2 m-5 w-[180px] h-[455px] p-2">
-        <div>
-          <Image src="/logos/logo.png" alt="logo" width={144} height={73} />
+    <Sheet open={isOpen} onOpenChange={toggleNav}>
+      <SheetTrigger asChild className="hover:bg-transparent">
+        <Button variant="outline" className='m-4 p-0 border-0 rounded-full hover:bg-none bg-transparent'>
+          <Image src="/logos/logo.png" alt="logo" width={100} height={100} className='rounded-full' />
+        </Button>
+      </SheetTrigger>
+      <SheetContent side={'left'} className="w-[200px] sm:w-[240px]">
+        <SheetHeader>
+          <SheetTitle>
+            <div className='fixed bottom-2 left-2 m-4'>
+              <ModeToggle />
+            </div>
+          </SheetTitle>
+          <SheetDescription></SheetDescription>
+        </SheetHeader>
+        <div className="grid items-center justify-center gap-4 py-4">
+          <div className='m-4'>
+            <Image src="/logos/logo.png" alt="logo" width={144} height={73} />
+          </div>
+          {routeList.map((route, index) => (
+            <Link key={index} href={route.href} className="flex items-center space-x-2 hover:text-color2">
+              {route.icon}
+              <span>{route.name}</span>
+            </Link>
+          ))}
+          {session && (
+            <Link href="#" onClick={() => signOut()} className="flex items-center space-x-2 hover:text-color2">
+              <CiLogout />
+              <span>Salir</span>
+            </Link>
+          )}
         </div>
-
-        {routeList.map((route, index) => (
-          <Link
-            key={index}
-            href={route.href}
-            className="flex items-center space-x-2"
-          >
-            {route.icon}
-            <span>{route.name}</span>
-          </Link>
-        ))}
-
-        {session && (
-          <button
-            onClick={() => signOut()}
-            className="flex items-center mt-2 space-x-2"
-          >
-            <BsPerson />
-            <span>Cerrar sesión</span>
-          </button>
-        )}
-      </div>
-    </div>
+        
+      </SheetContent>
+    </Sheet>
   );
 };
 

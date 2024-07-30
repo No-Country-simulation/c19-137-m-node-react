@@ -1,0 +1,9 @@
+extend type Query {
+    """
+    Obtiene la información del perfil del usuario actualmente autenticado.
+    Retorna el perfil del usuario autenticado.
+    """
+    profile: User
+}
+
+

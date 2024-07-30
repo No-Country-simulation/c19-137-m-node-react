@@ -69,5 +69,7 @@ export class AuthorsService {
     }
   }
 
-  findByName(name: string) {}
+  findByName(name: string) {
+    console.log(name);
+  }
 }

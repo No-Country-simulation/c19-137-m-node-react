@@ -8,7 +8,7 @@ import { MailModule } from '../mail/mail.module';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { AuthResolver } from './auth.resolver';
-import { MatchPasswordsValidator } from './validators/match-passwords.validator';
+import { MatchPasswordsValidator } from '@/modules/auth/validators/match-passwords.validator';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({

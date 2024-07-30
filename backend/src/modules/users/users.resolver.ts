@@ -6,13 +6,11 @@ import { GqlAuthGuard } from '../auth/guards/gql-auth.guard';
 import { UseGuards } from '@nestjs/common';
 
 import { addFavoriteBookInput } from './dto/add-favorite-book.input';
-import { PubSub } from 'graphql-subscriptions';
-import { CurrentUser } from '../auth/decorators/current-user.decorator';
-
+import { CurrentUser } from '@/modules/auth/decorators/current-user.decorator';
 
 @Resolver(() => UserEntity)
 export class UsersResolver {
-  constructor(private readonly usersService: UsersService) { }
+  constructor(private readonly usersService: UsersService) {}
 
   //Lista de frases motivacionales que se van a enviar a los subscriptores
   private phrases: string[] = [
@@ -36,23 +34,23 @@ export class UsersResolver {
 
   @Query('usersByNickname')
   findByNickname(@Args('nickname') nickname: string) {
-    return this.usersService.findByNickname(nickname)
+    return this.usersService.findByNickname(nickname);
   }
 
   @Query('usersByName')
   findByName(@Args('name') name: string) {
-    return this.usersService.findByName(name)
+    return this.usersService.findByName(name);
   }
 
   @Query('usersByRole')
   findByRole(@Args('role') role: string) {
-    return this.usersService.findByRole(role)
+    return this.usersService.findByRole(role);
   }
 
   @Mutation('addFavoriteBook')
   @UseGuards(GqlAuthGuard)
   addFavoriteBook(
-    @Args('data') data: addFavoriteBookInput, 
+    @Args('data') data: addFavoriteBookInput,
     @CurrentUser() user: UserEntity,
   ) {
     return this.usersService.addFavoriteBook(data, user);

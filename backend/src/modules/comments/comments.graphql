@@ -4,7 +4,7 @@ Representa un comentario en el sistema
 type Comment {
     id: ID!
     text: String
-    date_posted: Date
+    datePosted: Date
     user: User
     post: Post
 }

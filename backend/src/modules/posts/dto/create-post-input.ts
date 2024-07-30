@@ -1,4 +1,4 @@
-import { IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 import { Field } from '@nestjs/graphql';
 
 /**
@@ -12,4 +12,8 @@ export class CreatePostInput {
   @Field()
   @IsNotEmpty({ message: 'El contenido  del post es requerido' })
   content: string;
+
+  @Field()
+  @IsString({ message: 'Los ids de los medios deben ser un string' })
+  mediaIds: string[];
 }

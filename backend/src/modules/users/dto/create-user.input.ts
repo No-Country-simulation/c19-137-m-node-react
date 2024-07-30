@@ -1,19 +1,20 @@
 import { InputType, Field } from '@nestjs/graphql';
-import { IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, MinLength } from 'class-validator';
 
 @InputType()
 export class CreateUserInput {
   @Field()
-  @IsNotEmpty({ message: 'El nickname es requerido' })
-  nickname: string;
+  @IsNotEmpty({ message: 'El nickName es requerido' })
+  @MinLength(4, { message: 'El nickname debe tener al menos 4 caracteres' })
+  nickName: string;
 
   @Field()
   @IsNotEmpty({ message: 'El nombre es requerido' })
-  first_name: string;
+  firstName: string;
 
   @Field()
   @IsNotEmpty({ message: 'El apellido es requerido' })
-  last_name: string;
+  lastName: string;
 
   @Field()
   @IsNotEmpty({ message: 'El email es requerido' })

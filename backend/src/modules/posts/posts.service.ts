@@ -3,7 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { PostEntity } from './entities/post.entity';
 import { CreatePostInput } from './dto/create-post-input';
-import { UserEntity } from '../users/entities/user.entity';
+import { UserEntity } from '@/modules/users/entities/user.entity';
+import { MediaService } from '@/modules/media/media.service';
 
 @Injectable()
 export class PostsService {
@@ -12,8 +13,7 @@ export class PostsService {
   constructor(
     @InjectRepository(PostEntity)
     private readonly postRepository: Repository<PostEntity>,
-    //@InjectRepository(UserEntity)
-    //private readonly userRepository: Repository<UserEntity>,
+    private readonly mediaService: MediaService,
   ) {}
 
   /**
@@ -21,7 +21,9 @@ export class PostsService {
    */
   async findAll(): Promise<PostEntity[]> {
     try {
-      const posts = await this.postRepository.find({ relations: ['user', 'comments', 'comments.user'] });
+      const posts = await this.postRepository.find({
+        relations: ['user', 'comments', 'comments.user'],
+      });
       console.log('posts', posts);
       return posts;
     } catch (error) {
@@ -48,32 +50,29 @@ export class PostsService {
   }
 
   /**
-   * Crea un nuevo post
+   * Crea un nuevo post en la base de datos
    * @param data
    * @param user
    * @returns información sobre el request
    */
-  async createPost(data: CreatePostInput, user: UserEntity) {
-    try {
-      this.logger.log(`createPostInput: ${JSON.stringify(data)}`);
-      const post = this.postRepository.create({
-        title: data.title,
-        content: data.content,
-        created_at: new Date(),
-        user: user,
-      });
+  async createPost(
+    data: CreatePostInput,
+    user: UserEntity,
+  ): Promise<PostEntity> {
+    const post = this.postRepository.create({
+      title: data.title,
+      content: data.content,
+      created_at: new Date(),
+      user: user,
+    });
 
-      const savedPost = await this.postRepository.save(post);
-
-      this.logger.log(`post: ${JSON.stringify(post)}`);
-      return {
-        post: savedPost,
-        message: 'Creado con exito',
-        code: 200,
-        success: true,
-      };
-    } catch (error) {
-      throw new BadRequestException(error.message);
+    // Buscar los medios por sus IDs y asignarlos al post
+    if (data.mediaIds && data.mediaIds.length > 0) {
+      post.media = await this.mediaService.findMediaByIds(data.mediaIds);
     }
+
+    const savedPost = await this.postRepository.save(post);
+    this.logger.log(`post: ${JSON.stringify(savedPost)}`);
+    return savedPost;
   }
 }

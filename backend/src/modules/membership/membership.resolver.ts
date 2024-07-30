@@ -4,7 +4,6 @@ import { MembershipEntity } from './entities/membership.entity';
 import { CreateMembershipInput } from './dto/create-membership.input';
 import { UpdateMembershipInput } from './dto/update-membership.input';
 import { PubSub } from 'graphql-subscriptions';
-import { Cron, CronExpression } from '@nestjs/schedule';
 
 const pubSub = new PubSub();
 

@@ -6,7 +6,7 @@ import {
   Logger,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, ILike } from 'typeorm';
+import { ILike, Repository } from 'typeorm';
 import { UserEntity } from './entities/user.entity';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
@@ -53,13 +53,13 @@ export class UsersService {
     }
     const hashedPassword = await this.hashPassword(createUserInput.password);
     const userValidated = this.userRepository.create({
-      ...createUserInput,
+      nickname: createUserInput.nickName,
+      email: createUserInput.email,
+      first_name: createUserInput.firstName,
+      last_name: createUserInput.lastName,
       password: hashedPassword,
     });
-    const user = await this.userRepository.save(userValidated);
-
-    pubSub.publish('onUserCreated', { onUserCreated: user });
-    return user;
+    return await this.userRepository.save(userValidated);
   }
 
   /**
@@ -108,22 +108,22 @@ export class UsersService {
    * @param email
    * @returns el usuario
    */
-  async findByEmail(email: string) {
-    return this.userRepository.findOne({
-      where: { email },
-      relations: [
-        'posts',
-        'posts.comments',
-        'favorites',
-        'favorites.author',
-        'favorites.reviews',
-        'reviews',
-        'reviews.book',
-        'comments',
-        'comments.post',
-      ],
-    });
-  }
+  // async findByEmail(email: string) {
+  //   return this.userRepository.findOne({
+  //     where: { email },
+  //     relations: [
+  //       'posts',
+  //       'posts.comments',
+  //       'favorites',
+  //       'favorites.author',
+  //       'favorites.reviews',
+  //       'reviews',
+  //       'reviews.book',
+  //       'comments',
+  //       'comments.post',
+  //     ],
+  //   });
+  // }
 
   /**
    * Busca un usuario por ID
@@ -207,22 +207,30 @@ export class UsersService {
     return this.passwordResetTokenRepository.findOne({ where: { user_id } });
   }
 
-  async findByNickname(nickname: string) {
-    return this.userRepository.find({
-      where: { nickname: ILike(`%${nickname}%`) },
-      relations: [
-        'posts',
-        'posts.comments',
-        'favorites',
-        'favorites.author',
-        'favorites.reviews',
-        'reviews',
-        'reviews.book',
-        'comments',
-        'comments.post',
-      ],
-    });
+  async findByEmail(email: string): Promise<UserEntity | undefined> {
+    return await this.userRepository.findOne({ where: { email } });
   }
+
+  async findByNickname(nickName: string): Promise<UserEntity | undefined> {
+    return await this.userRepository.findOne({ where: { nickname: nickName } });
+  }
+
+  // async findByNickname(nickname: string) {
+  //   return this.userRepository.find({
+  //     where: { nickname: ILike(`%${nickname}%`) },
+  //     relations: [
+  //       'posts',
+  //       'posts.comments',
+  //       'favorites',
+  //       'favorites.author',
+  //       'favorites.reviews',
+  //       'reviews',
+  //       'reviews.book',
+  //       'comments',
+  //       'comments.post',
+  //     ],
+  //   });
+  // }
 
   async findByRole(role: string) {
     return this.userRepository.find({

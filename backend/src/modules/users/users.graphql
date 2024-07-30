@@ -10,11 +10,11 @@ type User {
     """
     Nombre del usuario.
     """
-    first_name: String
+    firstName: String
     """
     Apellido del usuario.
     """
-    last_name: String
+    lastName: String
     """
     Correo electrónico del usuario.
     """
@@ -38,7 +38,7 @@ type User {
     """
     Fecha de creación del usuario en formato ISO 8601.
     """
-    created_at: String
+    createdAt: String
 
     """
     Lista de posts que ha hecho el usuario
@@ -93,15 +93,15 @@ input CreateUserInput {
     """
     Apodo del usuario.
     """
-    nickname: String!
+    nickName: String!
     """
     Nombre del usuario.
     """
-    first_name: String!
+    firstName: String!
     """
     Apellido del usuario.
     """
-    last_name: String!
+    lastName: String!
     """
     Contraseña del usuario.
     """
@@ -109,7 +109,7 @@ input CreateUserInput {
     """
     Confirmación de la contraseña del usuario.
     """
-    password_confirmation: String!
+    passwordConfirmation: String!
     """
     Correo electrónico del usuario.
     """
@@ -131,11 +131,11 @@ input UpdateUserInput {
     """
     Nombre del usuario.
     """
-    first_name: String
+    firstName: String
     """
     Apellido del usuario.
     """
-    last_name: String
+    lastName: String
     """
     Correo electrónico del usuario.
     """

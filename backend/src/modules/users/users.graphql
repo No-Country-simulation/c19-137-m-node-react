@@ -6,7 +6,7 @@ type User {
     """
     Apodo del usuario.
     """
-    nickname: String
+    nickName: String
     """
     Nombre del usuario.
     """
@@ -127,7 +127,7 @@ input UpdateUserInput {
     """
     Apodo del usuario.
     """
-    nickname: String
+    nickName: String
     """
     Nombre del usuario.
     """

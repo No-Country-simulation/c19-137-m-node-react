@@ -88,7 +88,7 @@ export class CreateUserInput {
 
 export class UpdateUserInput {
     id: string;
-    nickname?: Nullable<string>;
+    nickName?: Nullable<string>;
     firstName?: Nullable<string>;
     lastName?: Nullable<string>;
     email?: Nullable<string>;
@@ -165,6 +165,8 @@ export abstract class IQuery {
     abstract posts(): Nullable<Post>[] | Promise<Nullable<Post>[]>;
 
     abstract post(id: string): Nullable<Post> | Promise<Nullable<Post>>;
+
+    abstract profile(): Nullable<User> | Promise<Nullable<User>>;
 
     abstract reviews(): Nullable<Review>[] | Promise<Nullable<Review>[]>;
 
@@ -348,7 +350,7 @@ export class SubscriptionPlan {
 
 export class User {
     id: string;
-    nickname?: Nullable<string>;
+    nickName?: Nullable<string>;
     firstName?: Nullable<string>;
     lastName?: Nullable<string>;
     email?: Nullable<string>;

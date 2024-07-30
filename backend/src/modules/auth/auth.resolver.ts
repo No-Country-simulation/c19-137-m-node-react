@@ -8,6 +8,7 @@ import { UseGuards } from '@nestjs/common';
 import { UserEntity } from '../users/entities/user.entity';
 import { SignUpInput } from './dto/signup-input';
 import { RolesGuard } from './guards/roles.guard';
+import { PubSub } from 'graphql-subscriptions';
 
 @Resolver()
 export class AuthResolver {

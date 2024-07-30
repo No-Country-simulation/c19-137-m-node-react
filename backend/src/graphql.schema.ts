@@ -1,3 +1,4 @@
+
 /*
  * -------------------------------------------------------
  * THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
@@ -14,10 +15,10 @@ export class ResetPasswordInput {
 }
 
 export class CreateAuthorInput {
-    first_name: string;
-    last_name: string;
+    firstName: string;
+    lastName: string;
     bio: string;
-    birth_date: Date;
+    birthDate: Date;
 }
 
 export class CreateBookInput {
@@ -48,6 +49,7 @@ export class UpdateMembershipInput {
 export class CreatePostInput {
     title: string;
     content: string;
+    mediaIds?: Nullable<string[]>;
 }
 
 export class CreateReviewInput {
@@ -58,17 +60,17 @@ export class CreateReviewInput {
 
 export class CreateSubscriptionPlanInput {
     user_id?: Nullable<string>;
-    membership_id?: Nullable<string>;
-    start_date?: Nullable<string>;
-    end_date?: Nullable<string>;
+    membershipId?: Nullable<string>;
+    startDate?: Nullable<string>;
+    endDate?: Nullable<string>;
 }
 
 export class UpdateSubscriptionPlanInput {
     id: string;
-    user_id?: Nullable<string>;
-    membership_id?: Nullable<string>;
-    start_date?: Nullable<string>;
-    end_date?: Nullable<string>;
+    userId?: Nullable<string>;
+    membershipId?: Nullable<string>;
+    startDe?: Nullable<string>;
+    endDate?: Nullable<string>;
 }
 
 export class AddFavoriteBookInput {
@@ -76,19 +78,19 @@ export class AddFavoriteBookInput {
 }
 
 export class CreateUserInput {
-    nickname: string;
-    first_name: string;
-    last_name: string;
+    nickName: string;
+    firstName: string;
+    lastName: string;
     password: string;
-    password_confirmation: string;
+    passwordConfirmation: string;
     email: string;
 }
 
 export class UpdateUserInput {
     id: string;
     nickname?: Nullable<string>;
-    first_name?: Nullable<string>;
-    last_name?: Nullable<string>;
+    firstName?: Nullable<string>;
+    lastName?: Nullable<string>;
     email?: Nullable<string>;
     age?: Nullable<number>;
     role?: Nullable<string>;
@@ -115,6 +117,8 @@ export abstract class IMutation {
     abstract createBook(data?: Nullable<CreateBookInput>): Nullable<CreateBookResponse> | Promise<Nullable<CreateBookResponse>>;
 
     abstract postComment(data?: Nullable<PostCommentInput>): Nullable<PostCommentResponse> | Promise<Nullable<PostCommentResponse>>;
+
+    abstract uploadMedia(file: Upload, convertToBase64?: Nullable<boolean>): MediaResponse | Promise<MediaResponse>;
 
     abstract createMembership(data?: Nullable<CreateMembershipInput>): Nullable<Membership> | Promise<Nullable<Membership>>;
 
@@ -151,6 +155,8 @@ export abstract class IQuery {
     abstract bookByGenre(genre: string): Nullable<Nullable<Book>[]> | Promise<Nullable<Nullable<Book>[]>>;
 
     abstract comment(id: string): Nullable<Comment> | Promise<Nullable<Comment>>;
+
+    abstract feed(userId: string): FeedItem[] | Promise<FeedItem[]>;
 
     abstract memberships(): Nullable<Membership>[] | Promise<Nullable<Membership>[]>;
 
@@ -227,10 +233,10 @@ export class UpdatePasswordResponse {
 
 export class Author {
     id: string;
-    first_name: string;
-    last_name: string;
+    firstName: string;
+    lastName: string;
     bio?: Nullable<string>;
-    birth_date?: Nullable<Date>;
+    birthDate?: Nullable<Date>;
     books?: Nullable<Nullable<Book>[]>;
 }
 
@@ -260,7 +266,7 @@ export class CreateBookResponse {
 export class Comment {
     id: string;
     text?: Nullable<string>;
-    date_posted?: Nullable<Date>;
+    datePosted?: Nullable<Date>;
     user?: Nullable<User>;
     post?: Nullable<Post>;
 }
@@ -270,6 +276,26 @@ export class PostCommentResponse {
     success: boolean;
     message: string;
     comment?: Nullable<Comment>;
+}
+
+export class Media {
+    id: string;
+    url?: Nullable<string>;
+    type: string;
+    fileName: string;
+    hashName: string;
+    mimeType: string;
+    createdAt?: Nullable<Date>;
+    updatedAt?: Nullable<Date>;
+    base64?: Nullable<string>;
+    size?: Nullable<number>;
+}
+
+export class MediaResponse {
+    code: number;
+    success: boolean;
+    message: string;
+    media: Media;
 }
 
 export class Membership {
@@ -284,8 +310,9 @@ export class Post {
     user: User;
     title?: Nullable<string>;
     content?: Nullable<string>;
-    created_at?: Nullable<Date>;
+    createdAt?: Nullable<Date>;
     comments?: Nullable<Nullable<Comment>[]>;
+    media?: Nullable<Nullable<Media>[]>;
 }
 
 export class CreatePostResponse {
@@ -299,7 +326,7 @@ export class Review {
     id: string;
     text?: Nullable<string>;
     rating?: Nullable<number>;
-    date_posted?: Nullable<Date>;
+    datePosted?: Nullable<Date>;
     user?: Nullable<User>;
     book?: Nullable<Book>;
 }
@@ -313,23 +340,23 @@ export class CreateReviewResponse {
 
 export class SubscriptionPlan {
     id: string;
-    user_id?: Nullable<string>;
-    membership_id?: Nullable<string>;
-    start_date?: Nullable<string>;
-    end_date?: Nullable<string>;
+    userId?: Nullable<string>;
+    membershipId?: Nullable<string>;
+    startDate?: Nullable<string>;
+    endDate?: Nullable<string>;
 }
 
 export class User {
     id: string;
     nickname?: Nullable<string>;
-    first_name?: Nullable<string>;
-    last_name?: Nullable<string>;
+    firstName?: Nullable<string>;
+    lastName?: Nullable<string>;
     email?: Nullable<string>;
     password?: Nullable<string>;
     age?: Nullable<number>;
     role?: Nullable<string>;
     enabled?: Nullable<boolean>;
-    created_at?: Nullable<string>;
+    createdAt?: Nullable<string>;
     posts?: Nullable<Nullable<Post>[]>;
     favorites?: Nullable<Nullable<Book>[]>;
     reviews?: Nullable<Nullable<Review>[]>;
@@ -342,4 +369,6 @@ export class AddFavoriteBookResponse {
     message: string;
 }
 
+export type Upload = any;
+export type FeedItem = Post | Review;
 type Nullable<T> = T | null;

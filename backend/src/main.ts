@@ -9,7 +9,7 @@ async function bootstrap() {
 
   // Configura CORS
   app.enableCors({
-    origin: 'http://localhost:3000', // Permite a localhost:3000
+    origin: 'http://localhost:3000,http://localhost:4000', // Permite solo peticiones desde el cliente
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS', // Permite todos los métodos HTTP
     allowedHeaders: 'Content-Type, Authorization', // Permite las cabeceras especificadas
     credentials: true, // Permite el envío de cookies o cabeceras de autenticación
@@ -20,11 +20,6 @@ async function bootstrap() {
   const wsUrl = process.env.WS_URL || `ws://localhost:${port}`;
 
   await app.listen(port);
-
-  app.enableCors({
-    origin: '*',
-    credentials: true,
-  });
 
   console.log('\n');
   console.log('======================================');

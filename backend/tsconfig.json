@@ -21,9 +21,6 @@
       "@/*": [
         "src/*"
       ],
-      "@modules/*": [
-        "src/modules/*"
-      ],
       "@config/*": [
         "src/config/*"
       ],

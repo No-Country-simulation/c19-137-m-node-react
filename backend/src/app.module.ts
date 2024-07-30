@@ -23,10 +23,15 @@ import { PostsModule } from './modules/posts/posts.module';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 
 import { Context } from 'graphql-ws';
-import { BooksModule } from './modules/books/books.module';
-import { AuthorsModule } from './modules/authors/authors.module';
-import { ReviewsModule } from './modules/reviews/reviews.module';
-import { CommentsModule } from './modules/comments/comments.module';
+import { BooksModule } from '@/modules/books/books.module';
+import { AuthorsModule } from '@/modules/authors/authors.module';
+import { ReviewsModule } from '@/modules/reviews/reviews.module';
+import { CommentsModule } from '@/modules/comments/comments.module';
+import { FeedModule } from '@/modules/feed/feed.module';
+import { MediaModule } from './modules/media/media.module';
+
+import { graphqlUploadExpress } from 'graphql-upload-ts';
+import { ApolloPrelightMiddleware } from '@/middleware/apollo-prelight.middleware';
 
 @Module({
   imports: [
@@ -35,6 +40,11 @@ import { CommentsModule } from './modules/comments/comments.module';
       rootPath: join(__dirname, '..', 'graphiql'),
       exclude: ['/api*'],
       serveRoot: '/graphiql',
+    }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'uploads'),
+      exclude: ['/api*'],
+      serveRoot: '/uploads',
     }),
     //Variables de entorno
     ConfigModule.forRoot({
@@ -67,11 +77,7 @@ import { CommentsModule } from './modules/comments/comments.module';
           then: Joi.optional(),
           otherwise: Joi.required(),
         }),
-        DATABASE_PASSWORD: Joi.string().when('DATABASE_URL', {
-          is: Joi.exist(),
-          then: Joi.optional(),
-          otherwise: Joi.required(),
-        }),
+        DATABASE_PASSWORD: Joi.optional(),
         JWT_SECRET: Joi.string().required(),
       }),
     }),
@@ -97,6 +103,7 @@ import { CommentsModule } from './modules/comments/comments.module';
       debug: true,
       introspection: true,
       typePaths: ['./**/*.graphql'],
+
       definitions: {
         path: join(process.cwd(), 'src/graphql.schema.ts'),
         outputAs: 'class',
@@ -135,10 +142,18 @@ import { CommentsModule } from './modules/comments/comments.module';
     AuthorsModule,
     ReviewsModule,
     CommentsModule,
+    FeedModule,
+    MediaModule,
   ],
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(ApolloSandboxMiddleware).forRoutes('*');
+
+    consumer
+      .apply(graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 10 }))
+      .forRoutes('graphql');
+
+    consumer.apply(ApolloPrelightMiddleware).forRoutes('graphql');
   }
 }

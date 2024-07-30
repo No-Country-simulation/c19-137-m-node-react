@@ -4,8 +4,11 @@ Representa una review en el sistema
 type Review {
     id: ID!
     text: String
+    "Rating de la review, entre 0 y 5."
     rating: Float
-    date_posted: Date
+
+
+    datePosted: Date
     user: User
     book: Book
 }

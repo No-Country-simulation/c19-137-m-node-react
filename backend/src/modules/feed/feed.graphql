@@ -1,0 +1,6 @@
+union FeedItem = Post | Review
+
+type Query {
+    feed(userId:ID!): [FeedItem!]!
+}
+

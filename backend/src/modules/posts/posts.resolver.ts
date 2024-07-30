@@ -29,6 +29,20 @@ export class PostsResolver {
     @Args('data') data: CreatePostInput,
     @CurrentUser() user: UserEntity,
   ) {
-    return this.postsService.createPost(data, user);
+    try {
+      const post = this.postsService.createPost(data, user);
+      return {
+        code: 200,
+        message: 'Post creado exitosamente',
+        success: true,
+        post,
+      };
+    } catch (error) {
+      return {
+        code: 400,
+        message: error.message,
+        success: false,
+      };
+    }
   }
 }

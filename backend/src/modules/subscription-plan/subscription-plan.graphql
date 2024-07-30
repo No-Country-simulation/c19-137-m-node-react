@@ -11,22 +11,22 @@ type SubscriptionPlan {
     """
     Id del usuario registrado.
     """
-    user_id: String
+    userId: String
 
     """
     Id del tipo de membresia.
     """
-    membership_id: String
+    membershipId: String
 
     """
     Fecha en la que la suscripción comenzó.
     """
-    start_date: String
+    startDate: String
 
     """
     Fecha en la que la suscripción finalizará.
     """
-    end_date: String
+    endDate: String
 }
 
 """
@@ -41,15 +41,15 @@ input CreateSubscriptionPlanInput {
     """
     Id del tipo de membresia.
     """
-    membership_id: String
+    membershipId: String
     """
     Fecha en la que la suscripción comenzó.
     """
-    start_date: String
+    startDate: String
     """
     Fecha en la que la suscripción finalizará.
     """
-    end_date: String
+    endDate: String
 }
 
 """
@@ -65,20 +65,20 @@ input UpdateSubscriptionPlanInput {
     """
     Id del usuario registrado.
     """
-    user_id: String
+    userId: String
 
     """
     Id del tipo de membresia.
     """
-    membership_id: String
+    membershipId: String
     """
     Fecha en la que la suscripción comenzó.
     """
-    start_date: String
+    startDe: String
     """
     Fecha en la que la suscripción finalizará.
     """
-    end_date: String
+    endDate: String
 }
 
 extend type Query {

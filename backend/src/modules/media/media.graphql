@@ -1,0 +1,73 @@
+type Media {
+    id:ID!
+    """
+    URL del archivo multimedia.
+    """
+    url:String
+
+    """
+    Tipo de archivo multimedia (ej. image, video, etc.)
+    """
+    type:String!
+
+    """
+    Nombre del archivo multimedia.
+    """
+    fileName:String!
+
+    """
+    Nombre hash del archivo multimedia.
+    """
+    hashName:String!
+
+    """
+    Tipo de archivo multimedia (ej. image/jpeg, video/mp4, etc.)
+    """
+    mimeType:String!
+
+    """
+    Fecha de creación del archivo multimedia.
+    """
+    createdAt:Date
+
+    """
+    Fecha de actualización del archivo multimedia.
+    """
+    updatedAt:Date
+
+    """
+    Base64 del archivo multimedia.
+    """
+    base64:String
+
+    """
+    Tamaño del archivo multimedia.
+    """
+    size:Int
+
+}
+
+
+"""
+Respuesta de la subida de un archivo multimedia.
+"""
+type MediaResponse {
+    code: Int!
+    success: Boolean!
+    message: String!
+    media: Media!
+}
+
+
+type Mutation {
+    """
+    Subir un archivo multimedia.
+
+    Argumentos:
+    - file: El archivo que se va a subir. Debe ser de tipo Upload.
+    - convertToBase64: Opción para convertir el archivo a base64. Es de tipo Boolean.
+    """
+    uploadMedia(file:Upload!, convertToBase64:Boolean): MediaResponse!
+}
+
+scalar Upload

@@ -76,9 +76,9 @@ export class AuthService {
    */
   async signUp(input: SignUpInput) {
     try {
-      const { email, nickname } = input;
+      const { email, nickName } = input;
 
-      await this.checkUserExists(email, nickname);
+      await this.checkUserExists(email, nickName);
 
       //Crear el usuario
 
@@ -235,8 +235,8 @@ export class AuthService {
   private generateToken(user: UserEntity): string {
     return this.jwtService.sign({
       email: user.email,
-      first_name: user.first_name,
-      last_name: user.last_name,
+      firstName: user.first_name,
+      lastName: user.last_name,
       role: user.role,
       sub: user.id,
     });

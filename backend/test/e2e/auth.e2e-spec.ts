@@ -3,7 +3,7 @@ import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from '@/app.module';
 
-describe('AuthModule (e2e)', () => {
+describe('Authentication (e2e)', () => {
   let app: INestApplication;
 
   beforeAll(async () => {
@@ -64,11 +64,11 @@ describe('AuthModule (e2e)', () => {
         variables: {
           data: {
             email: 'orlandocardenas0107@gmail.com',
-            first_name: 'Orlando',
-            last_name: 'Cardenas',
-            nickname: 'orlando',
+            firstName: 'Orlando',
+            lastName: 'Cardenas',
+            nickName: 'orlando',
             password: '12345678',
-            password_confirmation: '12345678',
+            passwordConfirmation: '12345678',
           },
         },
       })

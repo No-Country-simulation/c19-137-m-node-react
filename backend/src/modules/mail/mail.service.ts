@@ -9,9 +9,10 @@ export class MailService {
 
   async sendUserConfirmation(user: UserEntity, token: string) {
     const url = process.env.FRONTEND_URL + '/confirm?token' + token;
+    const appName = process.env.APP_NAME || 'Book Talks';
     await this.mailerService.sendMail({
       to: user.email,
-      subject: 'Bienvenido a PageHub',
+      subject: 'Bienvenido a' + appName,
       template: './confirmation',
       context: {
         name: user.first_name,
@@ -21,13 +22,14 @@ export class MailService {
   }
 
   async sendUserPasswordReset(user: UserEntity, token: string) {
+    const url = process.env.FRONTEND_URL + '/reset-password?token' + token;
     await this.mailerService.sendMail({
       to: user.email,
       subject: 'Restablecer contraseña',
       template: './password-recovery',
       context: {
         name: user.first_name,
-        reset_url: `https://pagehub.com/reset-password?token=${token}`,
+        reset_url: url,
       },
     });
   }

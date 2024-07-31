@@ -7,11 +7,18 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
 
+  app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Accept');
+    next();
+  });
+
   // Configura CORS
   app.enableCors({
-    origin: 'http://localhost:3000,http://localhost:4000', // Permite solo peticiones desde el cliente
+    origin: '*',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS', // Permite todos los métodos HTTP
-    allowedHeaders: 'Content-Type, Authorization', // Permite las cabeceras especificadas
+    allowedHeaders: '*', // Permite las cabeceras especificadas
     credentials: true, // Permite el envío de cookies o cabeceras de autenticación
   });
 

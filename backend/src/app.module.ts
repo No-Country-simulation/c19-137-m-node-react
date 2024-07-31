@@ -123,13 +123,11 @@ import { ApolloPrelightMiddleware } from '@/middleware/apollo-prelight.middlewar
         const { message } = error;
 
         // Devolvemos un nuevo objeto con las propiedades que queremos
-        const formatted = {
+        return {
           code: 400,
           message,
           success: false,
         };
-
-        return formatted;
       },
     }),
     UsersModule,

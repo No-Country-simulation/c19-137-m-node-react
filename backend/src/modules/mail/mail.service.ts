@@ -22,7 +22,7 @@ export class MailService {
   }
 
   async sendUserPasswordReset(user: UserEntity, token: string) {
-    const url = process.env.FRONTEND_URL + '/reset-password?token' + token;
+    const url = process.env.FRONTEND_URL + '/reset-password/' + token;
     await this.mailerService.sendMail({
       to: user.email,
       subject: 'Restablecer contraseña',

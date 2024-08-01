@@ -29,7 +29,7 @@ export class UsersService {
     private readonly passwordResetTokenRepository: Repository<PasswordResetTokenEntity>,
     @InjectRepository(BookEntity)
     private readonly bookRepository: Repository<BookEntity>,
-  ) {}
+  ) { }
 
   /**
    * Helper para hashear la contraseña
@@ -290,6 +290,26 @@ export class UsersService {
       success: true,
     };
   }
+  /**
+   * Sigue a un usuario en sistema
+   * @param user el usuario actual
+   * @param followUserId id del usuario a seguir
+   * @returns 
+   */
+  async followUser(followUserId: string, user: UserEntity): Promise<UserEntity> {
+    const followUser = await this.userRepository.findOne({ where: {id: followUserId}});
 
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    if (!followUser) {
+      throw new Error('User to follow not found');
+    }
+
+    user.following.push(followUser);
+    await this.userRepository.save(user);
+    return user;
+  }
 
 }

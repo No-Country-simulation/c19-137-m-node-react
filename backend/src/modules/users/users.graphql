@@ -48,6 +48,10 @@ type User {
     """
     Lista de posts que ha hecho el usuario
     """
+    following: [User]
+
+    followers: [User]
+
     posts: [Post]
     """
     Lista de libros favoritos del usuario
@@ -68,6 +72,9 @@ extend type Mutation {
     Mutación para añadir libro favorito
     """
     addFavoriteBook(data: AddFavoriteBookInput): AddFavoriteBookResponse
+
+    followUser(userId: ID!, followUserId: ID!): User!
+
 }
 
 """

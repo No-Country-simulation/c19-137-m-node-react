@@ -35,6 +35,23 @@ export class UserEntity {
   @JoinTable()
   favorites: BookEntity[];
 
+  @ManyToMany(() => UserEntity, (user) => user.following)
+  @JoinTable({
+    name: 'user_following', // custom join table name
+    joinColumn: {
+      name: 'user_id',
+      referencedColumnName: 'id'
+    },
+    inverseJoinColumn: {
+      name: 'following_user_id',
+      referencedColumnName: 'id'
+    }
+  })
+  following: UserEntity[];
+
+  @ManyToMany(() => UserEntity, (user) => user.followers)
+  followers: UserEntity[];
+
   @Column()
   first_name: string;
 

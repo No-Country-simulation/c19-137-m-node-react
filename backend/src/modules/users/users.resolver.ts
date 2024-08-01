@@ -10,7 +10,7 @@ import { CurrentUser } from '@/modules/auth/decorators/current-user.decorator';
 
 @Resolver(() => UserEntity)
 export class UsersResolver {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService) { }
 
   //Lista de frases motivacionales que se van a enviar a los subscriptores
   private phrases: string[] = [
@@ -55,4 +55,13 @@ export class UsersResolver {
   ) {
     return this.usersService.addFavoriteBook(data, user);
   }
+
+  @Mutation(() => UserEntity)
+  async followUser(
+    @Args('followUserId', { type: () => String }) followUserId: string,
+    @CurrentUser() user: UserEntity,
+  ): Promise<UserEntity> {
+    return this.usersService.followUser(followUserId, user);
+  }
+
 }

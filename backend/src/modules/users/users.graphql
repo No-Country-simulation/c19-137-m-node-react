@@ -38,7 +38,12 @@ type User {
     """
     Fecha de creación del usuario en formato ISO 8601.
     """
-    createdAt: String
+    createdAt: Date
+
+    """
+    Fecha de actualización del usuario en formato ISO 8601.
+    """
+    updatedAt: Date
 
     """
     Lista de posts que ha hecho el usuario

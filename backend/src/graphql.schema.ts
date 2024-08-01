@@ -166,7 +166,7 @@ export abstract class IQuery {
 
     abstract post(id: string): Nullable<Post> | Promise<Nullable<Post>>;
 
-    abstract profile(): Nullable<User> | Promise<Nullable<User>>;
+    abstract profile(): Nullable<Profile> | Promise<Nullable<Profile>>;
 
     abstract reviews(): Nullable<Review>[] | Promise<Nullable<Review>[]>;
 
@@ -324,6 +324,12 @@ export class CreatePostResponse {
     post?: Nullable<Post>;
 }
 
+export class Profile {
+    user?: Nullable<User>;
+    profileCoverImage?: Nullable<Media>;
+    profileImage?: Nullable<Media>;
+}
+
 export class Review {
     id: string;
     text?: Nullable<string>;
@@ -358,7 +364,8 @@ export class User {
     age?: Nullable<number>;
     role?: Nullable<string>;
     enabled?: Nullable<boolean>;
-    createdAt?: Nullable<string>;
+    createdAt?: Nullable<Date>;
+    updatedAt?: Nullable<Date>;
     posts?: Nullable<Nullable<Post>[]>;
     favorites?: Nullable<Nullable<Book>[]>;
     reviews?: Nullable<Nullable<Review>[]>;

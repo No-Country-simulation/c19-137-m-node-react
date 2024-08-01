@@ -59,10 +59,10 @@ export class PostsService {
     data: CreatePostInput,
     user: UserEntity,
   ): Promise<PostEntity> {
+    console.log('data', user);
     const post = this.postRepository.create({
       title: data.title,
       content: data.content,
-      created_at: new Date(),
       user: user,
     });
 

@@ -38,10 +38,12 @@ export class PostsResolver {
         post,
       };
     } catch (error) {
+      console.log('error', error);
       return {
         code: 400,
         message: error.message,
         success: false,
+
       };
     }
   }

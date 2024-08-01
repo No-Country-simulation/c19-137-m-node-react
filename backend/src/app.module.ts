@@ -32,6 +32,7 @@ import { MediaModule } from './modules/media/media.module';
 
 import { graphqlUploadExpress } from 'graphql-upload-ts';
 import { ApolloPrelightMiddleware } from '@/middleware/apollo-prelight.middleware';
+import { ProfileModule } from '@/modules/profile/profile.module';
 
 @Module({
   imports: [
@@ -142,6 +143,7 @@ import { ApolloPrelightMiddleware } from '@/middleware/apollo-prelight.middlewar
     CommentsModule,
     FeedModule,
     MediaModule,
+    ProfileModule,
   ],
 })
 export class AppModule {

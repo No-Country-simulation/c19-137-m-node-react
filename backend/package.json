@@ -19,7 +19,8 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "maizzle:build": "cd maizzle && pnpm build",
-    "maizzle:dev": "cd maizzle && pnpm dev"
+    "maizzle:dev": "cd maizzle && pnpm dev",
+    "generate-typings": "ts-node src/scripts/generate-typings.ts"
   },
   "dependencies": {
     "@apollo/server": "^4.10.4",

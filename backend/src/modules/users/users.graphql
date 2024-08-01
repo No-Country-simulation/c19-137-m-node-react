@@ -50,8 +50,14 @@ type User {
     """
     following: [User]
 
+    """
+    Seguidores del usuario
+    """
     followers: [User]
 
+    """
+    Lista de posts que ha hecho el usuario
+    """
     posts: [Post]
     """
     Lista de libros favoritos del usuario
@@ -63,8 +69,32 @@ type User {
     """
     reviews: [Review]
 
+    """
+    Lista de comentarios del usuario
+    """
     comments: [Comment]
 
+    """
+    Libros asociados al usuario
+    """
+    books: [Book]
+
+    """
+    Banner de perfil del usuario
+    """
+    coverImage: Media
+
+
+    """
+    Imagen de perfil del usuario
+    """
+
+    profileImage: Media
+
+    """
+    Biografía del usuario
+    """
+    bio: String
 }
 
 extend type Mutation {
@@ -73,7 +103,21 @@ extend type Mutation {
     """
     addFavoriteBook(data: AddFavoriteBookInput): AddFavoriteBookResponse
 
+    """
+    Mutación seguir a un usuario
+    """
+
     followUser(userId: ID!, followUserId: ID!): User!
+
+    """
+    Mutación para actualizar  la imagen de perfil del usuario.
+    """
+    setProfileImage(mediaId: ID!): User!
+
+    """
+    Mutación para actualizar la imagen de portada del perfil de un usuario.
+    """
+    setCoverImage(mediaId: ID!): User!
 
 }
 
@@ -188,6 +232,10 @@ extend type Query {
     """
     usersByName(name: String!): [User]
 
+
+    """
+    Obtiene los detalles de un usuario especifico por su Rol
+    """
     usersByRole(role: String!): [User]
 }
 

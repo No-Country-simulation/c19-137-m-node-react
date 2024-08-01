@@ -37,7 +37,7 @@ extend type Query {
     Obtener la información del usuario actualmente autenticado.
     Retorna el usuario autenticado.
     """
-    me: User
+    profile: User
 }
 
 """

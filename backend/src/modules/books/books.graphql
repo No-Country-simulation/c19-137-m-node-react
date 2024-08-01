@@ -8,7 +8,12 @@ type Book {
     rating: Float
     genre: String
     users: [User]
+    publishedDate: Date
     reviews: [Review]
+    comments: [Comment]
+    createdAt: Date
+    updatedAt: Date
+
 }
 
 """

@@ -137,10 +137,16 @@ export abstract class IMutation {
     abstract removeSubscriptionPlan(id: string): Nullable<Response> | Promise<Nullable<Response>>;
 
     abstract addFavoriteBook(data?: Nullable<AddFavoriteBookInput>): Nullable<AddFavoriteBookResponse> | Promise<Nullable<AddFavoriteBookResponse>>;
+
+    abstract followUser(userId: string, followUserId: string): User | Promise<User>;
+
+    abstract setProfileImage(mediaId: string): User | Promise<User>;
+
+    abstract setCoverImage(mediaId: string): User | Promise<User>;
 }
 
 export abstract class IQuery {
-    abstract me(): Nullable<User> | Promise<Nullable<User>>;
+    abstract profile(): Nullable<User> | Promise<Nullable<User>>;
 
     abstract authors(): Nullable<Author>[] | Promise<Nullable<Author>[]>;
 
@@ -165,8 +171,6 @@ export abstract class IQuery {
     abstract posts(): Nullable<Post>[] | Promise<Nullable<Post>[]>;
 
     abstract post(id: string): Nullable<Post> | Promise<Nullable<Post>>;
-
-    abstract profile(): Nullable<Profile> | Promise<Nullable<Profile>>;
 
     abstract reviews(): Nullable<Review>[] | Promise<Nullable<Review>[]>;
 
@@ -255,7 +259,11 @@ export class Book {
     rating?: Nullable<number>;
     genre?: Nullable<string>;
     users?: Nullable<Nullable<User>[]>;
+    publishedDate?: Nullable<Date>;
     reviews?: Nullable<Nullable<Review>[]>;
+    comments?: Nullable<Nullable<Comment>[]>;
+    createdAt?: Nullable<Date>;
+    updatedAt?: Nullable<Date>;
 }
 
 export class CreateBookResponse {
@@ -324,12 +332,6 @@ export class CreatePostResponse {
     post?: Nullable<Post>;
 }
 
-export class Profile {
-    user?: Nullable<User>;
-    profileCoverImage?: Nullable<Media>;
-    profileImage?: Nullable<Media>;
-}
-
 export class Review {
     id: string;
     text?: Nullable<string>;
@@ -366,10 +368,16 @@ export class User {
     enabled?: Nullable<boolean>;
     createdAt?: Nullable<Date>;
     updatedAt?: Nullable<Date>;
+    following?: Nullable<Nullable<User>[]>;
+    followers?: Nullable<Nullable<User>[]>;
     posts?: Nullable<Nullable<Post>[]>;
     favorites?: Nullable<Nullable<Book>[]>;
     reviews?: Nullable<Nullable<Review>[]>;
     comments?: Nullable<Nullable<Comment>[]>;
+    books?: Nullable<Nullable<Book>[]>;
+    coverImage?: Nullable<Media>;
+    profileImage?: Nullable<Media>;
+    bio?: Nullable<string>;
 }
 
 export class AddFavoriteBookResponse {

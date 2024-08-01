@@ -1,35 +1,43 @@
-import { UserEntity } from 'src/modules/users/entities/user.entity';
-import { AuthorEntity } from 'src/modules/authors/entities/authors.entity';
+import {UserEntity} from 'src/modules/users/entities/user.entity';
+import {AuthorEntity} from 'src/modules/authors/entities/authors.entity';
 import {
-  Column,
-  Entity,
-  ManyToMany,
-  ManyToOne,
-  OneToMany,
-  PrimaryGeneratedColumn,
+    Column,
+    Entity,
+    ManyToMany,
+    ManyToOne,
+    OneToMany,
+    PrimaryGeneratedColumn,
 } from 'typeorm';
-import { ReviewEntity } from 'src/modules/reviews/entities/reviews.entity';
+import {ReviewEntity} from 'src/modules/reviews/entities/reviews.entity';
+import {CommentEntity} from "@/modules/comments/entities/comment.entity";
 
 @Entity()
 export class BookEntity {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+    @PrimaryGeneratedColumn('uuid')
+    id: string;
 
-  @Column()
-  name: string;
+    @Column()
+    name: string;
 
-  @ManyToOne(() => AuthorEntity, (author) => author.books)
-  author: AuthorEntity;
+    @Column()
+    published_date: Date;
 
-  @Column('decimal', { precision: 6, scale: 1 })
-  rating: number;
+    @ManyToOne(() => AuthorEntity, (author) => author.books)
+    author: AuthorEntity;
 
-  @Column()
-  genre: string;
+    @Column('decimal', {precision: 6, scale: 1})
+    rating: number;
 
-  @ManyToMany(() => UserEntity, (user) => user.favorites)
-  users: UserEntity[];
+    @Column()
+    genre: string;
 
-  @OneToMany(() => ReviewEntity, (review) => review.book)
-  reviews: ReviewEntity[];
+    @ManyToMany(() => UserEntity, (user) => user.favorites)
+    users: UserEntity[];
+
+    @OneToMany(() => ReviewEntity, (review) => review.book)
+    reviews: ReviewEntity[];
+
+    @OneToMany(() => CommentEntity, (comment) => comment.book)
+    comments: CommentEntity[];
+
 }

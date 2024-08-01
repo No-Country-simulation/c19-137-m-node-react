@@ -7,7 +7,7 @@ type Profile {
     Retorna el perfil del usuario autenticado.
     """
     user: User
-    
+
     """
     Imagen de portada del perfil.
     """
@@ -17,8 +17,29 @@ type Profile {
     Imagen de perfil del usuario.
     """
     profileImage: Media
+}
 
 
+
+extend type Mutation {
+    """
+    Actualiza la información del perfil del usuario autenticado.
+    Retorna el perfil actualizado del usuario.
+    """
+    updateProfilePicture(data: UpdateProfileInput!): Profile
+
+}
+
+type UpdateProfileInput {
+    """
+    Imagen de perfil del usuario.
+    """
+    profileImage: Media
+
+    """
+    Imagen de portada del perfil.
+    """
+    profileCoverImage: Media
 }
 
 

@@ -18,7 +18,7 @@ export class ProfileResolver {
 
   @Mutation('updateProfile')
   @UseGuards(GqlAuthGuard)
-  async updateProfile(@CurrentUser() user: UserEntity): Promise<TProfile> {
+  async updateProfilePicture(@CurrentUser() user: UserEntity): Promise<TProfile> {
     return await this.profileService.profile(user);
   }
 }

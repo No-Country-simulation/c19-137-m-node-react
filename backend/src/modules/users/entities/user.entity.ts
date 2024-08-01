@@ -1,10 +1,12 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   JoinTable,
   ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { PostEntity } from 'src/modules/posts/entities/post.entity';
 import { BookEntity } from 'src/modules/books/entities/book.entity';
@@ -64,4 +66,10 @@ export class UserEntity {
 
   @OneToMany(() => SubscriptionPlanEntity, (subscription) => subscription.user)
   subscriptions: SubscriptionPlanEntity[];
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 }

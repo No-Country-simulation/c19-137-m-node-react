@@ -50,5 +50,5 @@ export class PostEntity {
   media: MediaEntity[];
 
   @CreateDateColumn()
-  created_at: Date;
+  createdAt: Date;
 }

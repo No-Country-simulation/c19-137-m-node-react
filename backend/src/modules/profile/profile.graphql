@@ -1,9 +1,33 @@
+"""
+Define el esquema de consultas y mutaciones para el módulo de perfil.
+"""
+type Profile {
+    """
+    Obtiene la información del perfil del usuario actualmente autenticado.
+    Retorna el perfil del usuario autenticado.
+    """
+    user: User
+    
+    """
+    Imagen de portada del perfil.
+    """
+    profileCoverImage: Media
+
+    """
+    Imagen de perfil del usuario.
+    """
+    profileImage: Media
+
+
+}
+
+
 extend type Query {
     """
     Obtiene la información del perfil del usuario actualmente autenticado.
     Retorna el perfil del usuario autenticado.
     """
-    profile: User
+    profile: Profile
 }
 
 

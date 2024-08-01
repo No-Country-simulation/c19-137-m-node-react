@@ -33,18 +33,6 @@ query Feed($useId: ID!) {
                 filename,
                 mimetype,
             }
-        },
-        followedBy {
-            id,
-            name,
-            email,
-            avatar {
-                id,
-                url,
-                type,
-                filename,
-                mimetype,
-            }
         }
     }
 }

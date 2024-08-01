@@ -1,6 +1,6 @@
 "use client";
 
-import {GET_POSTS} from "@/graphql/queries/posts";
+import {GET_POSTS} from "@/graphql/queries/get";
 import {useQuery} from "@apollo/client";
 
 const Posts = () => {

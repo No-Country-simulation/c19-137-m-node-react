@@ -29,7 +29,6 @@ export default function HomeLayout({
                 </button>
                 {children}
             </main>
-            <Sidebar />
         </div>
     );
 }

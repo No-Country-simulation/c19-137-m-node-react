@@ -25,8 +25,8 @@ const Navbar = ({ isOpen, toggleNav }: NavbarProps) => {
   const { data: session } = useSession();
 
   const routeList: Route[] = session ? [
-    { icon: <CiHome />, name: "Inicio", href: "/" },
-    { icon: <CiSearch />, name: "Explorar", href: "/dashboard/public/search" },
+    { icon: <CiHome />, name: "Inicio", href: "/dashboard/private/" },
+    { icon: <CiSearch />, name: "Explorar", href: "/dashboard/public/books" },
     { icon: <CiBellOn />, name: "Notificaciones", href: "/dashboard/private/notifications" },
     { icon: <CiMail />, name: "Mensajes", href: "/dashboard/private/messages" },
     { icon: <BsPeople />, name: "Amigos", href: "/dashboard/private/contacts" },
@@ -34,21 +34,21 @@ const Navbar = ({ isOpen, toggleNav }: NavbarProps) => {
     { icon: <CiSettings />, name: "Configuración", href: "/dashboard/privateconfig" },
   ] : [
     { icon: <CiHome />, name: "Inicio", href: "/" },
-    { icon: <CiSearch />, name: "Explorar", href: "/dashboard/public/search" },
+    { icon: <CiSearch />, name: "Explorar", href: "/dashboard/public/books" },
     { icon: <CiLogout />, name: "Ingresar", href: "/auth" },
   ];
 
   return (
     <Sheet open={isOpen} onOpenChange={toggleNav}>
       <SheetTrigger asChild className="hover:bg-transparent">
-        <Button variant="outline" className='m-4 p-0 border-0 rounded-full hover:bg-none bg-transparent'>
+        <Button variant="outline" className='p-0 m-4 bg-transparent border-0 rounded-full hover:bg-none'>
           <Image src="/logos/logo.png" alt="logo" width={100} height={100} className='rounded-full' />
         </Button>
       </SheetTrigger>
       <SheetContent side={'left'} className="w-[200px] sm:w-[240px]">
         <SheetHeader>
           <SheetTitle>
-            <div className='fixed bottom-2 left-2 m-4'>
+            <div className='fixed m-4 bottom-2 left-4'>
               <ModeToggle />
             </div>
           </SheetTitle>

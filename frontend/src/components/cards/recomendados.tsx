@@ -62,27 +62,27 @@ export default function Recomendados() {
     return (
         <div className="flex flex-col w-full p-4 dark:bg-gray-900 dark:text-white">
             <div className='flex gap-4'>
-                <h1 className="mb-4 font-semibold dark:text-gray-200">Recomendados para ti</h1>
-                <Link href="/dashboard/public/recommendedBook" className="mb-4 dark:text-gray-400">Ver Todo</Link>
+                <h5 className="mb-4 font-semibold dark:text-gray-200 text-[1rem]">Recomendados para ti</h5>
+                <Link href="/dashboard/public/books/ " className="mb-4 dark:text-gray-400 text-[1rem]">Ver Todo</Link>
             </div>
             <div className="grid grid-cols-1 gap-4">
                 {recomendados.map((libro) => (
                     <div key={libro.id} className="">
                         <Drawer>
                             <DrawerTrigger asChild>
-                                <div onClick={() => setSelectedLibro(libro)} className="flex gap-2 p-2 cursor-pointer rounded-xl hover:bg-gray-700">
-                                    <Avatar className="w-16 h-16">
+                                <div onClick={() => setSelectedLibro(libro)} className="flex gap-2 p-2 rounded cursor-pointer hover:bg-gray-100">
+                                    <Avatar className="w-12 h-12">
                                         <AvatarImage src={libro.image}
                                             alt={libro.libro}
                                             width={64}
                                             height={64}
-                                            className="object-cover" />
+                                            className="" />
                                         <AvatarFallback>IMG</AvatarFallback>
                                     </Avatar>
                                     <div className="flex flex-col">
-                                        <div className="flex"><h2 className="dark:text-gray-200">{libro.libro}</h2></div>
+                                        <div className="flex"><h2 className="dark:text-gray-200 text-[9px] font-semibold hover:text-black">{libro.libro}</h2></div>
                                         <div className="flex">
-                                            <p className="dark:text-gray-400">{libro.autor}</p>
+                                            <p className="dark:text-gray-400 text-[9px] hover:text-black">{libro.autor}</p>
                                         </div>
                                     </div>
                                 </div>

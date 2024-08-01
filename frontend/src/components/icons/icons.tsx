@@ -26,3 +26,4 @@ const StarIcon: React.FC<StarIconProps> = ({ filled = false }) => {
 };
 
 export default StarIcon;
+

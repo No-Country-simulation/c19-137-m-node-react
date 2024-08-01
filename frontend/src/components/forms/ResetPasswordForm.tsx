@@ -1,11 +1,15 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import { useMutation } from '@apollo/client'
+import { useState } from 'react';
+import { useMutation } from '@apollo/client';
 import { gql } from "@apollo/client";
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from "@/components/ui/label"
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from "@/components/ui/label";
+import Image from 'next/image';
+import Link from 'next/link';
+import { toast } from "@/components/ui/use-toast"
+
 
 const RESET_PASSWORD_MUTATION = gql`
   mutation ResetPassword($data: ResetPasswordInput!) {
@@ -17,73 +21,99 @@ const RESET_PASSWORD_MUTATION = gql`
   }
 `;
 
-const ResetPasswordForm: React.FC = () => {
+interface ResetPasswordFormProps {
+    token: string;
+}
+
+const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({ token }) => {
     const [newPassword, setNewPassword] = useState('');
     const [confirmNewPassword, setConfirmNewPassword] = useState('');
-    const [token, setToken] = useState('');
     const [resetPassword, { data, loading, error }] = useMutation(RESET_PASSWORD_MUTATION);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         if (newPassword !== confirmNewPassword) {
-            alert('Las contraseñas no coinciden');
+            toast({
+                title: "Contrasenas no coinciden",
+                variant: "default",
+            })
             return;
         }
 
         try {
-            await resetPassword({
+            const response = await resetPassword({
                 variables: {
                     data: {
-                        confirmNewPassword,
                         newPassword,
+                        confirmNewPassword,
                         token,
                     },
                 },
             });
+
+            if (response.data.resetPassword.success) {
+                toast({
+                    title: 'Contrasena reseteada exitosamente',
+                    variant: "default",
+                })
+            } else {
+                toast({
+                    title: 'Error al resetear la contraseña',
+                    variant: "default",
+                })
+            }
+
+            // Limpiar los campos después de un reset exitoso si es necesario
+            setNewPassword('');
+            setConfirmNewPassword('');
         } catch (err) {
             console.error(err);
+            toast({
+                title: 'Error al resetear la contraseña',
+                variant: "default",
+            })
         }
     };
 
+
     return (
-        <form onSubmit={handleSubmit} className="max-w-md p-4 mx-auto bg-white rounded-lg shadow-md">
-            <div className="mb-4">
-                <Label htmlFor="newPassword">Nueva Contraseña</Label>
-                <Input
-                    id="newPassword"
-                    type="password"
-                    value={newPassword}
-                    onChange={(e) => setNewPassword(e.target.value)}
-                    required
-                />
+        <div className='bg-color6 p-2 rounded-md justify-center items-center'>
+            <div className='flex justify-center items-center bg-color6 h-20'>
+                <Image src="/logos/logo.png" alt="logo" width={120} height={120} />
             </div>
-            <div className="mb-4">
-                <Label htmlFor="confirmNewPassword">Confirmar Nueva Contraseña</Label>
-                <Input
-                    id="confirmNewPassword"
-                    type="password"
-                    value={confirmNewPassword}
-                    onChange={(e) => setConfirmNewPassword(e.target.value)}
-                    required
-                />
+            <form onSubmit={handleSubmit} className="max-w-md p-4 mx-auto bg-white rounded-lg shadow-md text-black">
+                <div className="mb-4">
+                    <Label htmlFor="newPassword">Nueva Contraseña</Label>
+                    <Input
+                        id="newPassword"
+                        type="password"
+                        value={newPassword}
+                        onChange={(e) => setNewPassword(e.target.value)}
+                        required
+                    />
+                </div>
+                <div className="mb-4">
+                    <Label htmlFor="confirmNewPassword">Confirmar Nueva Contraseña</Label>
+                    <Input
+                        id="confirmNewPassword"
+                        type="password"
+                        value={confirmNewPassword}
+                        onChange={(e) => setConfirmNewPassword(e.target.value)}
+                        required
+                    />
+                </div>
+                <Button type="submit" disabled={loading} className='justify-center items-center text-center hover:text-color7 p-2'>
+                    {loading ? 'Enviando...' : 'Resetear Contraseña'}
+                </Button>
+            </form>
+            <div className="mt-4 justify-center items-center text-center">
+                <Link href="/" className="text-black text-center hover:text-color7">
+                    Volver a la página principal
+                </Link>
             </div>
-            <div className="mb-4">
-                <Label htmlFor="token">Token</Label>
-                <Input
-                    id="token"
-                    type="text"
-                    value={token}
-                    onChange={(e) => setToken(e.target.value)}
-                    required
-                />
-            </div>
-            <Button type="submit" disabled={loading}>
-                {loading ? 'Enviando...' : 'Resetear Contraseña'}
-            </Button>
-            {data && <p>{data.resetPassword.message}</p>}
-            {error && <p>Error: {error.message}</p>}
-        </form>
+        </div>
+
     );
 };
 

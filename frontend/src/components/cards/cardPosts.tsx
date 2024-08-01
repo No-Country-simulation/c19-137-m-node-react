@@ -114,11 +114,11 @@ const posts: postData[] = [
 
 export default function CardPosts() {
   return (
-    <div className="flex-1 mt-10 p-4 dark:bg-gray-900 dark:text-gray-100">
-      <ScrollArea className="h-[calc(100vh-100px)] p-4 dark:bg-gray-800">
+    <div className="flex-1 p-4 mt-10 dark:bg-gray-900 dark:text-gray-100">
+      <ScrollArea className="h-[800px] p-4 dark:bg-gray-800">
         {posts.map((post) => (
           <Link key={post.id} href={`dashboard/public/posts/${post.id}`}>
-            <div className='block p-4 m-4 transition-transform transform rounded-lg hover:shadow-2xl hover:border-amber-200 hover:scale-105 dark:bg-gray-700 dark:border-gray-600'>
+            <div className='block p-4 m-4 transition-transform transform rounded-lg hover:shadow-2xl hover:border-amber-200 hover:scale-105 dark:bg-transparent dark:border-transparent'>
               <div className='flex items-center gap-2 mb-4'>
                 <Avatar className="w-16 h-16">
                   <AvatarImage

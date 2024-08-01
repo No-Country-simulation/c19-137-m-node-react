@@ -3,11 +3,11 @@
 import { Accordion } from "@/components/ui/accordion";
 //import Image from "next/image";
 //import Link from "next/link";
-;
-import Navbar from '@/components/nav/nav'
+import Navbar from '@/components/nav/nav';
 import { useState } from 'react';
 import Sidebar from '@/components/sidebar/sidebar';
 import CardPosts from '@/components/cards/cardPosts';
+import {CarouselPublic} from '@/components/carrusels/CarruselPublic';
 
 
 
@@ -28,6 +28,9 @@ export default function Home() {
           onClick={toggleNav}
           className="absolute z-20 p-2 text-xl rounded-full top-2 left-2">
         </button>
+        <div className="-mt-20">
+          <CarouselPublic />
+        </div>
         <CardPosts />
       </main>
       <Sidebar />

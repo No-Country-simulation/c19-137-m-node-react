@@ -29,7 +29,6 @@ import {
 import { Input } from "@/components/ui/input"
 import { toast } from "@/components/ui/use-toast"
 import Image from 'next/image';
-import { useToast } from "@/components/ui/use-toast"
 
 const formSchema = z.object({
     email: z.string().email({ message: "Correo electrónico no válido." }),
@@ -37,7 +36,6 @@ const formSchema = z.object({
 })
 
 export function Login() {
-    const { toast } = useToast()
     const [open, setOpen] = useState(false)
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -57,7 +55,7 @@ export function Login() {
         if (result?.error) {
             toast({
                 title: "Error de autenticación",
-                description: result.error,
+                description: 'Correo electrónico o contraseña incorrectos',
                 variant: "destructive",
             })
         } else if (result?.ok) {
@@ -67,7 +65,7 @@ export function Login() {
                 variant: "default",
             })
             // Optionally redirect after successful login
-            window.location.href = "/dashboard/private/profile"; // Redirect to home page or desired URL
+            window.location.href = "/dashboard/private/"; // Redirect to home page or desired URL
         }
     }
 

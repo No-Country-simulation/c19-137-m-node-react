@@ -7,9 +7,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from "@/components/ui/label";
 import Image from 'next/image';
-import Link from 'next/link';
-import { toast } from "@/components/ui/use-toast"
-
+import { useToast } from "@/components/ui/use-toast";
+import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription } from '@/components/ui/alert-dialog';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 const RESET_PASSWORD_MUTATION = gql`
   mutation ResetPassword($data: ResetPasswordInput!) {
@@ -28,21 +28,25 @@ interface ResetPasswordFormProps {
 const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({ token }) => {
     const [newPassword, setNewPassword] = useState('');
     const [confirmNewPassword, setConfirmNewPassword] = useState('');
-    const [resetPassword, { data, loading, error }] = useMutation(RESET_PASSWORD_MUTATION);
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [resetPassword, { loading }] = useMutation(RESET_PASSWORD_MUTATION);
+    const { toast } = useToast();
+    const [open, setOpen] = useState(true);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         if (newPassword !== confirmNewPassword) {
             toast({
-                title: "Contrasenas no coinciden",
+                title: "Las contraseñas no coinciden",
                 variant: "default",
-            })
+            });
             return;
         }
 
         try {
-            const response = await resetPassword({
+            const { data } = await resetPassword({
                 variables: {
                     data: {
                         newPassword,
@@ -52,68 +56,103 @@ const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({ token }) => {
                 },
             });
 
-            if (response.data.resetPassword.success) {
+            if (data.resetPassword.success) {
                 toast({
-                    title: 'Contrasena reseteada exitosamente',
+                    title: 'Contraseña restablecida exitosamente',
                     variant: "default",
-                })
+                });
             } else {
                 toast({
-                    title: 'Error al resetear la contraseña',
+                    title: 'Error al restablecer la contraseña',
                     variant: "default",
-                })
+                });
             }
 
-            // Limpiar los campos después de un reset exitoso si es necesario
             setNewPassword('');
             setConfirmNewPassword('');
         } catch (err) {
             console.error(err);
             toast({
-                title: 'Error al resetear la contraseña',
+                title: 'Error al restablecer la contraseña',
                 variant: "default",
-            })
+            });
         }
     };
 
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
+
+    const toggleConfirmPasswordVisibility = () => {
+        setShowConfirmPassword(!showConfirmPassword);
+    };
 
     return (
-        <div className='bg-color6 p-2 rounded-md justify-center items-center'>
-            <div className='flex justify-center items-center bg-color6 h-20'>
-                <Image src="/logos/logo.png" alt="logo" width={120} height={120} />
-            </div>
-            <form onSubmit={handleSubmit} className="max-w-md p-4 mx-auto bg-white rounded-lg shadow-md text-black">
-                <div className="mb-4">
-                    <Label htmlFor="newPassword">Nueva Contraseña</Label>
-                    <Input
-                        id="newPassword"
-                        type="password"
-                        value={newPassword}
-                        onChange={(e) => setNewPassword(e.target.value)}
-                        required
-                    />
-                </div>
-                <div className="mb-4">
-                    <Label htmlFor="confirmNewPassword">Confirmar Nueva Contraseña</Label>
-                    <Input
-                        id="confirmNewPassword"
-                        type="password"
-                        value={confirmNewPassword}
-                        onChange={(e) => setConfirmNewPassword(e.target.value)}
-                        required
-                    />
-                </div>
-                <Button type="submit" disabled={loading} className='justify-center items-center text-center hover:text-color7 p-2'>
-                    {loading ? 'Enviando...' : 'Resetear Contraseña'}
-                </Button>
-            </form>
-            <div className="mt-4 justify-center items-center text-center">
-                <Link href="/" className="text-black text-center hover:text-color7">
-                    Volver a la página principal
-                </Link>
-            </div>
-        </div>
+        <AlertDialog open={open} onOpenChange={setOpen}>
+            <AlertDialogContent className='bg-white dark:bg-gray-800 fixed h-[85vh] max-h-[700px] w-full max-w-[600px] p-0 overflow-hidden rounded-lg'>
+                <ScrollArea className='w-full h-full'>
+                    <div className="relative flex flex-col justify-between h-full px-6 py-4">
+                        {/* Close Button */}
+                        <AlertDialogCancel onClick={() => window.location.href = '/'} className="absolute text-gray-600 transition-colors duration-300 cursor-pointer top-4 right-4 hover:text-gray-800 dark:text-gray-200 dark:hover:text-white">
+                            ❌ {/* Emoji de "x" */}
+                        </AlertDialogCancel>
 
+                        {/* Header */}
+                        <AlertDialogHeader className="flex flex-col items-center mb-4">
+                            <AlertDialogTitle className="flex flex-col items-center text-center font-semibold text-[25px] leading-[30px] text-[#1F2937] dark:text-gray-100 mb-4">
+                                <Image src="/logos/logo.png" alt="logo" width={150} height={150} className="mx-auto my-4" />
+                                <span>Restablece tu contraseña</span>
+                            </AlertDialogTitle>
+                        </AlertDialogHeader>
+
+                        {/* Scrollable Content */}
+                        <AlertDialogDescription className='flex flex-col items-center justify-center gap-[24px]'>
+                            <form onSubmit={handleSubmit} className="flex flex-col gap-[24px] w-full px-6 py-4 bg-white rounded-lg shadow-md">
+                                <div className="relative">
+                                    <Label htmlFor="newPassword">Nueva Contraseña</Label>
+                                    <Input
+                                        id="newPassword"
+                                        type={showPassword ? "text" : "password"}
+                                        value={newPassword}
+                                        onChange={(e) => setNewPassword(e.target.value)}
+                                        required
+                                        className="pr-12" // Add padding to the right for the eye icon
+                                    />
+                                    <span
+                                        className="absolute inset-y-0 flex items-center justify-center text-gray-600 transition-colors duration-300 cursor-pointer right-3 hover:text-gray-800"
+                                        style={{ transform: 'translateY(6px)' }} // Adjust vertical position of the emoji
+                                        onClick={togglePasswordVisibility}
+                                    >
+                                        {showPassword ? '🙈' : '👁️'}
+                                    </span>
+                                </div>
+                                <div className="relative">
+                                    <Label htmlFor="confirmNewPassword">Confirmar Nueva Contraseña</Label>
+                                    <Input
+                                        id="confirmNewPassword"
+                                        type={showConfirmPassword ? "text" : "password"}
+                                        value={confirmNewPassword}
+                                        onChange={(e) => setConfirmNewPassword(e.target.value)}
+                                        required
+                                        className="pr-12" // Add padding to the right for the eye icon
+                                    />
+                                    <span
+                                        className="absolute inset-y-0 flex items-center justify-center text-gray-600 transition-colors duration-300 cursor-pointer right-3 hover:text-gray-800"
+                                        style={{ transform: 'translateY(6px)' }} // Adjust vertical position of the emoji
+                                        onClick={toggleConfirmPasswordVisibility}
+                                    >
+                                        {showConfirmPassword ? '🙈' : '👁️'}
+                                    </span>
+                                </div>
+                                <Button type="submit" disabled={loading} className='mb-2 font-bold transition-colors duration-300 border-transparent border-nano hover:border-nano hover:text-nano'>
+                                    {loading ? 'Enviando...' : 'Restablecer Contraseña'}
+                                </Button>
+                            </form>
+                        </AlertDialogDescription>
+                    </div>
+                </ScrollArea>
+            </AlertDialogContent>
+        </AlertDialog>
     );
 };
 

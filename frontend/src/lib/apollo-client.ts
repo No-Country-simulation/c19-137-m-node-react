@@ -1,53 +1,35 @@
-import { ApolloClient, InMemoryCache, HttpLink, split } from '@apollo/client';
+import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { getSession } from 'next-auth/react';
-import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
-import { createClient } from 'graphql-ws';
-import { getMainDefinition } from '@apollo/client/utilities';
 
-const httpLink = new HttpLink({
+const httpLink = createHttpLink({
   uri: process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT,
 });
 
 const authLink = setContext(async (_, { headers }) => {
+  
   const session = await getSession();
-  const token = session?.user?.token || '';
+  const token = session?.user.token || '';
 
+  //console.log('Token en apollo-client:', token);
+  //console.log('este es el tipo de token que pasa por apollo-client',  typeof(token))
   return {
     headers: {
       ...headers,
       authorization: token ? `Bearer ${token}` : '',
     },
   };
+
 });
 
-const wsLink = typeof window !== 'undefined' ? new GraphQLWsLink(
-  createClient({
-    url: process.env.NEXT_PUBLIC_GRAPHQL_WS_ENDPOINT,
-    connectionParams: async () => {
-      const session = await getSession();
-      return {
-        authorization: session ? `Bearer ${session.user.token}` : '',
-      };
-    },
-  })
-) : null;
-
-const splitLink = typeof window !== 'undefined' ? split(
-  ({ query }) => {
-    const definition = getMainDefinition(query);
-    return (
-      definition.kind === 'OperationDefinition' &&
-      definition.operation === 'subscription'
-    );
-  },
-  wsLink!,
-  authLink.concat(httpLink),
-) : authLink.concat(httpLink);
 
 const client = new ApolloClient({
-  link: splitLink,
+  ssrMode: typeof window === 'undefined',
+  link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
+  credentials: 'include', // IMPORTANTE NO QUITAR
 });
 
+
 export default client;
+

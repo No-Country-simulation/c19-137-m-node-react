@@ -66,7 +66,7 @@ export class AuthResolver {
 
     /**
      * Consulta para obtener el usuario autenticado
-     * @param req
+     * @param user
      */
     @Query(() => UserEntity)
     @UseGuards(GqlAuthGuard)

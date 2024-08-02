@@ -16,8 +16,6 @@ export class GqlAuthGuard extends AuthGuard('jwt') {
   }
 
   handleRequest(err: any, user: any) {
-    console.log('err', err);
-    console.log('user', user);
     if (err || !user) {
       throw (
         err ||

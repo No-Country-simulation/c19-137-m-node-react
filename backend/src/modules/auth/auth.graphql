@@ -73,7 +73,7 @@ type SignInResponse {
 
 
     "Fecha de expiración del token de autenticación"
-    expire_at: Date
+    expireAt: Date
 }
 
 """

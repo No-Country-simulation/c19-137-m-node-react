@@ -20,7 +20,7 @@ export class BookEntity {
     name: string;
 
     @Column()
-    published_date: Date;
+    publishedDate: Date;
 
     @ManyToOne(() => AuthorEntity, (author) => author.books)
     author: AuthorEntity;

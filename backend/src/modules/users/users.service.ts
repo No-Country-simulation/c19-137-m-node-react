@@ -1,10 +1,5 @@
 // src/modules/users/users.service.ts
-import {
-    BadRequestException,
-    Injectable,
-    InternalServerErrorException,
-    Logger,
-} from '@nestjs/common';
+import {BadRequestException, Injectable, InternalServerErrorException, Logger,} from '@nestjs/common';
 import {InjectRepository} from '@nestjs/typeorm';
 import {ILike, Repository} from 'typeorm';
 import {UserEntity} from './entities/user.entity';
@@ -14,8 +9,7 @@ import * as bcrypt from 'bcrypt';
 import {PasswordResetTokenEntity} from './entities/password-reset-token.entity';
 import {PubSub} from 'graphql-subscriptions';
 import {addFavoriteBookInput} from './dto/add-favorite-book.input';
-import {BookEntity} from '../books/entities/book.entity';
-import {MediaEntity} from "@/modules/media/entities/media.entity";
+import {BookEntity} from '@/modules/books/entities/book.entity';
 import {MediaService} from "@/modules/media/media.service";
 
 const pubSub = new PubSub();
@@ -57,10 +51,10 @@ export class UsersService {
         }
         const hashedPassword = await this.hashPassword(createUserInput.password);
         const userValidated = this.userRepository.create({
-            nickname: createUserInput.nickName,
+            nickName: createUserInput.nickName,
             email: createUserInput.email,
-            first_name: createUserInput.firstName,
-            last_name: createUserInput.lastName,
+            firstName: createUserInput.firstName,
+            lastName: createUserInput.lastName,
             password: hashedPassword,
         });
         return await this.userRepository.save(userValidated);
@@ -170,7 +164,7 @@ export class UsersService {
     ) {
         //eliminar cualquier token existente
         const existingTokens = await this.passwordResetTokenRepository.find({
-            where: {user_id: user.id},
+            where: {userId: user.id},
         });
 
         //delete all existing tokens
@@ -179,9 +173,9 @@ export class UsersService {
         //crear un nuevo token
         const passwordResetToken = this.passwordResetTokenRepository.create({
             token,
-            user_id: user.id,
-            expires_at: expiresAt,
-            created_at: new Date(),
+            userId: user.id,
+            expiresAt: expiresAt,
+            createdAt: new Date(),
         });
 
         return this.passwordResetTokenRepository.save(passwordResetToken);
@@ -205,11 +199,11 @@ export class UsersService {
 
     /**
      * Buscar un token de restablecimiento de contraseña por usuario
-     * @param user_id
+     * @param userId
      */
     async findTokenByUser(userId: string) {
         return this.passwordResetTokenRepository.findOne({
-            where: {user_id: userId},
+            where: {userId: userId},
         });
     }
 
@@ -218,7 +212,7 @@ export class UsersService {
     // }
 
     async findByNickname(nickName: string): Promise<UserEntity | undefined> {
-        return await this.userRepository.findOne({where: {nickname: nickName}});
+        return await this.userRepository.findOne({where: {nickName: nickName}});
     }
 
     // async findByNickname(nickname: string) {
@@ -258,8 +252,8 @@ export class UsersService {
     async findByName(name: string) {
         return this.userRepository.find({
             where: [
-                {first_name: ILike(`%${name}%`)}, // Search in first_name
-                {last_name: ILike(`%${name}%`)}, // Search in last_name
+                {firstName: ILike(`%${name}%`)}, // Search in first_name
+                {lastName: ILike(`%${name}%`)}, // Search in last_name
             ],
             relations: [
                 'posts',
@@ -328,20 +322,19 @@ export class UsersService {
         const media = await this.mediaService.findById(coverImageId);
 
         if (!media) {
-            throw new Error('Media not found');
+            throw new Error('No existe un medio con este ID ' + coverImageId);
         }
 
         user.coverImage = media;
 
-        await this.userRepository.save(user);
-        return user;
+        return await this.userRepository.save(user)
     }
 
     async setProfileImage(profileImageId: string, user: UserEntity) {
         const media = await this.mediaService.findById(profileImageId);
 
         if (!media) {
-            throw new Error('Media not found');
+            throw new Error('No existe un medio con este ID' + profileImageId);
         }
 
         user.profileImage = media;

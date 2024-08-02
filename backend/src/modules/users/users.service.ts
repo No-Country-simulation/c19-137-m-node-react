@@ -338,4 +338,34 @@ export class UsersService {
 
         return this.userRepository.save(user);
     }
+
+    async unfollowUser(unfollowUserId: string, user: UserEntity): Promise<UserEntity> {
+        // Encuentra al usuario que quiere dejar de seguir
+        const unfollowUser = await this.userRepository.findOne({
+            where: {id: unfollowUserId},
+        });
+
+        if (!unfollowUser) {
+            throw new Error('El usuario a dejar de seguir no existe');
+        }
+
+        // Encuentra al usuario que está ejecutando la acción
+        const currentUser = await this.userRepository.findOne({
+            where: {id: user.id},
+            relations: ['following'],
+        });
+
+        if (!currentUser) {
+            throw new Error('El usuario actual no existe');
+        }
+
+        // Filtra al usuario de la lista de seguidores
+        currentUser.following = currentUser.following.filter(following => following.id !== unfollowUserId);
+
+        // Guarda los cambios en la base de datos
+        await this.userRepository.save(currentUser);
+
+        return currentUser;
+    }
+
 }

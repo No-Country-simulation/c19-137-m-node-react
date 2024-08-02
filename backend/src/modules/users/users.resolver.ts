@@ -78,6 +78,16 @@ export class UsersResolver {
     }
 
 
+    @Mutation(() => UserEntity)
+    @UseGuards(GqlAuthGuard)
+    async unfollowUser(
+        @Args('unfollowUserId', {type: () => String}) unfollowUserId: string,
+        @CurrentUser() user: UserEntity,
+    ): Promise<UserEntity> {
+        return this.usersService.unfollowUser(unfollowUserId, user);
+    }
+
+
     @Mutation('setCoverImage')
     @UseGuards(GqlAuthGuard)
     async setCoverImage(

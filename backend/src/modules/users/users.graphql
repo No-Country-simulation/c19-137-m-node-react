@@ -2,298 +2,290 @@
 Tipo de datos para un usuario en el sistema.
 """
 type User {
-    id: ID!
-    """
-    Apodo del usuario.
-    """
-    nickName: String
-    """
-    Nombre del usuario.
-    """
-    firstName: String
-    """
-    Apellido del usuario.
-    """
-    lastName: String
-    """
-    Correo electrónico del usuario.
-    """
-    email: String
-    """
-    Contraseña del usuario (se debe manejar de forma segura, no se debe exponer en consultas).
-    """
-    password: String
-    """
-    Edad del usuario.
-    """
-    age: Int
-    """
-    Rol del usuario.
-    """
-    role: String
-    """
-    Estado del usuario (activo/inactivo).
-    """
-    enabled: Boolean
-    """
-    Fecha de creación del usuario en formato ISO 8601.
-    """
-    createdAt: Date
+  id: ID!
+  """
+  Apodo del usuario.
+  """
+  nickName: String
+  """
+  Nombre del usuario.
+  """
+  firstName: String
+  """
+  Apellido del usuario.
+  """
+  lastName: String
+  """
+  Correo electrónico del usuario.
+  """
+  email: String
+  """
+  Contraseña del usuario (se debe manejar de forma segura, no se debe exponer en consultas).
+  """
+  password: String
+  """
+  Edad del usuario.
+  """
+  age: Int
+  """
+  Rol del usuario.
+  """
+  role: String
+  """
+  Estado del usuario (activo/inactivo).
+  """
+  enabled: Boolean
+  """
+  Fecha de creación del usuario en formato ISO 8601.
+  """
+  createdAt: Date
 
-    """
-    Fecha de actualización del usuario en formato ISO 8601.
-    """
-    updatedAt: Date
+  """
+  Fecha de actualización del usuario en formato ISO 8601.
+  """
+  updatedAt: Date
 
-    """
-    Lista de posts que ha hecho el usuario
-    """
-    following: [User]
+  """
+  Lista de posts que ha hecho el usuario
+  """
+  following: [User]
 
-    """
-    Seguidores del usuario
-    """
-    followers: [User]
+  """
+  Seguidores del usuario
+  """
+  followers: [User]
 
-    """
-    Lista de posts que ha hecho el usuario
-    """
-    posts: [Post]
-    """
-    Lista de libros favoritos del usuario
-    """
-    favorites: [Book]
+  """
+  Lista de posts que ha hecho el usuario
+  """
+  posts: [Post]
+  """
+  Lista de libros favoritos del usuario
+  """
+  favorites: [Book]
 
-    """
-    Lista de libros favoritos del usuario
-    """
-    reviews: [Review]
+  """
+  Lista de libros favoritos del usuario
+  """
+  reviews: [Review]
 
-    """
-    Lista de comentarios del usuario
-    """
-    comments: [Comment]
+  """
+  Lista de comentarios del usuario
+  """
+  comments: [Comment]
 
-    """
-    Libros asociados al usuario
-    """
-    books: [Book]
+  """
+  Libros asociados al usuario
+  """
+  books: [Book]
 
-    """
-    Banner de perfil del usuario
-    """
-    coverImage: Media
+  """
+  Banner de perfil del usuario
+  """
+  coverImage: Media
 
+  """
+  Imagen de perfil del usuario
+  """
+  profileImage: Media
 
-    """
-    Imagen de perfil del usuario
-    """
-
-    profileImage: Media
-
-    """
-    Biografía del usuario
-    """
-    bio: String
+  """
+  Biografía del usuario
+  """
+  bio: String
 }
 
 extend type Mutation {
-    """
-    Mutación para añadir libro favorito
-    """
-    addFavoriteBook(data: AddFavoriteBookInput): AddFavoriteBookResponse
+  """
+  Mutación para añadir libro favorito
+  """
+  addFavoriteBook(data: AddFavoriteBookInput): AddFavoriteBookResponse
 
-    """
-    Mutación seguir a un usuario
-    """
+  """
+  Mutación seguir a un usuario
+  """
+  followUser(followUserId: ID!): User!
 
-    followUser(followUserId: ID!): User!
+  """
+  Mutación para dejar de seguir a un usuario
+  """
+  unfollowUser(unfollowUserId: ID!): User!
 
-    """
-    Mutación para actualizar  la imagen de perfil del usuario.
-    """
-    setProfileImage(data: SetProfileImageInput): ProfileResponse
+  """
+  Mutación para actualizar  la imagen de perfil del usuario.
+  """
+  setProfileImage(data: SetProfileImageInput): ProfileResponse
 
-    """
-    Mutación para actualizar la imagen de portada del perfil de un usuario.
-    """
-    setCoverImage(data: SetProfileImageInput): ProfileResponse
+  """
+  Mutación para actualizar la imagen de portada del perfil de un usuario.
+  """
+  setCoverImage(data: SetProfileImageInput): ProfileResponse
 
-    """
-    Mutación para actualzar el perfil de un usuario.
-    """
-    updateProfile(data: UpdateUserInput): ProfileResponse
+  """
+  Mutación para actualzar el perfil de un usuario.
+  """
+  updateProfile(data: UpdateUserInput): ProfileResponse
 }
-
-
-
 
 """
 Entrada requerida para agregar un nuevo libro favorito
 """
 input AddFavoriteBookInput {
-    bookId: String!
+  bookId: String!
 }
-
 
 """
 Entrada requerida para actualizar la imagen de perfil de un usuario.
 """
 input SetProfileImageInput {
-    mediaId: ID!
+  mediaId: ID!
 }
-
-
 
 """
 Respuesta de registro de post
 """
 type AddFavoriteBookResponse {
-    "Similar al HTTP status code, representa el estado de la operación."
-    code: Int!
+  "Similar al HTTP status code, representa el estado de la operación."
+  code: Int!
 
-    "Indica si la operación fue exitosa."
-    success: Boolean!
+  "Indica si la operación fue exitosa."
+  success: Boolean!
 
-    "Mensaje legible para Humanos, describe el resultado de la operación para la UI"
-    message: String!
+  "Mensaje legible para Humanos, describe el resultado de la operación para la UI"
+  message: String!
 }
 
 """
 Entrada requerida para crear un nuevo usuario.
 """
 input CreateUserInput {
-    """
-    Apodo del usuario.
-    """
-    nickName: String!
-    """
-    Nombre del usuario.
-    """
-    firstName: String!
-    """
-    Apellido del usuario.
-    """
-    lastName: String!
-    """
-    Contraseña del usuario.
-    """
-    password: String!
-    """
-    Confirmación de la contraseña del usuario.
-    """
-    passwordConfirmation: String!
-    """
-    Correo electrónico del usuario.
-    """
-    email: String!
+  """
+  Apodo del usuario.
+  """
+  nickName: String!
+  """
+  Nombre del usuario.
+  """
+  firstName: String!
+  """
+  Apellido del usuario.
+  """
+  lastName: String!
+  """
+  Contraseña del usuario.
+  """
+  password: String!
+  """
+  Confirmación de la contraseña del usuario.
+  """
+  passwordConfirmation: String!
+  """
+  Correo electrónico del usuario.
+  """
+  email: String!
 
-    """
-    Biografía del usuario
-    """
-    bio: String
+  """
+  Biografía del usuario
+  """
+  bio: String
 }
 
 """
 Entrada requerida para actualizar los datos de un usuario existente.
 """
 input UpdateUserInput {
-    """
-    ID del usuario que se desea actualizar.
-    """
-    id: ID
-    """
-    Apodo del usuario.
-    """
-    nickName: String
-    """
-    Nombre del usuario.
-    """
-    firstName: String
-    """
-    Apellido del usuario.
-    """
-    lastName: String
-    """
-    Correo electrónico del usuario.
-    """
-    email: String
-    """
-    Edad del usuario.
-    """
-    age: Int
-    """
-    Rol del usuario.
-    """
-    role: String
-    """
-    Estado del usuario (activo/inactivo).
-    """
-    enabled: Boolean
+  """
+  ID del usuario que se desea actualizar.
+  """
+  id: ID
+  """
+  Apodo del usuario.
+  """
+  nickName: String
+  """
+  Nombre del usuario.
+  """
+  firstName: String
+  """
+  Apellido del usuario.
+  """
+  lastName: String
+  """
+  Correo electrónico del usuario.
+  """
+  email: String
+  """
+  Edad del usuario.
+  """
+  age: Int
+  """
+  Rol del usuario.
+  """
+  role: String
+  """
+  Estado del usuario (activo/inactivo).
+  """
+  enabled: Boolean
 
-    """
-    Biografía del usuario
-    """
-    bio: String
+  """
+  Biografía del usuario
+  """
+  bio: String
 }
-
 
 type ProfileResponse {
-    "Similar al HTTP status code, representa el estado de la operación."
-    code: Int!
+  "Similar al HTTP status code, representa el estado de la operación."
+  code: Int!
 
-    "Indica si la operación fue exitosa."
-    success: Boolean!
+  "Indica si la operación fue exitosa."
+  success: Boolean!
 
-    "Mensaje legible para Humanos, describe el resultado de la operación para la UI"
-    message: String!
+  "Mensaje legible para Humanos, describe el resultado de la operación para la UI"
+  message: String!
 
-    "Usuario"
-    user: User
+  "Usuario"
+  user: User
 }
 
-
 extend type Query {
-    """
-    Obtiene todos los usuarios registrados.
-    """
-    users: [User!]
+  """
+  Obtiene todos los usuarios registrados.
+  """
+  users: [User!]
 
-    """
-    Obtiene los detalles de un usuario específico por su ID.
-    """
-    user(id: ID!): User
+  """
+  Obtiene los detalles de un usuario específico por su ID.
+  """
+  user(id: ID!): User
 
-    """
-    Obtiene los detalles de un usuario especifico por su nickname
-    """
-    usersByNickname(nickname: String!): [User]
+  """
+  Obtiene los detalles de un usuario especifico por su nickname
+  """
+  usersByNickname(nickname: String!): [User]
 
-    """
-    Obtiene los detalles de un usuario especifico por su Nombre
-    """
-    usersByName(name: String!): [User]
+  """
+  Obtiene los detalles de un usuario especifico por su Nombre
+  """
+  usersByName(name: String!): [User]
 
-
-    """
-    Obtiene los detalles de un usuario especifico por su Rol
-    """
-    usersByRole(role: String!): [User]
+  """
+  Obtiene los detalles de un usuario especifico por su Rol
+  """
+  usersByRole(role: String!): [User]
 }
 
 extend type Subscription {
-    """
-    Suscripción para notificar cuando se crea un nuevo usuario.
-    """
-    onUserCreated: User
+  """
+  Suscripción para notificar cuando se crea un nuevo usuario.
+  """
+  onUserCreated: User
 
-    """
-    Notificar a los suscriptores cuando se actualiza la frase motivacional.
+  """
+  Notificar a los suscriptores cuando se actualiza la frase motivacional.
 
-    Esta suscripción envía una notificación a los clientes suscritos cada vez que se actualiza
-    la frase motivacional con una nueva frase generada aleatoriamente.
-    Devuelve la nueva frase motivacional como una cadena de texto.
-    """
-    onMotivationalPhrase: String
+  Esta suscripción envía una notificación a los clientes suscritos cada vez que se actualiza
+  la frase motivacional con una nueva frase generada aleatoriamente.
+  Devuelve la nueva frase motivacional como una cadena de texto.
+  """
+  onMotivationalPhrase: String
 }
-

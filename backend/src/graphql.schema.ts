@@ -146,6 +146,8 @@ export abstract class IMutation {
 
     abstract followUser(followUserId: string): User | Promise<User>;
 
+    abstract unfollowUser(unfollowUserId: string): User | Promise<User>;
+
     abstract setProfileImage(data?: Nullable<SetProfileImageInput>): Nullable<ProfileResponse> | Promise<Nullable<ProfileResponse>>;
 
     abstract setCoverImage(data?: Nullable<SetProfileImageInput>): Nullable<ProfileResponse> | Promise<Nullable<ProfileResponse>>;

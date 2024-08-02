@@ -8,6 +8,30 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { Button } from "@/components/ui/button"
 import { BiSolidLike } from "react-icons/bi";
 
+import { gql } from '@apollo/client';
+
+const ON_SS_EVENT_SUBSCRIPTION = gql`
+  subscription OnSSEvent {
+    onSSEvent {
+      id
+      title
+      content
+      media {
+        id
+        url
+        type
+        fileName
+        hashName
+        mimeType
+      }
+      user {
+        nickName
+        id
+      }
+    }
+  }
+`;
+
 
 interface Comment {
     id: number;

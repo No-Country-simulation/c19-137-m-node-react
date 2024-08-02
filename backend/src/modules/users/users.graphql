@@ -107,7 +107,7 @@ extend type Mutation {
     Mutación seguir a un usuario
     """
 
-    followUser(userId: ID!, followUserId: ID!): User!
+    followUser(followUserId: ID!): User!
 
     """
     Mutación para actualizar  la imagen de perfil del usuario.

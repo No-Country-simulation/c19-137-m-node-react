@@ -57,11 +57,11 @@ export class MediaService {
         });
 
         const media = this.mediaRepository.create({
-            file_name: filename,
-            hash_name: hashName + '.' + this.typeMediaExtension(filename),
+            fileName: filename,
+            hashName: hashName + '.' + this.typeMediaExtension(filename),
             type: this.identifyFileTypeByName(filename),
             size: fileSize,
-            mime_type: this.identifyMimeTypeByName(filename),
+            mimeType: this.identifyMimeTypeByName(filename),
             base64: base64,
         });
 

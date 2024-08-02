@@ -77,6 +77,10 @@ export class AddFavoriteBookInput {
     bookId: string;
 }
 
+export class SetProfileImageInput {
+    mediaId: string;
+}
+
 export class CreateUserInput {
     nickName: string;
     firstName: string;
@@ -84,10 +88,11 @@ export class CreateUserInput {
     password: string;
     passwordConfirmation: string;
     email: string;
+    bio?: Nullable<string>;
 }
 
 export class UpdateUserInput {
-    id: string;
+    id?: Nullable<string>;
     nickName?: Nullable<string>;
     firstName?: Nullable<string>;
     lastName?: Nullable<string>;
@@ -95,6 +100,7 @@ export class UpdateUserInput {
     age?: Nullable<number>;
     role?: Nullable<string>;
     enabled?: Nullable<boolean>;
+    bio?: Nullable<string>;
 }
 
 export class Response {
@@ -138,11 +144,15 @@ export abstract class IMutation {
 
     abstract addFavoriteBook(data?: Nullable<AddFavoriteBookInput>): Nullable<AddFavoriteBookResponse> | Promise<Nullable<AddFavoriteBookResponse>>;
 
-    abstract followUser(userId: string, followUserId: string): User | Promise<User>;
+    abstract followUser(followUserId: string): User | Promise<User>;
 
-    abstract setProfileImage(mediaId: string): User | Promise<User>;
+    abstract unfollowUser(unfollowUserId: string): User | Promise<User>;
 
-    abstract setCoverImage(mediaId: string): User | Promise<User>;
+    abstract setProfileImage(data?: Nullable<SetProfileImageInput>): Nullable<ProfileResponse> | Promise<Nullable<ProfileResponse>>;
+
+    abstract setCoverImage(data?: Nullable<SetProfileImageInput>): Nullable<ProfileResponse> | Promise<Nullable<ProfileResponse>>;
+
+    abstract updateProfile(data?: Nullable<UpdateUserInput>): Nullable<ProfileResponse> | Promise<Nullable<ProfileResponse>>;
 }
 
 export abstract class IQuery {
@@ -204,6 +214,8 @@ export abstract class ISubscription {
 
     abstract onMembershipDeleted(): Membership | Promise<Membership>;
 
+    abstract onPostChanged(userIds: string[]): Post | Promise<Post>;
+
     abstract onSubscriptionPlanCreated(): SubscriptionPlan | Promise<SubscriptionPlan>;
 
     abstract onSubscriptionPlanUpdated(): SubscriptionPlan | Promise<SubscriptionPlan>;
@@ -220,7 +232,7 @@ export class SignInResponse {
     message: string;
     success: boolean;
     token?: Nullable<string>;
-    expire_at?: Nullable<Date>;
+    expireAt?: Nullable<Date>;
 }
 
 export class SignUpResponse {
@@ -384,6 +396,13 @@ export class AddFavoriteBookResponse {
     code: number;
     success: boolean;
     message: string;
+}
+
+export class ProfileResponse {
+    code: number;
+    success: boolean;
+    message: string;
+    user?: Nullable<User>;
 }
 
 export type Upload = any;

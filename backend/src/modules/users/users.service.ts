@@ -1,10 +1,4 @@
-// src/modules/users/users.service.ts
-import {
-    BadRequestException,
-    Injectable,
-    InternalServerErrorException,
-    Logger,
-} from '@nestjs/common';
+import {BadRequestException, Injectable, InternalServerErrorException, Logger, UseGuards,} from '@nestjs/common';
 import {InjectRepository} from '@nestjs/typeorm';
 import {ILike, Repository} from 'typeorm';
 import {UserEntity} from './entities/user.entity';
@@ -14,9 +8,10 @@ import * as bcrypt from 'bcrypt';
 import {PasswordResetTokenEntity} from './entities/password-reset-token.entity';
 import {PubSub} from 'graphql-subscriptions';
 import {addFavoriteBookInput} from './dto/add-favorite-book.input';
-import {BookEntity} from '../books/entities/book.entity';
-import {MediaEntity} from "@/modules/media/entities/media.entity";
+import {BookEntity} from '@/modules/books/entities/book.entity';
 import {MediaService} from "@/modules/media/media.service";
+import {Mutation} from "@nestjs/graphql";
+import {GqlAuthGuard} from "@/modules/auth/guards/gql-auth.guard";
 
 const pubSub = new PubSub();
 
@@ -57,10 +52,10 @@ export class UsersService {
         }
         const hashedPassword = await this.hashPassword(createUserInput.password);
         const userValidated = this.userRepository.create({
-            nickname: createUserInput.nickName,
+            nickName: createUserInput.nickName,
             email: createUserInput.email,
-            first_name: createUserInput.firstName,
-            last_name: createUserInput.lastName,
+            firstName: createUserInput.firstName,
+            lastName: createUserInput.lastName,
             password: hashedPassword,
         });
         return await this.userRepository.save(userValidated);
@@ -125,6 +120,7 @@ export class UsersService {
                 'reviews.book',
                 'comments',
                 'comments.post',
+                'following'
             ],
         });
     }
@@ -170,7 +166,7 @@ export class UsersService {
     ) {
         //eliminar cualquier token existente
         const existingTokens = await this.passwordResetTokenRepository.find({
-            where: {user_id: user.id},
+            where: {userId: user.id},
         });
 
         //delete all existing tokens
@@ -179,9 +175,9 @@ export class UsersService {
         //crear un nuevo token
         const passwordResetToken = this.passwordResetTokenRepository.create({
             token,
-            user_id: user.id,
-            expires_at: expiresAt,
-            created_at: new Date(),
+            userId: user.id,
+            expiresAt: expiresAt,
+            createdAt: new Date(),
         });
 
         return this.passwordResetTokenRepository.save(passwordResetToken);
@@ -205,11 +201,11 @@ export class UsersService {
 
     /**
      * Buscar un token de restablecimiento de contraseña por usuario
-     * @param user_id
+     * @param userId
      */
     async findTokenByUser(userId: string) {
         return this.passwordResetTokenRepository.findOne({
-            where: {user_id: userId},
+            where: {userId: userId},
         });
     }
 
@@ -218,7 +214,7 @@ export class UsersService {
     // }
 
     async findByNickname(nickName: string): Promise<UserEntity | undefined> {
-        return await this.userRepository.findOne({where: {nickname: nickName}});
+        return await this.userRepository.findOne({where: {nickName: nickName}});
     }
 
     // async findByNickname(nickname: string) {
@@ -258,8 +254,8 @@ export class UsersService {
     async findByName(name: string) {
         return this.userRepository.find({
             where: [
-                {first_name: ILike(`%${name}%`)}, // Search in first_name
-                {last_name: ILike(`%${name}%`)}, // Search in last_name
+                {firstName: ILike(`%${name}%`)}, // Search in first_name
+                {lastName: ILike(`%${name}%`)}, // Search in last_name
             ],
             relations: [
                 'posts',
@@ -297,21 +293,16 @@ export class UsersService {
         };
     }
 
-    /**
-     * Sigue a un usuario en sistema
-     * @param user el usuario actual
-     * @param followUserId id del usuario a seguir
-     * @returns
-     */
+
     async followUser(followUserId: string, user: UserEntity): Promise<UserEntity> {
         const followUser = await this.userRepository.findOne({where: {id: followUserId}});
 
         if (!user) {
-            throw new Error('User not found');
+            throw new Error('Usuario no encontrado');
         }
 
         if (!followUser) {
-            throw new Error('User to follow not found');
+            throw new Error('El usuario a seguir no existe');
         }
 
         user.following.push(followUser);
@@ -328,24 +319,53 @@ export class UsersService {
         const media = await this.mediaService.findById(coverImageId);
 
         if (!media) {
-            throw new Error('Media not found');
+            throw new Error('No existe un medio con este ID ' + coverImageId);
         }
 
         user.coverImage = media;
 
-        await this.userRepository.save(user);
-        return user;
+        return await this.userRepository.save(user)
     }
 
     async setProfileImage(profileImageId: string, user: UserEntity) {
         const media = await this.mediaService.findById(profileImageId);
 
         if (!media) {
-            throw new Error('Media not found');
+            throw new Error('No existe un medio con este ID' + profileImageId);
         }
 
         user.profileImage = media;
 
         return this.userRepository.save(user);
     }
+
+    async unfollowUser(unfollowUserId: string, user: UserEntity): Promise<UserEntity> {
+        // Encuentra al usuario que quiere dejar de seguir
+        const unfollowUser = await this.userRepository.findOne({
+            where: {id: unfollowUserId},
+        });
+
+        if (!unfollowUser) {
+            throw new Error('El usuario a dejar de seguir no existe');
+        }
+
+        // Encuentra al usuario que está ejecutando la acción
+        const currentUser = await this.userRepository.findOne({
+            where: {id: user.id},
+            relations: ['following'],
+        });
+
+        if (!currentUser) {
+            throw new Error('El usuario actual no existe');
+        }
+
+        // Filtra al usuario de la lista de seguidores
+        currentUser.following = currentUser.following.filter(following => following.id !== unfollowUserId);
+
+        // Guarda los cambios en la base de datos
+        await this.userRepository.save(currentUser);
+
+        return currentUser;
+    }
+
 }

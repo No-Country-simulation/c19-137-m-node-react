@@ -7,6 +7,11 @@ import {UseGuards} from '@nestjs/common';
 
 import {addFavoriteBookInput} from './dto/add-favorite-book.input';
 import {CurrentUser} from '@/modules/auth/decorators/current-user.decorator';
+import {SetProfileResponse} from "@/modules/users/dto/set-profile-response";
+import {SetProfileImagesMediaInput} from "@/modules/users/dto/set-profile-images-media.input";
+import {User} from "@/graphql.schema";
+import {CreateUserInput} from "@/modules/users/dto/create-user.input";
+import {UpdateUserInput} from "@/modules/users/dto/update-user.input";
 
 @Resolver(() => UserEntity)
 export class UsersResolver {
@@ -57,6 +62,13 @@ export class UsersResolver {
         return this.usersService.addFavoriteBook(data, user);
     }
 
+    /**
+     * Sigue a un usuario en sistema
+     * @param user el usuario actual
+     * @param followUserId id del usuario a seguir
+     * @returns
+     */
+    @UseGuards(GqlAuthGuard)
     @Mutation(() => UserEntity)
     async followUser(
         @Args('followUserId', {type: () => String}) followUserId: string,
@@ -67,12 +79,65 @@ export class UsersResolver {
 
 
     @Mutation(() => UserEntity)
+    @UseGuards(GqlAuthGuard)
+    async unfollowUser(
+        @Args('unfollowUserId', {type: () => String}) unfollowUserId: string,
+        @CurrentUser() user: UserEntity,
+    ): Promise<UserEntity> {
+        return this.usersService.unfollowUser(unfollowUserId, user);
+    }
+
+
+    @Mutation('setCoverImage')
+    @UseGuards(GqlAuthGuard)
     async setCoverImage(
-        @Args('coverImageId', {type: () => String}) coverImageId: string,
+        @Args('data') data: SetProfileImagesMediaInput,
+        @CurrentUser() user: UserEntity,
+    ) {
+
+        try {
+
+            if (!data.mediaId) {
+                throw new Error('No se ha proporcionado una imagen de portada');
+            }
+            const userEdited = await this.usersService.setCoverImage(data.mediaId, user);
+
+            return {
+                code: 200,
+                message: 'Imagen de portada actualizada',
+                success: true,
+                user: userEdited
+            } as unknown as User
+        } catch (error) {
+            return {
+                code: 400,
+                message: error.message,
+                success: false,
+            };
+        }
+    }
+
+
+    @Mutation('setProfileImage')
+    @UseGuards(GqlAuthGuard)
+    async setProfileImage(
+        @Args('data') data: SetProfileImagesMediaInput,
         @CurrentUser() user: UserEntity,
     ) {
         try {
-            return this.usersService.setCoverImage(coverImageId, user);
+
+            console.log('data', data);
+            if (!data.mediaId) {
+                throw new Error('No se ha proporcionado una imagen de perfil');
+            }
+            const userEdited = await this.usersService.setProfileImage(data.mediaId, user);
+
+            return {
+                code: 200,
+                message: 'Imagen de perfil actualizada',
+                success: true,
+                user: userEdited
+            };
         } catch (error) {
             return {
                 code: 400,
@@ -84,12 +149,24 @@ export class UsersResolver {
 
 
     @Mutation(() => UserEntity)
-    async setProfileImage(
-        @Args('profileImageId', {type: () => String}) profileImageId: string,
+    @UseGuards(GqlAuthGuard)
+    async updateProfile(
+        @Args('data') data: UpdateUserInput,
         @CurrentUser() user: UserEntity,
     ) {
         try {
-            return this.usersService.setProfileImage(profileImageId, user);
+            const userUpdated = await this.usersService.update({
+                ...data,
+                id: user.id
+            });
+
+            return {
+                code: 200,
+                message: 'Perfil actualizado',
+                success: true,
+                user: userUpdated
+            };
+
         } catch (error) {
             return {
                 code: 400,
@@ -98,5 +175,6 @@ export class UsersResolver {
             };
         }
     }
+
 
 }

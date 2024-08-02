@@ -22,7 +22,7 @@ export class UserEntity {
     id: string;
 
     @Column({unique: true})
-    nickname: string;
+    nickName: string;
 
     @OneToMany(() => PostEntity, (post) => post.user)
     posts: PostEntity[];
@@ -41,11 +41,11 @@ export class UserEntity {
     @JoinTable({
         name: 'user_following', // custom join table name
         joinColumn: {
-            name: 'user_id',
+            name: 'userId',
             referencedColumnName: 'id'
         },
         inverseJoinColumn: {
-            name: 'following_user_id',
+            name: 'followingUserId',
             referencedColumnName: 'id'
         }
     })
@@ -55,12 +55,13 @@ export class UserEntity {
     followers: UserEntity[];
 
     @Column()
-    first_name: string;
+    firstName: string;
+
 
     @Column({
         nullable: true,
     })
-    last_name: string;
+    lastName: string;
 
     @Column({unique: true})
     email: string;
@@ -69,6 +70,11 @@ export class UserEntity {
         nullable: true,
     })
     age: number;
+
+    @Column({
+        nullable: true,
+    })
+    bio: string;
 
     @Column({
         nullable: true,
@@ -87,11 +93,11 @@ export class UserEntity {
     subscriptions: SubscriptionPlanEntity[];
 
 
-    @OneToOne(() => MediaEntity, { eager: true })
+    @OneToOne(() => MediaEntity, {eager: true})
     @JoinColumn() // Asegúrate de usar @JoinColumn en relaciones OneToOne
     coverImage: MediaEntity;
 
-    @OneToOne(() => MediaEntity, { eager: true })
+    @OneToOne(() => MediaEntity, {eager: true})
     @JoinColumn() // Asegúrate de usar @JoinColumn en relaciones OneToOne
     profileImage: MediaEntity;
 

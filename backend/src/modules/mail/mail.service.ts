@@ -15,7 +15,7 @@ export class MailService {
       subject: 'Bienvenido a' + appName,
       template: './confirmation',
       context: {
-        name: user.first_name,
+        name: user.firstName,
         confirmation_url: url,
       },
     });
@@ -28,7 +28,7 @@ export class MailService {
       subject: 'Restablecer contraseña',
       template: './password-recovery',
       context: {
-        name: user.first_name,
+        name: user.firstName,
         reset_url: url,
       },
     });

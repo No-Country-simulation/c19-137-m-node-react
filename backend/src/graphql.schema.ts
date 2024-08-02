@@ -88,6 +88,7 @@ export class CreateUserInput {
     password: string;
     passwordConfirmation: string;
     email: string;
+    bio?: Nullable<string>;
 }
 
 export class UpdateUserInput {
@@ -143,7 +144,7 @@ export abstract class IMutation {
 
     abstract addFavoriteBook(data?: Nullable<AddFavoriteBookInput>): Nullable<AddFavoriteBookResponse> | Promise<Nullable<AddFavoriteBookResponse>>;
 
-    abstract followUser(userId: string, followUserId: string): User | Promise<User>;
+    abstract followUser(followUserId: string): User | Promise<User>;
 
     abstract setProfileImage(data?: Nullable<SetProfileImageInput>): Nullable<ProfileResponse> | Promise<Nullable<ProfileResponse>>;
 

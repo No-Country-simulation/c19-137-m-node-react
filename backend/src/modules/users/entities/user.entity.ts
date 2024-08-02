@@ -41,11 +41,11 @@ export class UserEntity {
     @JoinTable({
         name: 'user_following', // custom join table name
         joinColumn: {
-            name: 'user_id',
+            name: 'userId',
             referencedColumnName: 'id'
         },
         inverseJoinColumn: {
-            name: 'following_user_id',
+            name: 'followingUserId',
             referencedColumnName: 'id'
         }
     })

@@ -120,6 +120,7 @@ export class UsersService {
                 'reviews.book',
                 'comments',
                 'comments.post',
+                'following'
             ],
         });
     }

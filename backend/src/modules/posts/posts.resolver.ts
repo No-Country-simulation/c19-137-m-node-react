@@ -37,13 +37,14 @@ export class PostsResolver {
         try {
             const post = await this.postsService.createPost(data, user);
 
-            // Publicar el post creado para los seguidores del usuario
-            user.followers.forEach(follower => {
-                this.pubSub.publish(`onPostChanged_${follower.id}`, {
-                    onPostChanged: post,
+            if (user.followers) {
+                // Publicar el post creado para los seguidores del usuario
+                user.followers.forEach(follower => {
+                    this.pubSub.publish(`onPostChanged_${follower.id}`, {
+                        onPostChanged: post,
+                    });
                 });
-            });
-
+            }
             return {
                 code: 200,
                 message: 'Post creado exitosamente',
@@ -51,7 +52,7 @@ export class PostsResolver {
                 post,
             };
         } catch (error) {
-            console.log('error', error);
+            console.log('Error al crear el post', error);
             return {
                 code: 400,
                 message: error.message,

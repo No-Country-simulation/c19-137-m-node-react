@@ -5,16 +5,13 @@ import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { useMutation } from '@apollo/client';
 import { gql } from "@apollo/client";
 import client from "@/lib/apollo-client";
 import {
     AlertDialog,
-    AlertDialogAction,
     AlertDialogCancel,
     AlertDialogContent,
     AlertDialogDescription,
-    AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogTitle,
     AlertDialogTrigger,
@@ -23,17 +20,14 @@ import { Button } from '@/components/ui/button';
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
     FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { toast } from '@/components/ui/use-toast';
+import { useToast } from "@/components/ui/use-toast";
 import Image from 'next/image';
-import { useToast } from "@/components/ui/use-toast"
-
 
 const formSchema = z.object({
     email: z.string().email({ message: 'Correo electrónico no válido.' }),
@@ -45,14 +39,18 @@ const formSchema = z.object({
 }).refine(data => data.password === data.password_confirmation, {
     message: 'Las contraseñas deben coincidir.',
     path: ['password_confirmation'], // Apunta al campo que debe mostrar el error
-})
+});
 
 type FormValues = z.infer<typeof formSchema>;
 
 export function Registrar() {
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
-    const { toast } = useToast()
+    const { toast } = useToast();
+
+    // Estado para manejar la visibilidad de la contraseña
+    const [passwordVisible, setPasswordVisible] = useState(false);
+    const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
 
     const form = useForm<FormValues>({
         resolver: zodResolver(formSchema),
@@ -106,116 +104,157 @@ export function Registrar() {
         }
     };
 
+    // Función para alternar la visibilidad de la contraseña
+    const togglePasswordVisibility = () => {
+        setPasswordVisible(!passwordVisible);
+    };
+
+    // Función para alternar la visibilidad de la confirmación de contraseña
+    const toggleConfirmPasswordVisibility = () => {
+        setConfirmPasswordVisible(!confirmPasswordVisible);
+    };
+
     return (
         <AlertDialog open={open} onOpenChange={setOpen}>
             <AlertDialogTrigger asChild>
-                <Button variant="outline" className='flex items-center justify-center text-center w-full lg:w-[362px] h-[56px] bg-[#1F2937] text-white hover:text-color1 font-medium rounded-full hover:bg-[#111827] transition-colors duration-300'>
+                <Button variant="outline" className='flex items-center justify-center w-full h-[56px] px-8 py-4 gap-2 bg-white text-[#3B82F6] border-2 border-[#3B82F6] rounded-full hover:bg-[#3B82F6] hover:text-white transition-colors duration-300'>
                     Registrarse
                 </Button>
             </AlertDialogTrigger>
-            <AlertDialogContent className='bg-white dark:bg-gray-800 fixed h-[80vh] max-h-[650px] w-full max-w-[360px] p-4'>
-                <ScrollArea className='w-full h-[calc(100vh-200px)] overflow-y-auto'>
-                    <AlertDialogHeader>
-                        <AlertDialogTitle className="flex flex-col items-center text-center font-semibold text-[25px] leading-[30px] text-[#1F2937] dark:text-gray-100 mb-6">
-                            <Image src="/logos/logo.png" alt="logo" width={120} height={120} />
-                        </AlertDialogTitle>
-                    </AlertDialogHeader>
-                    <AlertDialogDescription className='flex flex-col items-center justify-center gap-[24px]'>
-
-                        <Form {...form}>
-                            <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-[24px] w-full">
-                                <FormField
-                                    control={form.control}
-                                    name="email"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Correo electrónico</FormLabel>
-                                            <FormControl>
-                                                <Input placeholder="Correo electrónico" {...field} />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name="first_name"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Nombre</FormLabel>
-                                            <FormControl>
-                                                <Input placeholder="Nombre" {...field} />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name="last_name"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Apellido</FormLabel>
-                                            <FormControl>
-                                                <Input placeholder="Apellido" {...field} />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name="nickname"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Apodo</FormLabel>
-                                            <FormControl>
-                                                <Input placeholder="Apodo" {...field} />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name="password"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Contraseña</FormLabel>
-                                            <FormControl>
-                                                <Input type="password" placeholder="Contraseña" {...field} />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name="password_confirmation"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Confirmar Contraseña</FormLabel>
-                                            <FormControl>
-                                                <Input type="password" placeholder="Confirmar Contraseña" {...field} />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <Button type="submit" className='font-bold transition-colors duration-300 border-transparent border-nano hover:border-nano hover:text-nano mb-2'>
-                                    {loading ? 'Registrando...' : 'Registrarse'}
-                                </Button>
-                            </form>
-                        </Form>
-
-                    </AlertDialogDescription>
-                    <AlertDialogFooter>
-                        <AlertDialogCancel onClick={() => setOpen(false)} className='font-bold transition-colors duration-300 border-transparent border-nano hover:border-nano hover:text-nano'>
-                            Cancelar
+            <AlertDialogContent className='bg-white dark:bg-gray-800 fixed h-[85vh] max-h-[700px] w-full max-w-[600px] p-0 overflow-hidden rounded-lg'>
+                <ScrollArea className='h-full w-full'>
+                    <div className="relative flex flex-col justify-between h-full px-6 py-4">
+                        {/* Close Button */}
+                        <AlertDialogCancel className="absolute top-4 right-4 text-gray-600 hover:text-gray-800 dark:text-gray-200 dark:hover:text-white transition-colors duration-300 cursor-pointer">
+                            ❌ {/* Emoji de "x" */}
                         </AlertDialogCancel>
-                    </AlertDialogFooter>
+
+                        {/* Header */}
+                        <AlertDialogHeader className="flex flex-col items-center mb-4">
+                            <AlertDialogTitle className="flex flex-col items-center text-center font-semibold text-[25px] leading-[30px] text-[#1F2937] dark:text-gray-100 mb-4">
+                                {/* Imagen más grande y centrada con márgenes */}
+                                <Image src="/logos/logo.png" alt="logo" width={150} height={150} className="mx-auto my-4" />
+                                <span>Bienvenido al Registro</span>
+                            </AlertDialogTitle>
+                        </AlertDialogHeader>
+
+                        {/* Scrollable Content */}
+                        <AlertDialogDescription className='flex flex-col items-center justify-center gap-[24px]'>
+                            <Form {...form}>
+                                <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-[24px] w-full">
+                                    <FormField
+                                        control={form.control}
+                                        name="email"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Correo electrónico</FormLabel>
+                                                <FormControl>
+                                                    <Input placeholder="Correo electrónico" {...field} />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={form.control}
+                                        name="first_name"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Nombre</FormLabel>
+                                                <FormControl>
+                                                    <Input placeholder="Nombre" {...field} />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={form.control}
+                                        name="last_name"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Apellido</FormLabel>
+                                                <FormControl>
+                                                    <Input placeholder="Apellido" {...field} />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={form.control}
+                                        name="nickname"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Apodo</FormLabel>
+                                                <FormControl>
+                                                    <Input placeholder="Apodo" {...field} />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={form.control}
+                                        name="password"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Contraseña</FormLabel>
+                                                <FormControl>
+                                                    <div className="relative">
+                                                        <Input
+                                                            type={passwordVisible ? "text" : "password"}
+                                                            placeholder="Contraseña"
+                                                            {...field}
+                                                        />
+                                                        {/* Emoji de ojo para mostrar/ocultar contraseña */}
+                                                        <span
+                                                            className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-600 cursor-pointer hover:text-gray-800 transition-colors duration-300"
+                                                            onClick={togglePasswordVisibility}
+                                                        >
+                                                            {passwordVisible ? '🙈' : '👁️'}
+                                                        </span>
+                                                    </div>
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={form.control}
+                                        name="password_confirmation"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Confirmar Contraseña</FormLabel>
+                                                <FormControl>
+                                                    <div className="relative">
+                                                        <Input
+                                                            type={confirmPasswordVisible ? "text" : "password"}
+                                                            placeholder="Confirmar Contraseña"
+                                                            {...field}
+                                                        />
+                                                        {/* Emoji de ojo para mostrar/ocultar confirmación de contraseña */}
+                                                        <span
+                                                            className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-600 cursor-pointer hover:text-gray-800 transition-colors duration-300"
+                                                            onClick={toggleConfirmPasswordVisibility}
+                                                        >
+                                                            {confirmPasswordVisible ? '🙈' : '👁️'}
+                                                        </span>
+                                                    </div>
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <Button type="submit" className='font-bold transition-colors duration-300 border-transparent border-nano hover:border-nano hover:text-nano mb-2'>
+                                        {loading ? 'Registrando...' : 'Registrarse'}
+                                    </Button>
+                                </form>
+                            </Form>
+                        </AlertDialogDescription>
+                    </div>
                 </ScrollArea>
             </AlertDialogContent>
         </AlertDialog>
-    )
+    );
 }

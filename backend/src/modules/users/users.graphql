@@ -187,6 +187,11 @@ input CreateUserInput {
     Correo electrónico del usuario.
     """
     email: String!
+
+    """
+    Biografía del usuario
+    """
+    bio: String
 }
 
 """

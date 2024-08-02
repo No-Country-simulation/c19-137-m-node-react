@@ -1,5 +1,6 @@
 import {InputType, Field,} from '@nestjs/graphql';
 import {IsNotEmpty, IsString, MinLength} from 'class-validator';
+import {IsNull} from "typeorm";
 
 @InputType()
 export class CreateUserInput {
@@ -26,6 +27,5 @@ export class CreateUserInput {
 
 
     @Field()
-    @IsString({message: 'La biografía debe ser un texto'})
     bio: string;
 }

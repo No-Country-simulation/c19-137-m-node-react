@@ -107,5 +107,6 @@ Puedes acceder a la colección de Postman en el siguiente enlace:
 - [Autenticación API](./docs/authentication.md)
 - [Medios API](./docs/media.md)
 - [Feed API](./docs/feed.md)
+- [Perfil API](./docs/profile.md)
 
 

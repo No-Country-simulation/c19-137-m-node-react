@@ -12,7 +12,7 @@ export class CommentEntity {
     text: string;
 
     @Column()
-    date_posted: Date;
+    datePosted: Date;
 
     @ManyToOne(() => PostEntity, (post) => post.comments)
     post: PostEntity;

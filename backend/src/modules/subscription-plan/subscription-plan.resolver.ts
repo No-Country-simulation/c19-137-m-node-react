@@ -4,7 +4,7 @@ import { CreateSubscriptionPlanInput } from './dto/create-subscription-plan.inpu
 import { UpdateSubscriptionPlanInput } from './dto/update-subscription-plan.input';
 import { SubscriptionPlanEntity } from './entities/subscription-plan.entity';
 import { PubSub } from 'graphql-subscriptions';
-import { Response } from '../../graphql/dto/response';
+import { Response } from '@graphql/dto/response';
 
 const pubSub = new PubSub();
 

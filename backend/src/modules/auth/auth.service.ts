@@ -67,7 +67,7 @@ export class AuthService {
             message: 'Inicio de sesión exitoso',
             success: true,
             token: token,
-            expire_at: expireAt,
+            expireAt: expireAt,
         };
     }
 
@@ -207,22 +207,8 @@ export class AuthService {
      * Obtener usuario actual
      * @param user
      */
-    async profile(user: UserEntity): Promise<User> {
-
-        console.log('el user',user);
-        return {
-            id: user.id,
-            email: user.email,
-            firstName: user.first_name,
-            lastName: user.last_name,
-            nickName: user.nickname,
-            createdAt: user.createdAt,
-            updatedAt: user.updatedAt,
-            age: user.age,
-            comments: user.comments,
-            password: user.password,
-
-        } as unknown as User;
+    async profile(user: UserEntity): Promise<UserEntity> {
+        return user;
     }
 
     /**
@@ -249,9 +235,7 @@ export class AuthService {
 
     private generateToken(user: UserEntity): string {
         return this.jwtService.sign({
-            email: user.email,
-            firstName: user.first_name,
-            lastName: user.last_name,
+            ...user,
             role: user.role,
             sub: user.id,
         });

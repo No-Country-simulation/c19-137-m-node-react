@@ -1,4 +1,4 @@
-import {BadRequestException, Injectable, InternalServerErrorException, Logger,} from '@nestjs/common';
+import {BadRequestException, Injectable, InternalServerErrorException, Logger, UseGuards,} from '@nestjs/common';
 import {InjectRepository} from '@nestjs/typeorm';
 import {ILike, Repository} from 'typeorm';
 import {UserEntity} from './entities/user.entity';
@@ -10,6 +10,8 @@ import {PubSub} from 'graphql-subscriptions';
 import {addFavoriteBookInput} from './dto/add-favorite-book.input';
 import {BookEntity} from '@/modules/books/entities/book.entity';
 import {MediaService} from "@/modules/media/media.service";
+import {Mutation} from "@nestjs/graphql";
+import {GqlAuthGuard} from "@/modules/auth/guards/gql-auth.guard";
 
 const pubSub = new PubSub();
 
@@ -296,15 +298,17 @@ export class UsersService {
      * @param followUserId id del usuario a seguir
      * @returns
      */
+    @UseGuards(GqlAuthGuard)
+    @Mutation(() => UserEntity)
     async followUser(followUserId: string, user: UserEntity): Promise<UserEntity> {
         const followUser = await this.userRepository.findOne({where: {id: followUserId}});
 
         if (!user) {
-            throw new Error('User not found');
+            throw new Error('Usuario no encontrado');
         }
 
         if (!followUser) {
-            throw new Error('User to follow not found');
+            throw new Error('El usuario a seguir no existe');
         }
 
         user.following.push(followUser);

@@ -16,7 +16,7 @@ import {
     TabsList,
     TabsTrigger,
 } from "@/components/ui/tabs"
-import { CommentsList } from "@/components/cards/commentsList";
+import MisPosts from '@/components/cards/misPosts'
 
 export default function Tabs() {
     return (
@@ -51,7 +51,7 @@ export default function Tabs() {
                         </CardHeader>
                         <CardContent className="space-y-2">
                             <div className="space-y-1">
-                                <CommentsList />
+                                <MisPosts />
                             </div>
                         </CardContent>
                         <CardFooter>

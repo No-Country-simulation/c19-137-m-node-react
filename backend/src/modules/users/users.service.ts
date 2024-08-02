@@ -292,14 +292,7 @@ export class UsersService {
         };
     }
 
-    /**
-     * Sigue a un usuario en sistema
-     * @param user el usuario actual
-     * @param followUserId id del usuario a seguir
-     * @returns
-     */
-    @UseGuards(GqlAuthGuard)
-    @Mutation(() => UserEntity)
+
     async followUser(followUserId: string, user: UserEntity): Promise<UserEntity> {
         const followUser = await this.userRepository.findOne({where: {id: followUserId}});
 

@@ -62,6 +62,13 @@ export class UsersResolver {
         return this.usersService.addFavoriteBook(data, user);
     }
 
+    /**
+     * Sigue a un usuario en sistema
+     * @param user el usuario actual
+     * @param followUserId id del usuario a seguir
+     * @returns
+     */
+    @UseGuards(GqlAuthGuard)
     @Mutation(() => UserEntity)
     async followUser(
         @Args('followUserId', {type: () => String}) followUserId: string,

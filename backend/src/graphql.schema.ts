@@ -77,6 +77,10 @@ export class AddFavoriteBookInput {
     bookId: string;
 }
 
+export class SetProfileImageInput {
+    mediaId: string;
+}
+
 export class CreateUserInput {
     nickName: string;
     firstName: string;
@@ -140,9 +144,9 @@ export abstract class IMutation {
 
     abstract followUser(userId: string, followUserId: string): User | Promise<User>;
 
-    abstract setProfileImage(mediaId: string): User | Promise<User>;
+    abstract setProfileImage(data?: Nullable<SetProfileImageInput>): Nullable<SetProfileResponse> | Promise<Nullable<SetProfileResponse>>;
 
-    abstract setCoverImage(mediaId: string): User | Promise<User>;
+    abstract setCoverImage(data?: Nullable<SetProfileImageInput>): Nullable<SetProfileResponse> | Promise<Nullable<SetProfileResponse>>;
 }
 
 export abstract class IQuery {
@@ -384,6 +388,13 @@ export class AddFavoriteBookResponse {
     code: number;
     success: boolean;
     message: string;
+}
+
+export class SetProfileResponse {
+    code: number;
+    success: boolean;
+    message: string;
+    user?: Nullable<User>;
 }
 
 export type Upload = any;

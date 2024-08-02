@@ -328,7 +328,7 @@ export class UsersService {
         const media = await this.mediaService.findById(coverImageId);
 
         if (!media) {
-            throw new Error('Media not found');
+            throw new Error('No existe un medio con este ID ' + coverImageId);
         }
 
         user.coverImage = media;
@@ -341,7 +341,7 @@ export class UsersService {
         const media = await this.mediaService.findById(profileImageId);
 
         if (!media) {
-            throw new Error('Media not found');
+            throw new Error('No existe un medio con este ID' + profileImageId);
         }
 
         user.profileImage = media;

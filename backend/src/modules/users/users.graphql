@@ -112,20 +112,33 @@ extend type Mutation {
     """
     Mutación para actualizar  la imagen de perfil del usuario.
     """
-    setProfileImage(mediaId: ID!): User!
+    setProfileImage(data: SetProfileImageInput): SetProfileResponse
 
     """
     Mutación para actualizar la imagen de portada del perfil de un usuario.
     """
-    setCoverImage(mediaId: ID!): User!
+    setCoverImage(data: SetProfileImageInput): SetProfileResponse
+
+
 
 }
+
+
+
 
 """
 Entrada requerida para agregar un nuevo libro favorito
 """
 input AddFavoriteBookInput {
     bookId: String!
+}
+
+
+"""
+Entrada requerida para actualizar la imagen de perfil de un usuario.
+"""
+input SetProfileImageInput {
+    mediaId: ID!
 }
 
 """
@@ -208,6 +221,21 @@ input UpdateUserInput {
     Estado del usuario (activo/inactivo).
     """
     enabled: Boolean
+}
+
+
+type SetProfileResponse {
+    "Similar al HTTP status code, representa el estado de la operación."
+    code: Int!
+
+    "Indica si la operación fue exitosa."
+    success: Boolean!
+
+    "Mensaje legible para Humanos, describe el resultado de la operación para la UI"
+    message: String!
+
+    "Usuario"
+    user: User
 }
 
 

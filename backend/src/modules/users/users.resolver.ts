@@ -7,6 +7,8 @@ import {UseGuards} from '@nestjs/common';
 
 import {addFavoriteBookInput} from './dto/add-favorite-book.input';
 import {CurrentUser} from '@/modules/auth/decorators/current-user.decorator';
+import {SetProfileResponse} from "@/modules/users/dto/set-profile-response";
+import {SetProfileImagesMediaInput} from "@/modules/users/dto/set-profile-images-media.input";
 
 @Resolver(() => UserEntity)
 export class UsersResolver {
@@ -66,13 +68,27 @@ export class UsersResolver {
     }
 
 
-    @Mutation(() => UserEntity)
+    @Mutation('setCoverImage')
+    @UseGuards(GqlAuthGuard)
     async setCoverImage(
-        @Args('coverImageId', {type: () => String}) coverImageId: string,
+        @Args('data') data: SetProfileImagesMediaInput,
         @CurrentUser() user: UserEntity,
     ) {
+        console.log('data', data);
+        console.log('user', user);
         try {
-            return this.usersService.setCoverImage(coverImageId, user);
+
+            if (!data.mediaId) {
+                throw new Error('No se ha proporcionado una imagen de portada');
+            }
+            const userEdited = await this.usersService.setCoverImage(data.mediaId, user);
+
+            return {
+                code: 200,
+                message: 'Imagen de portada actualizada',
+                success: true,
+                user: userEdited
+            };
         } catch (error) {
             return {
                 code: 400,
@@ -83,13 +99,26 @@ export class UsersResolver {
     }
 
 
-    @Mutation(() => UserEntity)
+    @Mutation('setProfileImage')
+    @UseGuards(GqlAuthGuard)
     async setProfileImage(
-        @Args('profileImageId', {type: () => String}) profileImageId: string,
+        @Args('data') data: SetProfileImagesMediaInput,
         @CurrentUser() user: UserEntity,
     ) {
         try {
-            return this.usersService.setProfileImage(profileImageId, user);
+
+            console.log('data', data);
+            if (!data.mediaId) {
+                throw new Error('No se ha proporcionado una imagen de perfil');
+            }
+            const userEdited = await this.usersService.setProfileImage(data.mediaId, user);
+
+            return {
+                code: 200,
+                message: 'Imagen de perfil actualizada',
+                success: true,
+                user: userEdited
+            };
         } catch (error) {
             return {
                 code: 400,

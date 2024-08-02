@@ -30,7 +30,7 @@ export default function AvatarUser() {
   return (
     <div className="z-10 w-[900px] mx-auto flex flex-col items-center bg-gray-50 mt-10 rounded-sm">
       <div className='h-64 w-full flex justify-center items-center overflow-hidden'>
-        <div className='relative mt-52 z-50 rounded-full w-48 h-48 border-4 border-background overflow-hidden'>
+        <div className='relative mb-0 z-0 rounded-full w-48 h-48 border-4 border-background overflow-hidden'>
           <Image
             src='/images/1.jpg'
             alt="Avatar"

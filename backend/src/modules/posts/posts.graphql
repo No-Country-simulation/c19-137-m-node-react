@@ -114,5 +114,10 @@ extend type Subscription {
     """
     onPostChanged(userIds: [ID!]!): Post!
 
+    """
+    Se suscribe a cualquier evento
+    """
+    onSSEvent: Post!
+
 }
 

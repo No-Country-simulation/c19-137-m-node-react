@@ -1,122 +1,161 @@
 'use client';
 
-import { useState } from 'react'
-import { signIn } from 'next-auth/react'
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { useState } from 'react';
+import { signIn } from 'next-auth/react';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 import {
     AlertDialog,
-    AlertDialogAction,
     AlertDialogCancel,
     AlertDialogContent,
     AlertDialogDescription,
-    AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogTitle,
     AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
-import { Button } from "@/components/ui/button"
+} from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
     FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { toast } from "@/components/ui/use-toast"
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { useToast } from "@/components/ui/use-toast";
 import Image from 'next/image';
 
 const formSchema = z.object({
-    email: z.string().email({ message: "Correo electrónico no válido." }),
-    password: z.string().min(6, { message: "La contraseña debe tener al menos 6 caracteres." }),
-})
+    email: z.string().email({ message: 'Correo electrónico no válido.' }),
+    password: z.string().min(6, { message: 'La contraseña debe tener al menos 6 caracteres.' }),
+});
+
+type FormValues = z.infer<typeof formSchema>;
 
 export function Login() {
-    const [open, setOpen] = useState(false)
-    const form = useForm<z.infer<typeof formSchema>>({
+    const [open, setOpen] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const { toast } = useToast();
+
+    // Estado para manejar la visibilidad de la contraseña
+    const [passwordVisible, setPasswordVisible] = useState(false);
+
+    const form = useForm<FormValues>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            email: "",
-            password: "",
+            email: '',
+            password: '',
         },
-    })
+    });
 
-    const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const onSubmit = async (values: FormValues) => {
+        setLoading(true);
         const result = await signIn('credentials', {
             redirect: false,
             email: values.email,
             password: values.password,
-        })
+        });
+
+        setLoading(false);
 
         if (result?.error) {
             toast({
-                title: "Error de autenticación",
+                title: 'Error de autenticación',
                 description: 'Correo electrónico o contraseña incorrectos',
-                variant: "destructive",
-            })
+                variant: 'destructive',
+            });
         } else if (result?.ok) {
             toast({
-                title: "Inicio de sesión exitoso",
-                description: "Estás siendo redirigido...",
-                variant: "default",
-            })
-            // Optionally redirect after successful login
-            window.location.href = "/dashboard/private/"; // Redirect to home page or desired URL
+                title: 'Inicio de sesión exitoso',
+                description: 'Estás siendo redirigido...',
+                variant: 'default',
+            });
+            window.location.href = '/dashboard/private/';
         }
-    }
+    };
+
+    // Función para alternar la visibilidad de la contraseña
+    const togglePasswordVisibility = () => {
+        setPasswordVisible(!passwordVisible);
+    };
 
     return (
         <AlertDialog open={open} onOpenChange={setOpen}>
             <AlertDialogTrigger asChild>
-                <Button variant="outline" className='flex items-center justify-center text-center w-full lg:w-[362px] h-[56px] bg-[#1F2937] text-white hover:text-color1 font-medium rounded-full hover:bg-[#111827] transition-colors duration-300'>Iniciar Sesión</Button>
+                <Button variant="outline" className='flex items-center justify-center w-full h-[56px] px-8 py-4 gap-2 bg-[#3B82F6] text-white border border-[#3B82F6] rounded-full hover:bg-[#2563EB] transition-colors duration-300'>
+                    Iniciar Sesión
+                </Button>
             </AlertDialogTrigger>
-            <AlertDialogContent className='bg-white dark:bg-gray-800 fixed h-[550px] w-[360px] gap-[32px]'>
-                <AlertDialogHeader>
-                    <AlertDialogTitle className="flex flex-col items-center text-center font-semibold text-[25px] leading-[30px] text-[#1F2937] dark:text-white">
-                        <Image src="/logos/logo.png" alt="logo" width={120} height={120} />
-                    </AlertDialogTitle>
-                </AlertDialogHeader>
-                <AlertDialogDescription className='flex flex-col items-center justify-center gap-[24px]'>
-                    <Form {...form}>
-                        <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-[24px] w-full">
-                            <FormField
-                                control={form.control}
-                                name="email"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel className='text-[#1F2937] dark:text-white'>Correo electrónico</FormLabel>
-                                        <FormControl>
-                                            <Input placeholder="Correo electrónico" {...field} className='dark:bg-gray-700 dark:text-white' />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
-                                name="password"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel className='text-[#1F2937] dark:text-white'>Contraseña</FormLabel>
-                                        <FormControl>
-                                            <Input type="password" placeholder="Contraseña" {...field} className='dark:bg-gray-700 dark:text-white' />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                            <Button type="submit" className="w-full h-[54px] bg-color5 dark:bg-color6 text-white font-bold rounded-full hover:bg-color6 dark:hover:bg-color7 transition-colors duration-300">Iniciar Sesión</Button>
-                        </form>
-                    </Form>
-                </AlertDialogDescription>
-                <AlertDialogFooter>
-                    <AlertDialogCancel onClick={() => setOpen(false)} className='border-nano border-transparent hover:border-nano hover:text-nano dark:hover:text-white font-bold transition-colors duration-300'>Cancelar</AlertDialogCancel>
-                </AlertDialogFooter>
+            <AlertDialogContent className='bg-white dark:bg-gray-800 fixed h-[85vh] max-h-[700px] w-full max-w-[600px] p-0 overflow-hidden rounded-lg'>
+                <ScrollArea className='w-full h-full'>
+                    <div className="relative flex flex-col justify-between h-full px-6 py-4">
+                        {/* Close Button */}
+                        <AlertDialogCancel className="absolute text-gray-600 transition-colors duration-300 cursor-pointer top-4 right-4 hover:text-gray-800 dark:text-gray-200 dark:hover:text-white">
+                            ❌
+                        </AlertDialogCancel>
+
+                        {/* Header */}
+                        <AlertDialogHeader className="flex flex-col items-center mb-4">
+                            <AlertDialogTitle className="flex flex-col items-center text-center font-semibold text-[25px] leading-[30px] text-[#1F2937] dark:text-gray-100 mb-16"> {/* Increased margin bottom */}
+                                <Image src="/logos/logo.png" alt="logo" width={150} height={150} className="mx-auto my-4" />
+                                <span>Iniciar Sesión</span>
+                            </AlertDialogTitle>
+                        </AlertDialogHeader>
+
+                        {/* Scrollable Content */}
+                        <AlertDialogDescription className='flex flex-col items-center justify-center gap-[24px]'>
+                            <Form {...form}>
+                                <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-[24px] w-full">
+                                    <FormField
+                                        control={form.control}
+                                        name="email"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Correo electrónico</FormLabel>
+                                                <FormControl>
+                                                    <Input placeholder="Correo electrónico" {...field} />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={form.control}
+                                        name="password"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Contraseña</FormLabel>
+                                                <FormControl>
+                                                    <div className="relative">
+                                                        <Input
+                                                            type={passwordVisible ? "text" : "password"}
+                                                            placeholder="Contraseña"
+                                                            {...field}
+                                                        />
+                                                        <span
+                                                            className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-600 transition-colors duration-300 cursor-pointer hover:text-gray-800"
+                                                            onClick={togglePasswordVisibility}
+                                                        >
+                                                            {passwordVisible ? '🙈' : '👁️'}
+                                                        </span>
+                                                    </div>
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <Button type="submit" className='mb-2 font-bold transition-colors duration-300 border-transparent border-nano hover:border-nano hover:text-nano'>
+                                        {loading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
+                                    </Button>
+                                </form>
+                            </Form>
+                        </AlertDialogDescription>
+                    </div>
+                </ScrollArea>
             </AlertDialogContent>
         </AlertDialog>
-    )
+    );
 }

@@ -32,6 +32,11 @@ import {MediaModule} from './modules/media/media.module';
 
 import {graphqlUploadExpress} from 'graphql-upload-ts';
 import {ApolloPrelightMiddleware} from '@/middleware/apollo-prelight.middleware';
+import {PubSub} from "graphql-subscriptions";
+import {PubSubModule} from "@/modules/PubSubModule";
+
+
+const pubSub = new PubSub();
 
 @Module({
     imports: [
@@ -152,6 +157,13 @@ import {ApolloPrelightMiddleware} from '@/middleware/apollo-prelight.middleware'
         CommentsModule,
         FeedModule,
         MediaModule,
+        PubSubModule,
+    ],
+    providers: [
+        {
+            provide: 'PUB_SUB',
+            useValue: pubSub,
+        },
     ],
 })
 export class AppModule {

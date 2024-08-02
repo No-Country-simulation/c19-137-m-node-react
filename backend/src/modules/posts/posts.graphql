@@ -90,9 +90,6 @@ input CreatePostInput {
 }
 
 
-
-
-
 """
 Respuesta de registro de post
 """
@@ -110,4 +107,12 @@ type CreatePostResponse {
     post: Post
 }
 
-# Query - consultas |  Mutations - POST, CREATE, UPDATE | Subscription  actualizaciones en tiempo real
+
+extend type Subscription {
+    """
+    Se suscribe a las nuevas publicaciones creadas.
+    """
+    onPostChanged(userIds: [ID!]!): Post!
+
+}
+

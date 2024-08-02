@@ -112,15 +112,17 @@ extend type Mutation {
     """
     Mutación para actualizar  la imagen de perfil del usuario.
     """
-    setProfileImage(data: SetProfileImageInput): SetProfileResponse
+    setProfileImage(data: SetProfileImageInput): ProfileResponse
 
     """
     Mutación para actualizar la imagen de portada del perfil de un usuario.
     """
-    setCoverImage(data: SetProfileImageInput): SetProfileResponse
+    setCoverImage(data: SetProfileImageInput): ProfileResponse
 
-
-
+    """
+    Mutación para actualzar el perfil de un usuario.
+    """
+    updateProfile(data: UpdateUserInput): ProfileResponse
 }
 
 
@@ -140,6 +142,8 @@ Entrada requerida para actualizar la imagen de perfil de un usuario.
 input SetProfileImageInput {
     mediaId: ID!
 }
+
+
 
 """
 Respuesta de registro de post
@@ -192,7 +196,7 @@ input UpdateUserInput {
     """
     ID del usuario que se desea actualizar.
     """
-    id: ID!
+    id: ID
     """
     Apodo del usuario.
     """
@@ -221,10 +225,15 @@ input UpdateUserInput {
     Estado del usuario (activo/inactivo).
     """
     enabled: Boolean
+
+    """
+    Biografía del usuario
+    """
+    bio: String
 }
 
 
-type SetProfileResponse {
+type ProfileResponse {
     "Similar al HTTP status code, representa el estado de la operación."
     code: Int!
 

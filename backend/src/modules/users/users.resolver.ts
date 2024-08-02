@@ -9,6 +9,9 @@ import {addFavoriteBookInput} from './dto/add-favorite-book.input';
 import {CurrentUser} from '@/modules/auth/decorators/current-user.decorator';
 import {SetProfileResponse} from "@/modules/users/dto/set-profile-response";
 import {SetProfileImagesMediaInput} from "@/modules/users/dto/set-profile-images-media.input";
+import {User} from "@/graphql.schema";
+import {CreateUserInput} from "@/modules/users/dto/create-user.input";
+import {UpdateUserInput} from "@/modules/users/dto/update-user.input";
 
 @Resolver(() => UserEntity)
 export class UsersResolver {
@@ -74,8 +77,7 @@ export class UsersResolver {
         @Args('data') data: SetProfileImagesMediaInput,
         @CurrentUser() user: UserEntity,
     ) {
-        console.log('data', data);
-        console.log('user', user);
+
         try {
 
             if (!data.mediaId) {
@@ -88,7 +90,7 @@ export class UsersResolver {
                 message: 'Imagen de portada actualizada',
                 success: true,
                 user: userEdited
-            };
+            } as unknown as User
         } catch (error) {
             return {
                 code: 400,
@@ -127,5 +129,35 @@ export class UsersResolver {
             };
         }
     }
+
+
+    @Mutation(() => UserEntity)
+    @UseGuards(GqlAuthGuard)
+    async updateProfile(
+        @Args('data') data: UpdateUserInput,
+        @CurrentUser() user: UserEntity,
+    ) {
+        try {
+            const userUpdated = await this.usersService.update({
+                ...data,
+                id: user.id
+            });
+
+            return {
+                code: 200,
+                message: 'Perfil actualizado',
+                success: true,
+                user: userUpdated
+            };
+
+        } catch (error) {
+            return {
+                code: 400,
+                message: error.message,
+                success: false,
+            };
+        }
+    }
+
 
 }

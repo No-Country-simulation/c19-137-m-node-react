@@ -91,7 +91,7 @@ export class CreateUserInput {
 }
 
 export class UpdateUserInput {
-    id: string;
+    id?: Nullable<string>;
     nickName?: Nullable<string>;
     firstName?: Nullable<string>;
     lastName?: Nullable<string>;
@@ -99,6 +99,7 @@ export class UpdateUserInput {
     age?: Nullable<number>;
     role?: Nullable<string>;
     enabled?: Nullable<boolean>;
+    bio?: Nullable<string>;
 }
 
 export class Response {
@@ -144,9 +145,11 @@ export abstract class IMutation {
 
     abstract followUser(userId: string, followUserId: string): User | Promise<User>;
 
-    abstract setProfileImage(data?: Nullable<SetProfileImageInput>): Nullable<SetProfileResponse> | Promise<Nullable<SetProfileResponse>>;
+    abstract setProfileImage(data?: Nullable<SetProfileImageInput>): Nullable<ProfileResponse> | Promise<Nullable<ProfileResponse>>;
 
-    abstract setCoverImage(data?: Nullable<SetProfileImageInput>): Nullable<SetProfileResponse> | Promise<Nullable<SetProfileResponse>>;
+    abstract setCoverImage(data?: Nullable<SetProfileImageInput>): Nullable<ProfileResponse> | Promise<Nullable<ProfileResponse>>;
+
+    abstract updateProfile(data?: Nullable<UpdateUserInput>): Nullable<ProfileResponse> | Promise<Nullable<ProfileResponse>>;
 }
 
 export abstract class IQuery {
@@ -224,7 +227,7 @@ export class SignInResponse {
     message: string;
     success: boolean;
     token?: Nullable<string>;
-    expire_at?: Nullable<Date>;
+    expireAt?: Nullable<Date>;
 }
 
 export class SignUpResponse {
@@ -390,7 +393,7 @@ export class AddFavoriteBookResponse {
     message: string;
 }
 
-export class SetProfileResponse {
+export class ProfileResponse {
     code: number;
     success: boolean;
     message: string;

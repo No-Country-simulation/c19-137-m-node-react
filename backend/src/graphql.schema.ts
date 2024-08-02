@@ -211,6 +211,8 @@ export abstract class ISubscription {
 
     abstract onMembershipDeleted(): Membership | Promise<Membership>;
 
+    abstract onPostChanged(userIds: string[]): Post | Promise<Post>;
+
     abstract onSubscriptionPlanCreated(): SubscriptionPlan | Promise<SubscriptionPlan>;
 
     abstract onSubscriptionPlanUpdated(): SubscriptionPlan | Promise<SubscriptionPlan>;

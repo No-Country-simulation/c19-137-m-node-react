@@ -40,7 +40,7 @@ export const authOptions: NextAuthOptions = {
                   message
                   success
                   token
-                  expire_at
+                  expireAt
                 }
               }
             `,

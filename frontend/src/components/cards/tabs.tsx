@@ -16,6 +16,7 @@ import {
     TabsList,
     TabsTrigger,
 } from "@/components/ui/tabs"
+import { CommentsList } from "@/components/cards/commentsList";
 
 export default function Tabs() {
     return (
@@ -30,11 +31,11 @@ export default function Tabs() {
                     <Card className="mt-4">
                         <CardHeader>
                             <CardDescription>
-                                Mis Libros
+                                {/* Mis Libros */}
                             </CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-2">
-                            <p>Contenido de mis libros</p>
+                            {/* <p>Contenido de mis libros</p> */}
                         </CardContent>
                         <CardFooter>
                             {/* Footer content */}
@@ -50,7 +51,7 @@ export default function Tabs() {
                         </CardHeader>
                         <CardContent className="space-y-2">
                             <div className="space-y-1">
-                                Contenido de mis post
+                                <CommentsList />
                             </div>
                         </CardContent>
                         <CardFooter>
@@ -62,12 +63,12 @@ export default function Tabs() {
                     <Card className="mt-4">
                         <CardHeader>
                             <CardDescription>
-                                Mis Seguidores
+                                {/* Mis Seguidores */}
                             </CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-2">
                             <div className="space-y-1">
-                                Contenido de mis seguidos
+                                {/* Contenido de mis seguidos */}
                             </div>
                         </CardContent>
                         <CardFooter>
